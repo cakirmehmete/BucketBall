@@ -19,8 +19,8 @@ class Ball extends Group {
             this.add(gltf.scene);
         });
 
-        this.position.set(5, 10, 1);
-        this.scale.set(100000, 100000, 100000);
+        this.position.set(0, 0, 1);
+        this.scale.set(1, 1, 1);
     }
 }
 
