@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
-import { Terrain } from 'objects';
+import { Ball, Terrain } from 'objects';
 import { BasicLights } from 'lights';
 
 class MainScene extends Scene {
@@ -19,10 +19,11 @@ class MainScene extends Scene {
 
         // Add meshes to scene
         const terrain = new Terrain();
+        const ball = new Ball();
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(5); // Uncomment to help debug positioning
-        this.add(terrain, lights, axesHelper);
 
+        this.add(ball, terrain, lights, axesHelper);
     }
 }
 
