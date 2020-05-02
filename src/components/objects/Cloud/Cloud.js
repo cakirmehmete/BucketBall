@@ -19,7 +19,8 @@ class Cloud extends Group {
         });
 
         // this.position.set(0, 0, 5);
-        this.scale.set(0.4, 0.4, 0.4);
+        const randomScale = Math.random() * 0.6 + 0.25;
+        this.scale.set(randomScale, randomScale, randomScale);
         this.rotateX(Math.PI / 2);
     }
 }

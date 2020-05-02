@@ -20,7 +20,7 @@ class Ball extends Group {
         });
 
         this.position.set(0, 0, 0.225);
-        this.scale.set(0.25, 0.25, 0.25);
+        this.scale.set(0.15, 0.15, 0.15);
     }
 }
 
