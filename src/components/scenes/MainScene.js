@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
-import { Ball, Terrain } from 'objects';
+import { Ball, Terrain, Cloud } from 'objects';
 import { BasicLights } from 'lights';
 
 class MainScene extends Scene {
@@ -24,6 +24,30 @@ class MainScene extends Scene {
         const axesHelper = new AxesHelper(5); // Uncomment to help debug positioning
 
         this.add(ball, terrain, lights, axesHelper);
+
+        this.setupClouds();
+    }
+
+
+    setupClouds() {
+        const clouds = [];
+        for (let i = 0; i < 5; i++) {
+            const cloud = new Cloud();
+            clouds.push(cloud);
+        }
+
+        clouds.forEach((cloud, index) => {
+            if (index < clouds.length / 2) {
+                cloud.position.set(-index * 5, Math.random() * 3, 5);
+            }
+            else {
+                cloud.position.set((index - clouds.length/2) * 5, Math.random() * -3, 5);
+            }
+        });
+
+        clouds.forEach((cloud) => {
+            this.add(cloud);
+        });
     }
 }
 
