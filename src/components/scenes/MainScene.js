@@ -5,7 +5,6 @@ import { BasicLights } from 'lights';
 
 class MainScene extends Scene {
     constructor() {
-        // Call parent Scene() constructor
         super();
 
         // Init state
@@ -18,8 +17,15 @@ class MainScene extends Scene {
         // Set background to a light blue to represent sky
         this.background = new Color(0x87ceeb);
 
-        // Add meshes to scene
-        const terrain = new Terrain();
+        // Initialize base terrain and set base parameters that will
+        // be used to determine relative mesh positions
+        const TERRAINSIZE = 15.0;
+        const terrain = new Terrain(TERRAINSIZE, TERRAINSIZE);
+        const rootPosition = terrain.position;
+        const rootWidth = terrain.terrainWidth;
+        const rootHeight = terrain.terrainHeight;
+        const rootDepth = terrain.terrainDepth;
+
         const ball = new Ball();
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(5); // Uncomment to help debug positioning

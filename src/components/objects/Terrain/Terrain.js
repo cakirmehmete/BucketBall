@@ -3,15 +3,14 @@ import { MeshStandardMaterial, Mesh } from 'three';
 import { PlaneBufferGeometry, BoxBufferGeometry } from 'three';
 
 class Terrain extends Group {
-    constructor() {
+    constructor(width, height) {
         // Call parent Group() constructor
         super();
         this.name = 'terrain';
 
         // Set the height and width of the game terrain
-        const TERRAINSIZE = 15.0;
-        this.terrainWidth = TERRAINSIZE; // width associated with x-axis
-        this.terrainHeight = TERRAINSIZE; // height associated with y-axis
+        this.terrainWidth = width; // width associated with x-axis
+        this.terrainHeight = height; // height associated with y-axis
         this.terrainDepth = 0; // depth associated with z-axis
 
         // Create flat mesh that represents the lawn grass
@@ -31,11 +30,10 @@ class Terrain extends Group {
 
     // Creates wall/border around the terrain
     setupTerrainBorders() {
-        const width = 0.25;
-        const height = this.terrainHeight;
-        const depth = 0.5;
-        const borderSideGeometry = new BoxBufferGeometry(width, height, depth); // Left and Right Walls
-        const borderFBGeometry = new BoxBufferGeometry(height, width, depth); // Front and Back Walls
+        const boxWidth = 0.25;
+        const boxDepth = 0.5;
+        const borderSideGeometry = new BoxBufferGeometry(boxWidth, this.terrainHeight, boxDepth); // Left and Right Walls
+        const borderFBGeometry = new BoxBufferGeometry(this.terrainWidth, boxWidth, boxDepth); // Front and Back Walls
         const borderMaterial = new MeshStandardMaterial({
             color: 0x9b7653,
             metalness: 0.3,
@@ -46,11 +44,12 @@ class Terrain extends Group {
         const borderLeftMesh = new Mesh(borderSideGeometry, borderMaterial);
         const borderTopMesh = new Mesh(borderFBGeometry, borderMaterial);
         const borderBottomMesh = new Mesh(borderFBGeometry, borderMaterial);
-        const sidePosition = this.terrainWidth / 2 - width / 2;
-        borderRightMesh.position.set(sidePosition, 0, depth / 2);
-        borderLeftMesh.position.set(-sidePosition, 0, depth / 2);
-        borderTopMesh.position.set(0, sidePosition, depth / 2);
-        borderBottomMesh.position.set(0, -sidePosition, depth / 2);
+        const sidePosition = this.terrainWidth / 2 - boxWidth / 2;
+        const fbPosition = this.terrainHeight / 2 - boxWidth / 2;
+        borderRightMesh.position.set(sidePosition, 0, boxDepth / 2);
+        borderLeftMesh.position.set(-sidePosition, 0, boxDepth / 2);
+        borderTopMesh.position.set(0, fbPosition, boxDepth / 2);
+        borderBottomMesh.position.set(0, -fbPosition, boxDepth / 2);
 
         this.add(borderLeftMesh);
         this.add(borderRightMesh);
