@@ -12,6 +12,7 @@ class MainScene extends Scene {
         // Right now, the GUI is unpopulated
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
+            spaceBarDown: false, // Power for golf ball
         };
 
         // Set background to a light blue to represent sky
@@ -26,8 +27,19 @@ class MainScene extends Scene {
         this.add(ball, terrain, lights, axesHelper);
 
         this.setupClouds();
-    }
 
+        // Setup Event handler for Golf Ball
+        window.addEventListener(
+            'keydown',
+            this.handleKeyDownEvents.bind(this),
+            false
+        );
+        window.addEventListener(
+            'keyup',
+            this.handleKeyUpEvents.bind(this),
+            false
+        );
+    }
 
     setupClouds() {
         const clouds = [];
@@ -39,15 +51,50 @@ class MainScene extends Scene {
         clouds.forEach((cloud, index) => {
             if (index < clouds.length / 2) {
                 cloud.position.set(-index * 5, Math.random() * 3, 5);
-            }
-            else {
-                cloud.position.set((index - clouds.length/2) * 5, Math.random() * -3, 5);
+            } else {
+                cloud.position.set(
+                    (index - clouds.length / 2) * 5,
+                    Math.random() * -3,
+                    5
+                );
             }
         });
 
         clouds.forEach((cloud) => {
             this.add(cloud);
         });
+    }
+
+    handleKeyDownEvents(event) {
+        if (event.key === 'w') {
+            // Up
+            console.log('Up');
+        } else if (event.key === 's') {
+            // Down
+            console.log('Down');
+        } else if (event.key === 'a') {
+            // Left
+            console.log('Left');
+        } else if (event.key === 'd') {
+            // Right
+            console.log('Right');
+        } else if (event.key === ' ') {
+            // Power
+            if (!this.state.spaceBarDown) {
+                this.state.spaceBarDown = true;
+                console.log('Pressed space bar');
+            }
+        }
+    }
+
+    handleKeyUpEvents(event) {
+        if (event.key === ' ') {
+            // Power
+            if (this.state.spaceBarDown) {
+                this.state.spaceBarDown = false;
+                console.log("Let go of space bar");
+            }
+        }
     }
 }
 
