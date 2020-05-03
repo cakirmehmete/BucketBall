@@ -8,8 +8,7 @@ class Ball extends Group {
         super();
 
         // Init state
-        this.state = {
-        };
+        this.state = {};
 
         // Load object
         const loader = new GLTFLoader();

@@ -15,7 +15,10 @@ class Terrain extends Group {
         this.terrainDepth = 0; // depth associated with z-axis
 
         // Create flat mesh that represents the lawn grass
-        const terrainGeometry = new PlaneBufferGeometry(this.terrainWidth, this.terrainHeight);
+        const terrainGeometry = new PlaneBufferGeometry(
+            this.terrainWidth,
+            this.terrainHeight
+        );
         const terrainMaterial = new MeshStandardMaterial({
             color: 0x315e00,
             metalness: 0.3,
@@ -24,7 +27,6 @@ class Terrain extends Group {
         this.add(terrainMesh);
 
         this.setupTerrainBorders();
-
     }
 
     // Creates wall/border around the terrain
@@ -44,7 +46,7 @@ class Terrain extends Group {
         const borderLeftMesh = new Mesh(borderSideGeometry, borderMaterial);
         const borderTopMesh = new Mesh(borderFBGeometry, borderMaterial);
         const borderBottomMesh = new Mesh(borderFBGeometry, borderMaterial);
-        const sidePosition = (this.terrainWidth / 2) - (width / 2);
+        const sidePosition = this.terrainWidth / 2 - width / 2;
         borderRightMesh.position.set(sidePosition, 0, depth / 2);
         borderLeftMesh.position.set(-sidePosition, 0, depth / 2);
         borderTopMesh.position.set(0, sidePosition, depth / 2);

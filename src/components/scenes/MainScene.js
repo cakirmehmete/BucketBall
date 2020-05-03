@@ -26,7 +26,7 @@ class MainScene extends Scene {
 
         this.add(ball, terrain, lights, axesHelper);
 
-        this.setupClouds();
+        this.setupClouds(terrain.terrainDepth);
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -41,8 +41,10 @@ class MainScene extends Scene {
         );
     }
 
-    setupClouds() {
+    // Add randomized clouds to the environment
+    setupClouds(baseDepth) {
         const clouds = [];
+        const cloudHeight = baseDepth + 5;
         for (let i = 0; i < 5; i++) {
             const cloud = new Cloud();
             clouds.push(cloud);
@@ -50,12 +52,12 @@ class MainScene extends Scene {
 
         clouds.forEach((cloud, index) => {
             if (index < clouds.length / 2) {
-                cloud.position.set(-index * 5, Math.random() * 3, 5);
+                cloud.position.set(-index * 5, Math.random() * 3, cloudHeight);
             } else {
                 cloud.position.set(
                     (index - clouds.length / 2) * 5,
                     Math.random() * -3,
-                    5
+                    cloudHeight
                 );
             }
         });
@@ -92,7 +94,7 @@ class MainScene extends Scene {
             // Power
             if (this.state.spaceBarDown) {
                 this.state.spaceBarDown = false;
-                console.log("Let go of space bar");
+                console.log('Let go of space bar');
             }
         }
     }
