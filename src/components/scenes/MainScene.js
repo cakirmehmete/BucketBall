@@ -17,7 +17,7 @@ class MainScene extends Scene {
             // Direction/Power for golf ball
             spaceBarDown: false,
             power: 1,
-            direction: new Vector3(1,1,1),
+            direction: new Vector3(1, 1, 1),
         };
 
         // Set background to a light blue to represent sky
@@ -66,10 +66,24 @@ class MainScene extends Scene {
     update(timeStamp) {
         const { updateList } = this.state;
 
+        this.applyForces();
+
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+    }
+
+    applyForces() {
+        this.applyGravity();
+        // TODO: Drag, Wind, 
+    }
+
+    applyGravity() {
+        const GRAVITY = 9.8;
+        let gravity = new Vector3(0, -GRAVITY, 0);
+        let force = gravity.multiplyScalar(this.state.ball.state.mass);
+        this.state.ball.addForce(force);
     }
 
     // Add randomized clouds to the environment
@@ -101,7 +115,11 @@ class MainScene extends Scene {
     // Add bucket/hole to the environment
     setupBucket() {
         const bucket = new Bucket();
-        bucket.position.set(this.terrain.terrainWidth  / 2 - 10, this.terrain.terrainDepth + 1, -this.terrain.terrainHeight / 2 + 10);
+        bucket.position.set(
+            this.terrain.terrainWidth / 2 - 10,
+            this.terrain.terrainDepth + 1,
+            -this.terrain.terrainHeight / 2 + 10
+        );
         this.add(bucket);
     }
 
