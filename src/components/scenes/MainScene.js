@@ -103,9 +103,10 @@ class MainScene extends Scene {
     }
 
     // Add randomized clouds to the environment
-    setupClouds(baseDepth) {
+    setupClouds() {
+        const baseDepth = this.terrain.terrainDepth;
         const clouds = [];
-        const cloudHeight = baseDepth + 100;
+        const cloudHeight = baseDepth + 100.0;
         for (let i = 0; i < 5; i++) {
             const cloud = new Cloud();
             clouds.push(cloud);
@@ -114,15 +115,15 @@ class MainScene extends Scene {
         clouds.forEach((cloud, index) => {
             if (index < clouds.length / 2) {
                 cloud.position.set(
-                    -index * 125,
+                    -index * 125.0,
                     cloudHeight,
-                    Math.random() * 50
+                    Math.random() * 50.0
                 );
             } else {
                 cloud.position.set(
-                    (index - clouds.length / 2) * 50,
+                    (index - clouds.length / 2) * 125.0,
                     cloudHeight,
-                    Math.random() * -50
+                    Math.random() * -50.0
                 );
             }
         });
