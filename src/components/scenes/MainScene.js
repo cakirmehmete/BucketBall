@@ -7,7 +7,10 @@ class MainScene extends Scene {
     constructor() {
         super();
 
-        // Init state
+        // Define constant values
+        const TERRAINSIZE = 250.0;
+
+        // Initialize state and scene properties
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
             updateList: [], // Maintains all meshes to be updated
@@ -29,7 +32,6 @@ class MainScene extends Scene {
 
         this.add(lights, axesHelper);
 
-        const TERRAINSIZE = 250.0;
         this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
         this.setupClouds(this.terrain.terrainDepth);
         this.setupBall();
@@ -88,11 +90,13 @@ class MainScene extends Scene {
 
     // Add bucket/hole to the environment
     setupBucket() {
+        const EPS = 0.05;
+        const edgeOffset = 10.0;
         const bucket = new Bucket();
         bucket.position.set(
-            this.terrain.terrainWidth / 2 - 10,
-            this.terrain.terrainDepth + 0.05,
-            -this.terrain.terrainHeight / 2 + 10
+            this.terrain.terrainWidth / 2.0 - edgeOffset,
+            this.terrain.terrainDepth + EPS,
+            -this.terrain.terrainHeight / 2.0 + edgeOffset
         );
         this.add(bucket);
         this.bucket = bucket;

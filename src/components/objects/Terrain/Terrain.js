@@ -4,7 +4,6 @@ import { PlaneBufferGeometry, BoxBufferGeometry } from 'three';
 
 class Terrain extends Group {
     constructor(width, height) {
-        // Call parent Group() constructor
         super();
         this.name = 'terrain';
 

@@ -4,13 +4,13 @@ import { SphereGeometry } from 'three';
 
 class Ball extends Group {
     constructor(parent) {
-        // Call parent Group() constructor
         super();
 
         // Initialize state and ball properties
         this.state = {
             netForce: new Vector3(),
         };
+        this.name = 'ball';
         this.mass = 10.0;
         this.radius = 1.5;
         this.previous = this.position;

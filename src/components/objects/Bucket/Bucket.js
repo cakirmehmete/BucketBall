@@ -6,15 +6,15 @@ import MODEL from './flag.gltf';
 
 class Bucket extends Group {
     constructor() {
-        // Call parent Group() constructor
         super();
 
-        // Init state
+        // Initialize state and bucket properties
         this.state = {};
+        this.name = 'bucket';
+        this.radius = 3.0;
 
-        // Load object
+        // Load flag mesh
         const loader = new GLTFLoader();
-
         this.name = 'bucket';
         loader.load(MODEL, (gltf) => {
             const flagMesh = gltf.scene;
@@ -23,9 +23,8 @@ class Bucket extends Group {
         });
 
         // Create a bucket using an open-ended cylinder
-        const radius = 3.0;
-        const segments = 50;
-        const bucketGeometry = new CircleBufferGeometry(radius, segments);
+        const segmentSize = 32;
+        const bucketGeometry = new CircleBufferGeometry(this.radius, segmentSize);
         const bucketMaterial = new MeshStandardMaterial({
             color: 0x000000,
             metalness: 0.3,
@@ -34,7 +33,6 @@ class Bucket extends Group {
         this.add(bucketMesh);
 
         bucketMesh.rotateX(-(Math.PI / 2));
-        // this.rotateX(-(Math.PI / 2));
     }
 }
 
