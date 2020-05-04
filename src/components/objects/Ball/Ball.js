@@ -1,31 +1,28 @@
 import { Group, Vector3 } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './ball.gltf';
+import { MeshStandardMaterial, Mesh } from 'three';
+import { SphereGeometry } from 'three';
 
 class Ball extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
 
-        // Init state
+        // Initialize state and ball properties
         this.state = {
             netForce: new Vector3(),
         };
         this.mass = 10.0;
+        this.radius = 1.5;
         this.previous = this.position;
 
-        // Load object
-        const loader = new GLTFLoader();
-        this.name = 'ball';
-        loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
+        const segmentSize = 32;
+        const ballGeometry = new SphereGeometry(this.radius, segmentSize, segmentSize);
+        const ballMaterial = new MeshStandardMaterial({
+            color: 0xffffff,
+            metalness: 0.3,
         });
-
-        // Add self to parent's update list
-        parent.addToUpdateList(this);
-
-        this.position.set(0, 1.5, 0);
-        this.scale.set(1.5, 1.5, 1.5);
+        const ballMesh = new Mesh(ballGeometry, ballMaterial);
+        this.add(ballMesh);
     }
 
     // Adds specified force to ball's netForce vector
@@ -59,7 +56,7 @@ class Ball extends Group {
         const ballXCoord = this.position.x;
         const ballYCoord = this.position.y;
         const ballZCoord = this.position.z;
-        const ballRadius = 1;
+        const ballRadius = this.radius;
 
         const withinTerrainWidth =
             ballXCoord > -terrain.terrainWidth / 2 &&

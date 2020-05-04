@@ -17,24 +17,22 @@ class MainScene extends Scene {
             power: 1,
             direction: new Vector3(1, 1, 1),
         };
+        this.terrain = null;
+        this.ball = null;
+        this.bucket = null;
 
         // Set background to a light blue to represent sky
         this.background = new Color(0x87ceeb);
 
-        // Initialize base terrain and set base parameters that will
-        // be used to determine relative mesh positions
-        const TERRAINSIZE = 250.0;
-        const terrain = new Terrain(TERRAINSIZE, TERRAINSIZE);
-        this.terrain = terrain;
-
-        const ball = new Ball(this);
-        this.ball = ball;
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
 
-        this.add(ball, terrain, lights, axesHelper);
+        this.add(lights, axesHelper);
 
-        this.setupClouds(terrain.terrainDepth);
+        const TERRAINSIZE = 250.0;
+        this.setupTerrain(TERRAINSIZE, 200.0);
+        this.setupClouds(this.terrain.terrainDepth);
+        this.setupBall();
         this.setupBucket();
 
         // Setup Event handler for Golf Ball
@@ -70,6 +68,36 @@ class MainScene extends Scene {
         }
     }
 
+    // Add X-Z aligned terrain to the environment
+    setupTerrain(terrainWidth, terrainHeight) {
+        const terrain = new Terrain(terrainWidth, terrainHeight);
+        this.add(terrain);
+        this.terrain = terrain;
+    }
+
+    // Add ball to the environment
+    setupBall() {
+        const ball = new Ball();
+        this.ball = ball;
+        this.addToUpdateList(ball);
+        this.add(ball);
+
+        const rootPosition = this.terrain.position;
+        ball.position.set(rootPosition.x, ball.radius, rootPosition.z);
+    }
+
+    // Add bucket/hole to the environment
+    setupBucket() {
+        const bucket = new Bucket();
+        bucket.position.set(
+            this.terrain.terrainWidth / 2 - 10,
+            this.terrain.terrainDepth + 0.05,
+            -this.terrain.terrainHeight / 2 + 10
+        );
+        this.add(bucket);
+        this.bucket = bucket;
+    }
+
     // Add randomized clouds to the environment
     setupClouds(baseDepth) {
         const clouds = [];
@@ -98,17 +126,6 @@ class MainScene extends Scene {
         clouds.forEach((cloud) => {
             this.add(cloud);
         });
-    }
-
-    // Add bucket/hole to the environment
-    setupBucket() {
-        const bucket = new Bucket();
-        bucket.position.set(
-            this.terrain.terrainWidth / 2 - 10,
-            this.terrain.terrainDepth + 0.05,
-            -this.terrain.terrainHeight / 2 + 10
-        );
-        this.add(bucket);
     }
 
     // Apply environmental forces
