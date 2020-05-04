@@ -36,7 +36,7 @@ class MainScene extends Scene {
         const ball = new Ball(this);
         this.state.ball = ball;
         const lights = new BasicLights();
-        const axesHelper = new AxesHelper(10); // Uncomment to help debug positioning
+        const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
 
         this.add(ball, terrain, lights, axesHelper);
 
