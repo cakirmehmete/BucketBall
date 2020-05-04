@@ -1,4 +1,4 @@
-import { Group, Vector3 } from 'three';
+import { Group, Vector3, Vector2 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ball.gltf';
 
@@ -30,7 +30,7 @@ class Ball extends Group {
 
     shootBall(position, power) {
         console.log(position, power);
-        // Calculate final
+        this.addForce(new Vector3(100000, 100000, 0));
     }
 
     update(timeStamp) {

@@ -77,6 +77,7 @@ class MainScene extends Scene {
 
     applyForces() {
         this.applyGravity();
+        this.applyDrag();
         // TODO: Drag, Wind, 
     }
 
@@ -85,9 +86,21 @@ class MainScene extends Scene {
     }
 
     applyGravity() {
-        const GRAVITY = 9.8;
+        const GRAVITY = 9.8 * 10;
         let gravity = new Vector3(0, -GRAVITY, 0);
         let force = gravity.multiplyScalar(this.state.ball.state.mass);
+        this.state.ball.addForce(force);
+    }
+
+    applyDrag() {
+        let deltaT = 18 / 1000;
+        let v_part = this.state.ball.position.clone().sub(this.state.ball.previous);
+        let v = v_part.multiplyScalar(1/deltaT);
+        let c_d = 0.25; // drag coeff
+        let a = 3.14; // Cross sectional area
+        let d = 1.21; // air density
+
+        let force = v.multiply(v).multiplyScalar(-(c_d * d * a)/2);
         this.state.ball.addForce(force);
     }
 
