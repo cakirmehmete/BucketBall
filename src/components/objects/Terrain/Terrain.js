@@ -25,15 +25,18 @@ class Terrain extends Group {
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
         this.add(terrainMesh);
 
+        // Rotate to align with X-Z axis
+        terrainMesh.rotateX(-(Math.PI/2.0));
+
         this.setupTerrainBorders();
     }
 
     // Creates wall/border around the terrain
     setupTerrainBorders() {
-        const boxWidth = 0.25;
-        const boxDepth = 0.5;
-        const borderSideGeometry = new BoxBufferGeometry(boxWidth, this.terrainHeight, boxDepth); // Left and Right Walls
-        const borderFBGeometry = new BoxBufferGeometry(this.terrainWidth, boxWidth, boxDepth); // Front and Back Walls
+        const boxWidth = 1;
+        const boxDepth = 2;
+        const borderSideGeometry = new BoxBufferGeometry(boxWidth, boxDepth, this.terrainHeight); // Left and Right Walls
+        const borderFBGeometry = new BoxBufferGeometry(this.terrainWidth, boxDepth, boxWidth); // Front and Back Walls
         const borderMaterial = new MeshStandardMaterial({
             color: 0x9b7653,
             metalness: 0.3,
@@ -46,10 +49,10 @@ class Terrain extends Group {
         const borderBottomMesh = new Mesh(borderFBGeometry, borderMaterial);
         const sidePosition = this.terrainWidth / 2 - boxWidth / 2;
         const fbPosition = this.terrainHeight / 2 - boxWidth / 2;
-        borderRightMesh.position.set(sidePosition, 0, boxDepth / 2);
-        borderLeftMesh.position.set(-sidePosition, 0, boxDepth / 2);
-        borderTopMesh.position.set(0, fbPosition, boxDepth / 2);
-        borderBottomMesh.position.set(0, -fbPosition, boxDepth / 2);
+        borderRightMesh.position.set(sidePosition, boxDepth / 2, 0);
+        borderLeftMesh.position.set(-sidePosition, boxDepth / 2, 0);
+        borderTopMesh.position.set(0, boxDepth / 2, -fbPosition);
+        borderBottomMesh.position.set(0, boxDepth / 2, fbPosition);
 
         this.add(borderLeftMesh);
         this.add(borderRightMesh);
