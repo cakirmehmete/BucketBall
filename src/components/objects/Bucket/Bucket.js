@@ -11,9 +11,9 @@ class Bucket extends Group {
         this.state = {};
 
         // Create a bucket using an open-ended cylinder
-        const radTop = 2;
-        const radBottom = 1;
-        const height = 2;
+        const radTop = 3;
+        const radBottom = 3;
+        const height = 10;
         const bucketGeometry = new CylinderBufferGeometry(radTop, radBottom, height);
         const bucketMaterial = new MeshStandardMaterial({
             color: 0x404040,

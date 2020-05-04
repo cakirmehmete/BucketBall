@@ -23,7 +23,7 @@ class MainScene extends Scene {
 
         // Initialize base terrain and set base parameters that will
         // be used to determine relative mesh positions
-        const TERRAINSIZE = 50.0;
+        const TERRAINSIZE = 250.0;
         const terrain = new Terrain(TERRAINSIZE, TERRAINSIZE);
         this.terrain = terrain;
         const rootPosition = terrain.position;
@@ -59,7 +59,7 @@ class MainScene extends Scene {
     // Add randomized clouds to the environment
     setupClouds(baseDepth) {
         const clouds = [];
-        const cloudHeight = baseDepth + 20;
+        const cloudHeight = baseDepth + 100;
         for (let i = 0; i < 5; i++) {
             const cloud = new Cloud();
             clouds.push(cloud);
@@ -67,12 +67,12 @@ class MainScene extends Scene {
 
         clouds.forEach((cloud, index) => {
             if (index < clouds.length / 2) {
-                cloud.position.set(-index * 5, cloudHeight, Math.random() * 25);
+                cloud.position.set(-index * 125, cloudHeight, Math.random() * 50);
             } else {
                 cloud.position.set(
-                    (index - clouds.length / 2) * 5,
+                    (index - clouds.length / 2) * 50,
                     cloudHeight,
-                    Math.random() * 25
+                    Math.random() * -50
                 );
             }
         });
@@ -85,7 +85,7 @@ class MainScene extends Scene {
     // Add bucket/hole to the environment
     setupBucket() {
         const bucket = new Bucket();
-        bucket.position.set(this.terrain.terrainWidth  / 2 - 10, this.terrain.terrainDepth + 1, -this.terrain.terrainHeight / 2 + 10);
+        bucket.position.set(this.terrain.terrainWidth  / 2 - 10, this.terrain.terrainDepth -4, -this.terrain.terrainHeight / 2 + 10);
         this.add(bucket);
     }
 
