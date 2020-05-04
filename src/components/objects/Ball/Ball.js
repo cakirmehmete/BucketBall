@@ -40,10 +40,7 @@ class Ball extends Group {
 
         let x_t = this.position.clone();
         let alpha_t = this.state.netForce.clone().divideScalar(this.mass);
-        let vert = x_t
-            .clone()
-            .sub(x_t_dt)
-            .multiplyScalar(1);
+        let vert = x_t.clone().sub(x_t_dt).multiplyScalar(1);
         this.position.add(vert);
         this.position.add(alpha_t.multiplyScalar(deltaT * deltaT));
 
@@ -61,9 +58,17 @@ class Ball extends Group {
         const ballZCoord = this.position.z;
         const ballRadius = 1;
 
-        const withinTerrainWidth = ballXCoord > (-terrain.terrainWidth / 2) && ballXCoord < (terrain.terrainWidth / 2);
-        const withinTerrainHeight = ballZCoord > (-terrain.terrainHeight / 2) && ballZCoord < (terrain.terrainHeight / 2);
-        if (withinTerrainWidth && withinTerrainHeight && ballYCoord < terrain.terrainDepth + ballRadius) {
+        const withinTerrainWidth =
+            ballXCoord > -terrain.terrainWidth / 2 &&
+            ballXCoord < terrain.terrainWidth / 2;
+        const withinTerrainHeight =
+            ballZCoord > -terrain.terrainHeight / 2 &&
+            ballZCoord < terrain.terrainHeight / 2;
+        if (
+            withinTerrainWidth &&
+            withinTerrainHeight &&
+            ballYCoord < terrain.terrainDepth + ballRadius
+        ) {
             this.position.set(ballXCoord, ballRadius, ballZCoord);
         }
     }

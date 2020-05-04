@@ -26,7 +26,7 @@ class Terrain extends Group {
         this.add(terrainMesh);
 
         // Rotate to align with X-Z axis
-        terrainMesh.rotateX(-(Math.PI/2.0));
+        terrainMesh.rotateX(-(Math.PI / 2.0));
 
         this.setupTerrainBorders();
     }
@@ -35,8 +35,16 @@ class Terrain extends Group {
     setupTerrainBorders() {
         const boxWidth = 5;
         const boxDepth = 5;
-        const borderSideGeometry = new BoxBufferGeometry(boxWidth, boxDepth, this.terrainHeight); // Left and Right Walls
-        const borderFBGeometry = new BoxBufferGeometry(this.terrainWidth, boxDepth, boxWidth); // Front and Back Walls
+        const borderSideGeometry = new BoxBufferGeometry(
+            boxWidth,
+            boxDepth,
+            this.terrainHeight
+        ); // Left and Right Walls
+        const borderFBGeometry = new BoxBufferGeometry(
+            this.terrainWidth,
+            boxDepth,
+            boxWidth
+        ); // Front and Back Walls
         const borderMaterial = new MeshStandardMaterial({
             color: 0x9b7653,
             metalness: 0.3,

@@ -71,13 +71,12 @@ class MainScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-
     }
 
     applyForces() {
         this.applyGravity();
         this.applyDrag();
-        // TODO: Drag, Wind, 
+        // TODO: Drag, Wind,
     }
 
     handleCollisions() {
@@ -94,12 +93,12 @@ class MainScene extends Scene {
     applyDrag() {
         let deltaT = 18 / 1000;
         let v_part = this.ball.position.clone().sub(this.ball.previous);
-        let v = v_part.multiplyScalar(1/deltaT);
+        let v = v_part.multiplyScalar(1 / deltaT);
         let c_d = 0.25; // drag coeff
         let a = 3.14; // Cross sectional area
         let d = 1.21; // air density
 
-        let force = v.multiply(v).multiplyScalar(-(c_d * d * a)/2);
+        let force = v.multiply(v).multiplyScalar(-(c_d * d * a) / 2);
         this.ball.addForce(force);
     }
 
@@ -114,7 +113,11 @@ class MainScene extends Scene {
 
         clouds.forEach((cloud, index) => {
             if (index < clouds.length / 2) {
-                cloud.position.set(-index * 125, cloudHeight, Math.random() * 50);
+                cloud.position.set(
+                    -index * 125,
+                    cloudHeight,
+                    Math.random() * 50
+                );
             } else {
                 cloud.position.set(
                     (index - clouds.length / 2) * 50,
@@ -165,10 +168,7 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
-                this.ball.shootBall(
-                    this.state.direction,
-                    this.state.power
-                );
+                this.ball.shootBall(this.state.direction, this.state.power);
                 this.state.spaceBarDown = false;
             }
         }
