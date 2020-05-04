@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper } from 'three';
+import { Scene, Color, AxesHelper, Vector3 } from 'three';
 import { Ball, Terrain, Cloud, Bucket } from 'objects';
 import { BasicLights } from 'lights';
 
@@ -12,10 +12,12 @@ class MainScene extends Scene {
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
             updateList: [], // Maintains all meshes to be updated
+            ball: null, // Reference to golf ball for event handlers
 
-            // Power for golf ball
+            // Direction/Power for golf ball
             spaceBarDown: false,
             power: 1,
+            direction: new Vector3(1, 1, 1),
         };
 
         // Set background to a light blue to represent sky
@@ -31,7 +33,8 @@ class MainScene extends Scene {
         const rootHeight = terrain.terrainHeight;
         const rootDepth = terrain.terrainDepth;
 
-        const ball = new Ball();
+        const ball = new Ball(this);
+        this.state.ball = ball;
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(10); // Uncomment to help debug positioning
 
@@ -54,6 +57,33 @@ class MainScene extends Scene {
 
         // Populate GUI
         this.state.gui.add(this.state, 'power', 1, 10);
+    }
+
+    addToUpdateList(object) {
+        this.state.updateList.push(object);
+    }
+
+    update(timeStamp) {
+        const { updateList } = this.state;
+
+        this.applyForces();
+
+        // Call update for each object in the updateList
+        for (const obj of updateList) {
+            obj.update(timeStamp);
+        }
+    }
+
+    applyForces() {
+        this.applyGravity();
+        // TODO: Drag, Wind, 
+    }
+
+    applyGravity() {
+        const GRAVITY = 9.8;
+        let gravity = new Vector3(0, -GRAVITY, 0);
+        let force = gravity.multiplyScalar(this.state.ball.state.mass);
+        this.state.ball.addForce(force);
     }
 
     // Add randomized clouds to the environment
@@ -85,7 +115,11 @@ class MainScene extends Scene {
     // Add bucket/hole to the environment
     setupBucket() {
         const bucket = new Bucket();
-        bucket.position.set(this.terrain.terrainWidth  / 2 - 10, this.terrain.terrainDepth -4, -this.terrain.terrainHeight / 2 + 10);
+        bucket.position.set(
+            this.terrain.terrainWidth / 2 - 10,
+            this.terrain.terrainDepth + 1,
+            -this.terrain.terrainHeight / 2 + 10
+        );
         this.add(bucket);
     }
 
@@ -106,7 +140,6 @@ class MainScene extends Scene {
             // Power
             if (!this.state.spaceBarDown) {
                 this.state.spaceBarDown = true;
-                console.log('Pressed space bar');
             }
         }
     }
@@ -115,8 +148,11 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
+                this.state.ball.shootBall(
+                    this.state.direction,
+                    this.state.power
+                );
                 this.state.spaceBarDown = false;
-                console.log('Let go of space bar');
             }
         }
     }
