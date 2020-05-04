@@ -22,6 +22,9 @@ class Ball extends Group {
             this.add(gltf.scene);
         });
 
+        // Add self to parent's update list
+        parent.addToUpdateList(this);
+
         this.position.set(0, 1, 0);
     }
 
