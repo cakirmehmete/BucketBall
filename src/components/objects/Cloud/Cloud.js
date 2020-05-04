@@ -18,7 +18,7 @@ class Cloud extends Group {
             this.add(gltf.scene);
         });
 
-        const randomScale = Math.random() * 0.6 + 0.25;
+        const randomScale = 1.5;
         this.scale.set(randomScale, randomScale, randomScale);
     }
 }

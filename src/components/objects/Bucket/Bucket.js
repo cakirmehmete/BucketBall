@@ -21,8 +21,6 @@ class Bucket extends Group {
         });
         const bucketMesh = new Mesh(bucketGeometry, bucketMaterial);
         this.add(bucketMesh);
-
-        bucketMesh.position.set(1, 1, 1);
     }
 }
 

@@ -33,8 +33,8 @@ class Terrain extends Group {
 
     // Creates wall/border around the terrain
     setupTerrainBorders() {
-        const boxWidth = 0.25;
-        const boxDepth = 0.5;
+        const boxWidth = 1;
+        const boxDepth = 2;
         const borderSideGeometry = new BoxBufferGeometry(boxWidth, boxDepth, this.terrainHeight); // Left and Right Walls
         const borderFBGeometry = new BoxBufferGeometry(this.terrainWidth, boxDepth, boxWidth); // Front and Back Walls
         const borderMaterial = new MeshStandardMaterial({
