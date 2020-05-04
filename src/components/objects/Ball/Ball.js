@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ball.gltf';
 
 class Ball extends Group {
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 
@@ -18,8 +18,20 @@ class Ball extends Group {
             this.add(gltf.scene);
         });
 
+        // Add self to parent's update list
+        parent.addToUpdateList(this);
+
         this.position.set(0, 0, 0.225);
         this.scale.set(0.15, 0.15, 0.15);
+    }
+
+    shootBall(position, power) {
+        console.log(position, power)
+        // Calculate final 
+    }
+
+    update(timeStamp) {
+        this.position.addScalar(.001);
     }
 }
 
