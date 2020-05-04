@@ -30,7 +30,7 @@ class Ball extends Group {
 
     shootBall(position, power) {
         console.log(position, power);
-        this.addForce(new Vector3(100000, 100000, 0));
+        this.addForce(new Vector3(60000, 50000, 0));
     }
 
     update(timeStamp) {
@@ -43,7 +43,7 @@ class Ball extends Group {
         let vert = x_t
             .clone()
             .sub(x_t_dt)
-            .multiplyScalar(1 - 0.03);
+            .multiplyScalar(1);
         this.position.add(vert);
         this.position.add(alpha_t.multiplyScalar(deltaT * deltaT));
 

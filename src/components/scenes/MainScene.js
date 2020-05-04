@@ -102,6 +102,7 @@ class MainScene extends Scene {
 
         let force = v.multiply(v).multiplyScalar(-(c_d * d * a)/2);
         this.state.ball.addForce(force);
+        console.log(force)
     }
 
     // Add randomized clouds to the environment
