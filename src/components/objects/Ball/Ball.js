@@ -53,6 +53,13 @@ class Ball extends Group {
     addForce(force) {
         this.state.netForce.add(force);
     }
+
+    handleFloorCollisions(terrain) {
+        const ballYCoord = this.position.y;
+        if (ballYCoord < terrain.terrainDepth + 1) {
+            this.position.set(this.position.x, 1, this.position.z);
+        }
+    }
 }
 
 export default Ball;

@@ -67,16 +67,21 @@ class MainScene extends Scene {
         const { updateList } = this.state;
 
         this.applyForces();
-
+        this.handleCollisions();
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
     }
 
     applyForces() {
         this.applyGravity();
         // TODO: Drag, Wind, 
+    }
+
+    handleCollisions() {
+        this.state.ball.handleFloorCollisions(this.terrain);
     }
 
     applyGravity() {
