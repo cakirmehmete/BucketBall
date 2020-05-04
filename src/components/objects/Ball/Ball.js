@@ -1,4 +1,4 @@
-import { Group, Vector3, Vector2 } from 'three';
+import { Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ball.gltf';
 
@@ -10,13 +10,12 @@ class Ball extends Group {
         // Init state
         this.state = {
             netForce: new Vector3(),
-            mass: 10,
         };
+        this.mass = 10.0;
         this.previous = this.position;
 
         // Load object
         const loader = new GLTFLoader();
-
         this.name = 'ball';
         loader.load(MODEL, (gltf) => {
             this.add(gltf.scene);
@@ -25,7 +24,8 @@ class Ball extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
-        this.position.set(0, 1, 0);
+        this.position.set(0, 1.5, 0);
+        this.scale.set(1.5, 1.5, 1.5);
     }
 
     shootBall(position, power) {
@@ -39,7 +39,7 @@ class Ball extends Group {
         this.previous = this.position.clone();
 
         let x_t = this.position.clone();
-        let alpha_t = this.state.netForce.clone().divideScalar(this.state.mass);
+        let alpha_t = this.state.netForce.clone().divideScalar(this.mass);
         let vert = x_t
             .clone()
             .sub(x_t_dt)
@@ -54,10 +54,17 @@ class Ball extends Group {
         this.state.netForce.add(force);
     }
 
+    // Handle collisions with the floor of the terrain
     handleFloorCollisions(terrain) {
+        const ballXCoord = this.position.x;
         const ballYCoord = this.position.y;
-        if (ballYCoord < terrain.terrainDepth + 1) {
-            this.position.set(this.position.x, 1, this.position.z);
+        const ballZCoord = this.position.z;
+        const ballRadius = 1;
+
+        const withinTerrainWidth = ballXCoord > (-terrain.terrainWidth / 2) && ballXCoord < (terrain.terrainWidth / 2);
+        const withinTerrainHeight = ballZCoord > (-terrain.terrainHeight / 2) && ballZCoord < (terrain.terrainHeight / 2);
+        if (withinTerrainWidth && withinTerrainHeight && ballYCoord < terrain.terrainDepth + ballRadius) {
+            this.position.set(ballXCoord, ballRadius, ballZCoord);
         }
     }
 }

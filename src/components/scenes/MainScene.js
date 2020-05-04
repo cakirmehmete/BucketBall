@@ -12,7 +12,6 @@ class MainScene extends Scene {
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
             updateList: [], // Maintains all meshes to be updated
-            ball: null, // Reference to golf ball for event handlers
 
             // Direction/Power for golf ball
             spaceBarDown: false,
@@ -34,7 +33,7 @@ class MainScene extends Scene {
         const rootDepth = terrain.terrainDepth;
 
         const ball = new Ball(this);
-        this.state.ball = ball;
+        this.ball = ball;
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
 
@@ -82,27 +81,26 @@ class MainScene extends Scene {
     }
 
     handleCollisions() {
-        this.state.ball.handleFloorCollisions(this.terrain);
+        this.ball.handleFloorCollisions(this.terrain);
     }
 
     applyGravity() {
         const GRAVITY = 9.8 * 10;
         let gravity = new Vector3(0, -GRAVITY, 0);
-        let force = gravity.multiplyScalar(this.state.ball.state.mass);
-        this.state.ball.addForce(force);
+        let force = gravity.multiplyScalar(this.ball.mass);
+        this.ball.addForce(force);
     }
 
     applyDrag() {
         let deltaT = 18 / 1000;
-        let v_part = this.state.ball.position.clone().sub(this.state.ball.previous);
+        let v_part = this.ball.position.clone().sub(this.ball.previous);
         let v = v_part.multiplyScalar(1/deltaT);
         let c_d = 0.25; // drag coeff
         let a = 3.14; // Cross sectional area
         let d = 1.21; // air density
 
         let force = v.multiply(v).multiplyScalar(-(c_d * d * a)/2);
-        this.state.ball.addForce(force);
-        console.log(force)
+        this.ball.addForce(force);
     }
 
     // Add randomized clouds to the environment
@@ -136,7 +134,7 @@ class MainScene extends Scene {
         const bucket = new Bucket();
         bucket.position.set(
             this.terrain.terrainWidth / 2 - 10,
-            this.terrain.terrainDepth + 1,
+            this.terrain.terrainDepth + 0.05,
             -this.terrain.terrainHeight / 2 + 10
         );
         this.add(bucket);
@@ -167,7 +165,7 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
-                this.state.ball.shootBall(
+                this.ball.shootBall(
                     this.state.direction,
                     this.state.power
                 );
