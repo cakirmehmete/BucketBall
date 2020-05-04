@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
-import { Ball, Terrain, Cloud } from 'objects';
+import { Ball, Terrain, Cloud, Bucket } from 'objects';
 import { BasicLights } from 'lights';
 
 class MainScene extends Scene {
@@ -31,6 +31,7 @@ class MainScene extends Scene {
         const rootDepth = terrain.terrainDepth;
 
         const ball = new Ball();
+        // const bucket = new Bucket();
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(5); // Uncomment to help debug positioning
 
@@ -65,12 +66,12 @@ class MainScene extends Scene {
 
         clouds.forEach((cloud, index) => {
             if (index < clouds.length / 2) {
-                cloud.position.set(-index * 5, Math.random() * 3, cloudHeight);
+                cloud.position.set(-index * 5, cloudHeight, Math.random() * 3);
             } else {
                 cloud.position.set(
                     (index - clouds.length / 2) * 5,
-                    Math.random() * -3,
-                    cloudHeight
+                    cloudHeight,
+                    Math.random() * -3
                 );
             }
         });

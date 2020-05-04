@@ -18,10 +18,8 @@ class Cloud extends Group {
             this.add(gltf.scene);
         });
 
-        // this.position.set(0, 0, 5);
         const randomScale = Math.random() * 0.6 + 0.25;
         this.scale.set(randomScale, randomScale, randomScale);
-        this.rotateX(Math.PI / 2);
     }
 }
 
