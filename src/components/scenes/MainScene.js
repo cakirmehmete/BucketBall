@@ -11,7 +11,11 @@ class MainScene extends Scene {
         // Right now, the GUI is unpopulated
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
-            spaceBarDown: false, // Power for golf ball
+            updateList: [], // Maintains all meshes to be updated
+
+            // Power for golf ball
+            spaceBarDown: false,
+            power: 1,
         };
 
         // Set background to a light blue to represent sky
@@ -45,6 +49,9 @@ class MainScene extends Scene {
             this.handleKeyUpEvents.bind(this),
             false
         );
+
+        // Populate GUI
+        this.state.gui.add(this.state, 'power', 1, 10);
     }
 
     // Add randomized clouds to the environment
