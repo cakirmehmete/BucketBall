@@ -30,7 +30,7 @@ class MainScene extends Scene {
         this.add(lights, axesHelper);
 
         const TERRAINSIZE = 250.0;
-        this.setupTerrain(TERRAINSIZE, 200.0);
+        this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
         this.setupClouds(this.terrain.terrainDepth);
         this.setupBall();
         this.setupBucket();
