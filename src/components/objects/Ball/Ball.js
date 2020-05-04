@@ -28,27 +28,30 @@ class Ball extends Group {
         this.scale.set(1.5, 1.5, 1.5);
     }
 
+    // Adds specified force to ball's netForce vector
+    addForce(force) {
+        this.state.netForce.add(force);
+    }
+
+    // Add a shooting force to the ball with the given power and direction
     shootBall(position, power) {
         console.log(position, power);
         this.addForce(new Vector3(60000, 50000, 0));
     }
 
+    // Use verlet integration to animate ball trajectory
     update(timeStamp) {
-        let deltaT = 18 / 1000;
-        let x_t_dt = this.previous.clone();
+        const deltaT = 18 / 1000;
+        const x_t_dt = this.previous.clone();
         this.previous = this.position.clone();
 
-        let x_t = this.position.clone();
-        let alpha_t = this.state.netForce.clone().divideScalar(this.mass);
-        let vert = x_t.clone().sub(x_t_dt).multiplyScalar(1);
+        const x_t = this.position.clone();
+        const alpha_t = this.state.netForce.clone().divideScalar(this.mass);
+        const vert = x_t.clone().sub(x_t_dt).multiplyScalar(1);
         this.position.add(vert);
         this.position.add(alpha_t.multiplyScalar(deltaT * deltaT));
 
         this.state.netForce = new Vector3(0, 0, 0);
-    }
-
-    addForce(force) {
-        this.state.netForce.add(force);
     }
 
     // Handle collisions with the floor of the terrain

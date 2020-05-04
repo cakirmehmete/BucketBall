@@ -8,7 +8,6 @@ class MainScene extends Scene {
         super();
 
         // Init state
-        // Right now, the GUI is unpopulated
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
             updateList: [], // Maintains all meshes to be updated
@@ -27,10 +26,6 @@ class MainScene extends Scene {
         const TERRAINSIZE = 250.0;
         const terrain = new Terrain(TERRAINSIZE, TERRAINSIZE);
         this.terrain = terrain;
-        const rootPosition = terrain.position;
-        const rootWidth = terrain.terrainWidth;
-        const rootHeight = terrain.terrainHeight;
-        const rootDepth = terrain.terrainDepth;
 
         const ball = new Ball(this);
         this.ball = ball;
@@ -58,10 +53,12 @@ class MainScene extends Scene {
         this.state.gui.add(this.state, 'power', 1, 10);
     }
 
+    // Adds a given child object to the scene's update list
     addToUpdateList(object) {
         this.state.updateList.push(object);
     }
 
+    // Calls corresponding update functions for each object in the update list
     update(timeStamp) {
         const { updateList } = this.state;
 
@@ -71,35 +68,6 @@ class MainScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-    }
-
-    applyForces() {
-        this.applyGravity();
-        this.applyDrag();
-        // TODO: Drag, Wind,
-    }
-
-    handleCollisions() {
-        this.ball.handleFloorCollisions(this.terrain);
-    }
-
-    applyGravity() {
-        const GRAVITY = 9.8 * 10;
-        let gravity = new Vector3(0, -GRAVITY, 0);
-        let force = gravity.multiplyScalar(this.ball.mass);
-        this.ball.addForce(force);
-    }
-
-    applyDrag() {
-        let deltaT = 18 / 1000;
-        let v_part = this.ball.position.clone().sub(this.ball.previous);
-        let v = v_part.multiplyScalar(1 / deltaT);
-        let c_d = 0.25; // drag coeff
-        let a = 3.14; // Cross sectional area
-        let d = 1.21; // air density
-
-        let force = v.multiply(v).multiplyScalar(-(c_d * d * a) / 2);
-        this.ball.addForce(force);
     }
 
     // Add randomized clouds to the environment
@@ -143,6 +111,40 @@ class MainScene extends Scene {
         this.add(bucket);
     }
 
+    // Apply environmental forces
+    applyForces() {
+        this.applyGravity();
+        this.applyDrag();
+        // TODO: Drag, Wind,
+    }
+
+    // Account for collisions between ball and given obstacles, environment, and terrain
+    handleCollisions() {
+        this.ball.handleFloorCollisions(this.terrain);
+    }
+
+    // Applies gravitational force to ball's trajectory
+    applyGravity() {
+        const GRAVITY = 9.8 * 10;
+        const gravity = new Vector3(0, -GRAVITY, 0);
+        const force = gravity.multiplyScalar(this.ball.mass);
+        this.ball.addForce(force);
+    }
+
+    // Applies drag force to ball's trajectory
+    applyDrag() {
+        const deltaT = 18 / 1000;
+        const v_part = this.ball.position.clone().sub(this.ball.previous);
+        const v = v_part.multiplyScalar(1 / deltaT);
+        const c_d = 0.25; // drag coeff
+        const a = 3.14; // Cross sectional area
+        const d = 1.21; // air density
+
+        const force = v.multiply(v).multiplyScalar(-(c_d * d * a) / 2);
+        this.ball.addForce(force);
+    }
+
+    // Callback function for keydown events
     handleKeyDownEvents(event) {
         if (event.key === 'w') {
             // Up
@@ -164,6 +166,7 @@ class MainScene extends Scene {
         }
     }
 
+    // Callback function for keyup events
     handleKeyUpEvents(event) {
         if (event.key === ' ') {
             // Power
