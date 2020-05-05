@@ -1,6 +1,7 @@
 import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
+import { calculateAcceleration } from './BallPhysicsHelper';
 import SceneParams from '../../params';
 
 class Ball extends Group {
@@ -44,7 +45,10 @@ class Ball extends Group {
         // Use Euler integration to simulate projectile motion
         while (true) {
             // Acceleration
-            let gravity = new Vector3(0, -SceneParams.GRAVITY, 0);
+            let acceleration = calculateAcceleration(
+                this.state.velocity,
+                this.state.angVelocity
+            );
 
             // Velocity
 
