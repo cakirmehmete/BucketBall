@@ -76,7 +76,6 @@ function calculateAngularDecay(angVelocity) {
 */
 export function projectShot(velocity, angVelocity, position, radius) {
     // Use Euler integration to simulate projectile motion
-    if (position.y >= radius) {
         // Acceleration
         let acceleration = calculateAcceleration(velocity, angVelocity);
 
@@ -87,5 +86,4 @@ export function projectShot(velocity, angVelocity, position, radius) {
         // Spin
         let decay = calculateAngularDecay(angVelocity);
         angVelocity.add(decay);
-    }
 }

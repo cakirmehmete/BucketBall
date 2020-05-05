@@ -21,7 +21,7 @@ class Params {
         this.SPINDECAY = 21;
 
         // The timestep
-        this.TIMESTEP = 0.001;
+        this.TIMESTEP = 0.2;
 
         // ====================================================================
         //            Properties of forces and interactions
