@@ -36,13 +36,6 @@ class Params {
         // Similar to coefficient of friction
         // 0 = frictionless, 1 = cloth sticks in place
         this.friction = 0.9;
-
-        // ====================================================================
-        //             Physical properties of scene objects
-        // ====================================================================
-        // Properties of sphere and ground
-        this.groundY = -249;
-        this.sphereRadius = 125;
     }
 }
 

@@ -8,11 +8,14 @@ class Ball extends Group {
         super();
 
         // Initialize state and ball properties
-        this.state = {};
+        this.state = {
+            previous: this.position,
+            velocity: new Vector3(),
+            angVelocity: new Vector3(),
+            acceleration: new Vector3(),
+        };
         this.name = 'ball';
-        this.mass = 10.0;
         this.radius = 1.5;
-        this.previous = this.position;
 
         const segmentSize = 32;
         const ballGeometry = new SphereGeometry(
@@ -40,11 +43,16 @@ class Ball extends Group {
     shootBall(position, power) {
         // Use Euler integration to simulate projectile motion
         while (true) {
-            // Velocity using acceleration
+            // Acceleration
+            let gravity = new Vector3(0, -SceneParams.GRAVITY, 0);
+
+            // Velocity
+
             // Spin
+            break;
         }
     }
-    
+
     // Handle collisions with the floor of the terrain
     handleFloorCollisions(terrain) {
         const ballXCoord = this.position.x;
