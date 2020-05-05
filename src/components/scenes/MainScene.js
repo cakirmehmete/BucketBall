@@ -90,7 +90,7 @@ class MainScene extends Scene {
 
     // Add bucket/hole to the environment
     setupBucket() {
-        const EPS = 0.05;
+        const EPS = 2.0;
         const edgeOffset = 10.0;
         const bucket = new Bucket();
         bucket.position.set(

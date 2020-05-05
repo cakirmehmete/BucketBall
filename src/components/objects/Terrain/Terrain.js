@@ -1,6 +1,6 @@
-import { Group } from 'three';
-import { MeshStandardMaterial, Mesh } from 'three';
-import { PlaneBufferGeometry, BoxBufferGeometry } from 'three';
+import { Group, Vector3, Face3, Color } from 'three';
+import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
+import { PlaneBufferGeometry, BoxBufferGeometry, Geometry } from 'three';
 
 class Terrain extends Group {
     constructor(width, height) {
@@ -9,23 +9,69 @@ class Terrain extends Group {
 
         // Set the height and width of the game terrain
         this.terrainWidth = width; // width associated with x-axis
-        this.terrainHeight = height; // height associated with y-axis
-        this.terrainDepth = 0; // depth associated with z-axis
+        this.terrainHeight = height; // height associated with z-axis
+        this.terrainDepth = 0; // depth associated with y-axis
 
-        // Create flat mesh that represents the lawn grass
-        const terrainGeometry = new PlaneBufferGeometry(
-            this.terrainWidth,
-            this.terrainHeight
-        );
+        // Parameters associated with building hills on the terrain
+        this.xSpacing = 1.0;
+        this.zSpacing = 1.0;
+        this.maxHeight = 2.0;
+
+        // Generate a hill-like terrain using a custom geometry
+        const terrainGeometry = new Geometry();
+        for (let z = 0; z < this.terrainHeight; z++) {
+            for (let x = 0; x < this.terrainWidth; x++) {
+                const vertex = new Vector3(
+                    x * this.xSpacing,
+                    Math.random() * this.maxHeight,
+                    z * this.zSpacing
+                );
+                terrainGeometry.vertices.push(vertex);
+            }
+        }
+        // Construct faces out of the vertices from geometry
+        for (let z = 0; z < this.terrainHeight - 1; z++) {
+            for (let x = 0; x < this.terrainWidth - 1; x++) {
+                const a = x + z * this.terrainWidth;
+                const b = x + 1 + z * this.terrainWidth;
+                const c = x + (z + 1) * this.terrainWidth;
+                const d = x + 1 + (z + 1) * this.terrainWidth;
+                const face1 = new Face3(b, a, c);
+                const face2 = new Face3(c, d, b);
+                terrainGeometry.faces.push(face1);
+                terrainGeometry.faces.push(face2);
+            }
+        }
+        terrainGeometry.computeFaceNormals();
+
+        // Create material and mesh
+        const loader = new TextureLoader();
         const terrainMaterial = new MeshStandardMaterial({
             color: 0x315e00,
-            metalness: 0.3,
+            map: loader.load('src/resources/grass.jpeg'),
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
+        terrainMesh.translateX(-this.terrainWidth / 2);
+        terrainMesh.translateZ(-this.terrainHeight / 2);
         this.add(terrainMesh);
 
-        // Rotate to align with X-Z axis
-        terrainMesh.rotateX(-(Math.PI / 2.0));
+        // // Create flat mesh that represents the lawn grass
+        // const terrainGeometry = new PlaneBufferGeometry(
+        //     this.terrainWidth,
+        //     this.terrainHeight
+        // );
+
+        // // const loader = new TextureLoader();
+        // const terrainMaterial = new MeshStandardMaterial({
+        //     color: 0x315e00,
+        //     metalness: 0.3,
+        //     // map: loader.load('src/resources/grass.jpeg')
+        // });
+        // const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
+        // this.add(terrainMesh);
+
+        // // Rotate to align with X-Z axis
+        // terrainMesh.rotateX(-(Math.PI / 2.0));
 
         this.setupTerrainBorders();
     }
@@ -37,10 +83,10 @@ class Terrain extends Group {
         const borderSideGeometry = new BoxBufferGeometry(
             boxWidth,
             boxDepth,
-            this.terrainHeight
+            this.terrainHeight + boxWidth * 2
         ); // Left and Right Walls
         const borderFBGeometry = new BoxBufferGeometry(
-            this.terrainWidth,
+            this.terrainWidth + boxWidth * 2,
             boxDepth,
             boxWidth
         ); // Front and Back Walls
@@ -54,8 +100,8 @@ class Terrain extends Group {
         const borderLeftMesh = new Mesh(borderSideGeometry, borderMaterial);
         const borderTopMesh = new Mesh(borderFBGeometry, borderMaterial);
         const borderBottomMesh = new Mesh(borderFBGeometry, borderMaterial);
-        const sidePosition = this.terrainWidth / 2 - boxWidth / 2;
-        const fbPosition = this.terrainHeight / 2 - boxWidth / 2;
+        const sidePosition = this.terrainWidth / 2 + boxWidth / 2;
+        const fbPosition = this.terrainHeight / 2 + boxWidth / 2;
         borderRightMesh.position.set(sidePosition, boxDepth / 2, 0);
         borderLeftMesh.position.set(-sidePosition, boxDepth / 2, 0);
         borderTopMesh.position.set(0, boxDepth / 2, -fbPosition);
