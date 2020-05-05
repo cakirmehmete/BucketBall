@@ -27,9 +27,12 @@ class Terrain extends Group {
         const terrainGeometry = new Geometry();
         for (let z = 0; z < this.terrainHeight; z++) {
             for (let x = 0; x < this.terrainWidth; x++) {
-                const heightVal = Math.abs(
-                    noise.perlin2(x / 10, z / 10) * this.maxHeight * 2
-                );
+                let heightVal = 0;
+                if (x > this.terrainWidth / 2 && z > this.terrainHeight / 2) {
+                    heightVal = Math.abs(
+                        noise.perlin2(x / 10, z / 10) * this.maxHeight * 2.5
+                    );
+                }
                 const vertex = new Vector3(
                     x * this.xSpacing,
                     heightVal,
