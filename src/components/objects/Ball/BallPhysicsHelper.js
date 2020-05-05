@@ -1,6 +1,9 @@
 import { Vector3 } from 'three';
 import SceneParams from '../../params';
 
+/*
+    Adapted From: https://github.com/jcole/golf-shot-simulation
+*/
 export function calculateAcceleration(velocity, angVelocity) {
     // Gravity
     let gravity = new Vector3(0, -SceneParams.GRAVITY, 0);
@@ -21,10 +24,19 @@ export function calculateAcceleration(velocity, angVelocity) {
         .multiplyScalar(SceneParams.LIFT / SceneParams.MASS);
 
     // Final Acceleration
-    var acceleration = new Vector3(0, 0, 0)
-        .add(gravity)
-        .add(drag)
-        .add(magnus);
+    var acceleration = new Vector3(0, 0, 0).add(gravity).add(drag).add(magnus);
 
     return acceleration;
+}
+
+/*
+    Adapted From: https://github.com/jcole/golf-shot-simulation
+*/
+export function calculateAngularDecay(angVelocity) {
+    var decay = angVelocity.clone();
+    decay
+        .normalize()
+        .negate()
+        .multiplyScalar(SceneParams.SPINDECAY * SceneParams.TIMESTEP);
+    return decay;
 }

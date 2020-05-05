@@ -1,7 +1,10 @@
 import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
-import { calculateAcceleration } from './BallPhysicsHelper';
+import {
+    calculateAcceleration,
+    calculateAngularDecay,
+} from './BallPhysicsHelper';
 import SceneParams from '../../params';
 
 class Ball extends Group {
@@ -51,9 +54,20 @@ class Ball extends Group {
             );
 
             // Velocity
+            this.state.velocity.add(
+                acceleration.clone().multiplyScalar(SceneParams.TIMESTEP)
+            );
+            this.position.add(
+                this.state.velocity.clone().multiplyScalar(SceneParams.TIMESTEP)
+            );
 
             // Spin
-            break;
+            let decay = calculateAngularDecay(this.state.angVelocity);
+            this.state.angVelocity.add(decay);
+
+            if (this.position.y <= 1) {
+                break;
+            }
         }
     }
 
