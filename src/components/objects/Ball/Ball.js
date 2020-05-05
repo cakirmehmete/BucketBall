@@ -1,6 +1,7 @@
-import { Group, Vector3 } from 'three';
+import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
+
 
 class Ball extends Group {
     constructor(parent) {
@@ -17,9 +18,13 @@ class Ball extends Group {
 
         const segmentSize = 32;
         const ballGeometry = new SphereGeometry(this.radius, segmentSize, segmentSize);
+
+        const loader = new TextureLoader();
+        const golfBumpMap = loader.load('src/resources/golfbumpmap.jpg');
         const ballMaterial = new MeshStandardMaterial({
             color: 0xffffff,
             metalness: 0.3,
+            bumpMap: golfBumpMap
         });
         const ballMesh = new Mesh(ballGeometry, ballMaterial);
         this.add(ballMesh);
