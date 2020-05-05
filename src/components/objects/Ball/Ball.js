@@ -2,8 +2,9 @@ import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
 import {
-    calculateAcceleration,
-    calculateAngularDecay,
+    projectShot,
+    calculateInitialVelocity,
+    calculateInitialSpin,
 } from './BallPhysicsHelper';
 import SceneParams from '../../params';
 
@@ -45,30 +46,33 @@ class Ball extends Group {
     Adapted From: https://github.com/jcole/golf-shot-simulation
     */
     shootBall(position, power) {
+        // initial shot attributes
+        let initSpeedMPH = 50;
+        let initVerticalAngleDegrees = 22;
+        let initHorizontalAngleDegrees = 9;
+        let initBackspinRPM = 3000;
+        let initSpinAngle = 45;
+        // Initial velocity
+        this.state.velocity = calculateInitialVelocity(
+            initSpeedMPH,
+            SceneParams.SMASH,
+            initVerticalAngleDegrees,
+            initHorizontalAngleDegrees
+        );
+
+        // Initial spin
+        this.state.angVelocity = calculateInitialSpin(
+            initBackspinRPM,
+            initSpinAngle
+        );
+
         // Use Euler integration to simulate projectile motion
-        while (true) {
-            // Acceleration
-            let acceleration = calculateAcceleration(
-                this.state.velocity,
-                this.state.angVelocity
-            );
-
-            // Velocity
-            this.state.velocity.add(
-                acceleration.clone().multiplyScalar(SceneParams.TIMESTEP)
-            );
-            this.position.add(
-                this.state.velocity.clone().multiplyScalar(SceneParams.TIMESTEP)
-            );
-
-            // Spin
-            let decay = calculateAngularDecay(this.state.angVelocity);
-            this.state.angVelocity.add(decay);
-
-            if (this.position.y <= 1) {
-                break;
-            }
-        }
+        projectShot(
+            this.state.velocity,
+            this.state.angVelocity,
+            this.position,
+            this.radius
+        );
     }
 
     // Handle collisions with the floor of the terrain

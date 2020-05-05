@@ -8,7 +8,7 @@ class Params {
         // ====================================================================
         // Golf ball properties
         this.MASS = 0.1;
-        this.AREA = Math.PI;
+        this.AREA = (0.04267 * Math.PI) / 4;
         this.SMASH = 1.49;
 
         // Nature

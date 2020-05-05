@@ -62,12 +62,15 @@ class MainScene extends Scene {
 
     // Add ball to the environment
     setupBall() {
-        const ball = new Ball();
-        this.ball = ball;
-        this.add(ball);
+        this.ball = new Ball();
+        this.add(this.ball);
 
         const rootPosition = this.terrain.position;
-        ball.position.set(rootPosition.x, ball.radius, rootPosition.z);
+        this.ball.position.set(
+            rootPosition.x,
+            this.ball.radius,
+            rootPosition.z
+        );
     }
 
     // Add bucket/hole to the environment
