@@ -1,6 +1,7 @@
-import { Group, Vector3, Face3, Color } from 'three';
+import { Group, Vector3, Face3, Vector2 } from 'three';
 import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
 import { PlaneBufferGeometry, BoxBufferGeometry, Geometry } from 'three';
+import { Noise } from 'noisejs';
 
 class Terrain extends Group {
     constructor(width, height) {
@@ -17,13 +18,21 @@ class Terrain extends Group {
         this.zSpacing = 1.0;
         this.maxHeight = 2.0;
 
+        // Seed the noise so that the hills are randomized at a given time
+        const date = new Date();
+        const noise = new Noise();
+        noise.seed(date.getMilliseconds());
+
         // Generate a hill-like terrain using a custom geometry
         const terrainGeometry = new Geometry();
         for (let z = 0; z < this.terrainHeight; z++) {
             for (let x = 0; x < this.terrainWidth; x++) {
+                const heightVal = Math.abs(
+                    noise.perlin2(x / 10, z / 10) * this.maxHeight * 2
+                );
                 const vertex = new Vector3(
                     x * this.xSpacing,
-                    Math.random() * this.maxHeight,
+                    heightVal,
                     z * this.zSpacing
                 );
                 terrainGeometry.vertices.push(vertex);
@@ -83,10 +92,10 @@ class Terrain extends Group {
         const borderSideGeometry = new BoxBufferGeometry(
             boxWidth,
             boxDepth,
-            this.terrainHeight + boxWidth * 2
+            this.terrainHeight + boxWidth * 2.0
         ); // Left and Right Walls
         const borderFBGeometry = new BoxBufferGeometry(
-            this.terrainWidth + boxWidth * 2,
+            this.terrainWidth + boxWidth * 2.0,
             boxDepth,
             boxWidth
         ); // Front and Back Walls
@@ -96,16 +105,17 @@ class Terrain extends Group {
         });
 
         // Create bordering walls and add them to the edges of the terrain
+        const EPS = 1.0;
         const borderRightMesh = new Mesh(borderSideGeometry, borderMaterial);
         const borderLeftMesh = new Mesh(borderSideGeometry, borderMaterial);
         const borderTopMesh = new Mesh(borderFBGeometry, borderMaterial);
         const borderBottomMesh = new Mesh(borderFBGeometry, borderMaterial);
         const sidePosition = this.terrainWidth / 2 + boxWidth / 2;
         const fbPosition = this.terrainHeight / 2 + boxWidth / 2;
-        borderRightMesh.position.set(sidePosition, boxDepth / 2, 0);
+        borderRightMesh.position.set(sidePosition - EPS, boxDepth / 2, 0);
         borderLeftMesh.position.set(-sidePosition, boxDepth / 2, 0);
         borderTopMesh.position.set(0, boxDepth / 2, -fbPosition);
-        borderBottomMesh.position.set(0, boxDepth / 2, fbPosition);
+        borderBottomMesh.position.set(0, boxDepth / 2, fbPosition - EPS);
 
         this.add(borderLeftMesh);
         this.add(borderRightMesh);
