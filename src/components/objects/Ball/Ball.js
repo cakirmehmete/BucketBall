@@ -9,7 +9,7 @@ import {
 import SceneParams from '../../params';
 
 class Ball extends Group {
-    constructor() {
+    constructor(parent) {
         super();
 
         // Initialize state and ball properties
@@ -18,6 +18,7 @@ class Ball extends Group {
             velocity: new Vector3(),
             angVelocity: new Vector3(),
             acceleration: new Vector3(),
+            shot: false, // Was the golf ball shot?
         };
         this.name = 'ball';
         this.radius = 1.5;
@@ -39,6 +40,21 @@ class Ball extends Group {
         });
         const ballMesh = new Mesh(ballGeometry, ballMaterial);
         this.add(ballMesh);
+
+        // For animating the golf ball projectile motion
+        parent.addToUpdateList(this);
+    }
+
+    update(timeStamp) {
+        // Use Euler integration to simulate projectile motion
+        if (this.state.shot) {
+            projectShot(
+                this.state.velocity,
+                this.state.angVelocity,
+                this.position,
+                this.radius
+            );
+        }
     }
 
     // Add a shooting force to the ball with the given power and direction
@@ -66,13 +82,7 @@ class Ball extends Group {
             initSpinAngle
         );
 
-        // Use Euler integration to simulate projectile motion
-        projectShot(
-            this.state.velocity,
-            this.state.angVelocity,
-            this.position,
-            this.radius
-        );
+        this.state.shot = true;
     }
 
     // Handle collisions with the floor of the terrain

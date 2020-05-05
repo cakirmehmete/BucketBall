@@ -62,7 +62,7 @@ class MainScene extends Scene {
 
     // Add ball to the environment
     setupBall() {
-        this.ball = new Ball();
+        this.ball = new Ball(this);
         this.add(this.ball);
 
         const rootPosition = this.terrain.position;
@@ -153,6 +153,21 @@ class MainScene extends Scene {
                 this.ball.shootBall(this.state.direction, this.state.power);
                 this.state.spaceBarDown = false;
             }
+        }
+    }
+
+    // Handle animations
+    addToUpdateList(object) {
+        this.state.updateList.push(object);
+    }
+
+    // Handle animations
+    update(timeStamp) {
+        const { updateList } = this.state;
+
+        // Call update for each object in the updateList
+        for (const obj of updateList) {
+            obj.update(timeStamp);
         }
     }
 }
