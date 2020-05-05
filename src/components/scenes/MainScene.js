@@ -53,23 +53,6 @@ class MainScene extends Scene {
         this.state.gui.add(this.state, 'power', 1, 10);
     }
 
-    // Adds a given child object to the scene's update list
-    addToUpdateList(object) {
-        this.state.updateList.push(object);
-    }
-
-    // Calls corresponding update functions for each object in the update list
-    update(timeStamp) {
-        const { updateList } = this.state;
-
-        this.applyForces();
-        this.handleCollisions();
-        // Call update for each object in the updateList
-        for (const obj of updateList) {
-            obj.update(timeStamp);
-        }
-    }
-
     // Add X-Z aligned terrain to the environment
     setupTerrain(terrainWidth, terrainHeight) {
         const terrain = new Terrain(terrainWidth, terrainHeight);
@@ -79,13 +62,15 @@ class MainScene extends Scene {
 
     // Add ball to the environment
     setupBall() {
-        const ball = new Ball();
-        this.ball = ball;
-        this.addToUpdateList(ball);
-        this.add(ball);
+        this.ball = new Ball(this);
+        this.add(this.ball);
 
         const rootPosition = this.terrain.position;
-        ball.position.set(rootPosition.x, ball.radius, rootPosition.z);
+        this.ball.position.set(
+            rootPosition.x,
+            this.ball.radius,
+            rootPosition.z
+        );
     }
 
     // Add bucket/hole to the environment
@@ -133,37 +118,9 @@ class MainScene extends Scene {
         });
     }
 
-    // Apply environmental forces
-    applyForces() {
-        this.applyGravity();
-        this.applyDrag();
-        // TODO: Drag, Wind,
-    }
-
     // Account for collisions between ball and given obstacles, environment, and terrain
     handleCollisions() {
         this.ball.handleFloorCollisions(this.terrain);
-    }
-
-    // Applies gravitational force to ball's trajectory
-    applyGravity() {
-        const GRAVITY = 9.8 * 10;
-        const gravity = new Vector3(0, -GRAVITY, 0);
-        const force = gravity.multiplyScalar(this.ball.mass);
-        this.ball.addForce(force);
-    }
-
-    // Applies drag force to ball's trajectory
-    applyDrag() {
-        const deltaT = 18 / 1000;
-        const v_part = this.ball.position.clone().sub(this.ball.previous);
-        const v = v_part.multiplyScalar(1 / deltaT);
-        const c_d = 0.25; // drag coeff
-        const a = 3.14; // Cross sectional area
-        const d = 1.21; // air density
-
-        const force = v.multiply(v).multiplyScalar(-(c_d * d * a) / 2);
-        this.ball.addForce(force);
     }
 
     // Callback function for keydown events
@@ -196,6 +153,21 @@ class MainScene extends Scene {
                 this.ball.shootBall(this.state.direction, this.state.power);
                 this.state.spaceBarDown = false;
             }
+        }
+    }
+
+    // Handle animations
+    addToUpdateList(object) {
+        this.state.updateList.push(object);
+    }
+
+    // Handle animations
+    update(timeStamp) {
+        const { updateList } = this.state;
+
+        // Call update for each object in the updateList
+        for (const obj of updateList) {
+            obj.update(timeStamp);
         }
     }
 }
