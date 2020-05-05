@@ -3,12 +3,12 @@ import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
 
 class Ball extends Group {
-    constructor(parent) {
+    constructor() {
         super();
 
         // Initialize state and ball properties
         this.state = {
-            netForce: new Vector3(),
+            
         };
         this.name = 'ball';
         this.mass = 10.0;
@@ -34,30 +34,25 @@ class Ball extends Group {
         this.add(ballMesh);
     }
 
-    // Adds specified force to ball's netForce vector
-    addForce(force) {
-        this.state.netForce.add(force);
-    }
-
     // Add a shooting force to the ball with the given power and direction
     shootBall(position, power) {
-        console.log(position, power);
-        this.addForce(new Vector3(60000, 50000, 0));
+        // Use Euler integration to simulate projectile motion
+
     }
 
     // Use verlet integration to animate ball trajectory
     update(timeStamp) {
-        const deltaT = 18 / 1000;
-        const x_t_dt = this.previous.clone();
-        this.previous = this.position.clone();
+        // const deltaT = 18 / 1000;
+        // const x_t_dt = this.previous.clone();
+        // this.previous = this.position.clone();
 
-        const x_t = this.position.clone();
-        const alpha_t = this.state.netForce.clone().divideScalar(this.mass);
-        const vert = x_t.clone().sub(x_t_dt).multiplyScalar(1);
-        this.position.add(vert);
-        this.position.add(alpha_t.multiplyScalar(deltaT * deltaT));
+        // const x_t = this.position.clone();
+        // const alpha_t = this.state.netForce.clone().divideScalar(this.mass);
+        // const vert = x_t.clone().sub(x_t_dt).multiplyScalar(1);
+        // this.position.add(vert);
+        // this.position.add(alpha_t.multiplyScalar(deltaT * deltaT));
 
-        this.state.netForce = new Vector3(0, 0, 0);
+        // this.state.netForce = new Vector3(0, 0, 0);
     }
 
     // Handle collisions with the floor of the terrain
