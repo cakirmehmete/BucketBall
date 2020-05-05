@@ -1,15 +1,14 @@
 import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
+import SceneParams from '../../params';
 
 class Ball extends Group {
     constructor() {
         super();
 
         // Initialize state and ball properties
-        this.state = {
-            
-        };
+        this.state = {};
         this.name = 'ball';
         this.mass = 10.0;
         this.radius = 1.5;
@@ -35,26 +34,17 @@ class Ball extends Group {
     }
 
     // Add a shooting force to the ball with the given power and direction
+    /*
+    Adapted From: https://github.com/jcole/golf-shot-simulation
+    */
     shootBall(position, power) {
         // Use Euler integration to simulate projectile motion
-
+        while (true) {
+            // Velocity using acceleration
+            // Spin
+        }
     }
-
-    // Use verlet integration to animate ball trajectory
-    update(timeStamp) {
-        // const deltaT = 18 / 1000;
-        // const x_t_dt = this.previous.clone();
-        // this.previous = this.position.clone();
-
-        // const x_t = this.position.clone();
-        // const alpha_t = this.state.netForce.clone().divideScalar(this.mass);
-        // const vert = x_t.clone().sub(x_t_dt).multiplyScalar(1);
-        // this.position.add(vert);
-        // this.position.add(alpha_t.multiplyScalar(deltaT * deltaT));
-
-        // this.state.netForce = new Vector3(0, 0, 0);
-    }
-
+    
     // Handle collisions with the floor of the terrain
     handleFloorCollisions(terrain) {
         const ballXCoord = this.position.x;
