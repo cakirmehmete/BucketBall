@@ -2,7 +2,6 @@ import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
 
-
 class Ball extends Group {
     constructor(parent) {
         super();
@@ -17,14 +16,19 @@ class Ball extends Group {
         this.previous = this.position;
 
         const segmentSize = 32;
-        const ballGeometry = new SphereGeometry(this.radius, segmentSize, segmentSize);
+        const ballGeometry = new SphereGeometry(
+            this.radius,
+            segmentSize,
+            segmentSize
+        );
 
         const loader = new TextureLoader();
         const golfBumpMap = loader.load('src/resources/golfbumpmap.jpg');
+        // const golfNormalMap = loader.load('src/resources/golfnormalmap.jpg');
         const ballMaterial = new MeshStandardMaterial({
             color: 0xffffff,
             metalness: 0.3,
-            bumpMap: golfBumpMap
+            bumpMap: golfBumpMap,
         });
         const ballMesh = new Mesh(ballGeometry, ballMaterial);
         this.add(ballMesh);

@@ -24,7 +24,10 @@ class Bucket extends Group {
 
         // Create a bucket using an open-ended cylinder
         const segmentSize = 32;
-        const bucketGeometry = new CircleBufferGeometry(this.radius, segmentSize);
+        const bucketGeometry = new CircleBufferGeometry(
+            this.radius,
+            segmentSize
+        );
         const bucketMaterial = new MeshStandardMaterial({
             color: 0x000000,
             metalness: 0.3,
