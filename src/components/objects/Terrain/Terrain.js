@@ -20,8 +20,7 @@ class Terrain extends Group {
 
         // Seed the noise so that the hills are randomized at a given time
         const date = new Date();
-        const noise = new Noise();
-        noise.seed(date.getMilliseconds());
+        const noise = new Noise(date.getMilliseconds());
 
         // Generate a hill-like terrain using a custom geometry
         const terrainGeometry = new Geometry();
@@ -60,7 +59,7 @@ class Terrain extends Group {
         const loader = new TextureLoader();
         const terrainMaterial = new MeshStandardMaterial({
             color: 0x315e00,
-            map: loader.load('src/resources/grass.jpeg'),
+            map: loader.load('src/resources/grass.png'),
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
         terrainMesh.translateX(-this.terrainWidth / 2);
