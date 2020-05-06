@@ -63,8 +63,8 @@ class Ball extends Group {
     */
     shootBall(position, power) {
         // initial shot attributes
-        let initSpeedMPH = 50;
-        let initVerticalAngleDegrees = 22;
+        let initSpeedMPH = 20;
+        let initVerticalAngleDegrees = 50;
         let initHorizontalAngleDegrees = 9;
         let initBackspinRPM = 3000;
         let initSpinAngle = 45;
@@ -103,6 +103,8 @@ class Ball extends Group {
             withinTerrainHeight &&
             ballYCoord < terrain.terrainDepth + ballRadius
         ) {
+            this.state.velocity.y = 0;
+            this.state.acceleration.y = 0;
             this.position.set(ballXCoord, ballRadius, ballZCoord);
         }
     }
