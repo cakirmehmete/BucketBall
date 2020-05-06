@@ -18,6 +18,9 @@ class Terrain extends Group {
         this.zSpacing = 1.0;
         this.maxHeight = 2.0;
 
+        // Use Perlin Noise to randomly generate a hill-like terrain on given
+        // parts of the field. Adapted from http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
+
         // Seed the noise so that the hills are randomized at a given time
         const date = new Date();
         const noise = new Noise(date.getMilliseconds());

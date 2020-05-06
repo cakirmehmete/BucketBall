@@ -53,15 +53,17 @@ class MainScene extends Scene {
 
         // Populate GUI
         let slider = this.state.gui.add(this.state, 'power', 1, 10);
-        slider.onChange(function () {
-            this.arrow.updateShotDirectionPower(
-                this.ball.position,
-                0,
-                0,
-                this.state.power
-            );
-            this.ball.updateShotDirectionPower(0, 0, this.state.power);
-        }.bind(this));
+        slider.onChange(
+            function () {
+                this.arrow.updateShotDirectionPower(
+                    this.ball.position,
+                    0,
+                    0,
+                    this.state.power
+                );
+                this.ball.updateShotDirectionPower(0, 0, this.state.power);
+            }.bind(this)
+        );
     }
 
     // Add X-Z aligned terrain to the environment
@@ -154,9 +156,11 @@ class MainScene extends Scene {
             const minXPosition = -this.terrain.terrainWidth / 2 + crateSize;
             const maxZPosition = this.terrain.terrainHeight / 2 - crateSize;
             const minZPosition = -this.terrain.terrainHeight / 2 + crateSize;
-            const xPos = Math.random() * (maxXPosition - minXPosition) + minXPosition;
+            const xPos =
+                Math.random() * (maxXPosition - minXPosition) + minXPosition;
             const yPos = crateSize / 2;
-            const zPos = Math.random() * (maxZPosition - minZPosition) + minZPosition;
+            const zPos =
+                Math.random() * (maxZPosition - minZPosition) + minZPosition;
             crate.position.set(xPos, yPos, zPos);
             crate.rotateY(Math.random() * Math.PI);
         });

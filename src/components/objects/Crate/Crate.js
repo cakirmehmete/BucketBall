@@ -12,7 +12,11 @@ class Crate extends Group {
         this.depth = size;
         this.name = 'crate';
 
-        const crateGeometry = new BoxGeometry(this.width, this.height, this.depth);
+        const crateGeometry = new BoxGeometry(
+            this.width,
+            this.height,
+            this.depth
+        );
 
         const loader = new TextureLoader();
         const crateMaterial = new MeshStandardMaterial({

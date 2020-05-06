@@ -24,7 +24,7 @@ class Bucket extends Group {
             loader.setMaterials(material).load(MODEL, (obj) => {
                 obj.scale.set(25, 30, 25);
                 obj.position.set(1.0, 15.0, 1.0);
-                obj.rotateY(-Math.PI/4);
+                obj.rotateY(-Math.PI / 4);
                 this.add(obj);
             });
         });
