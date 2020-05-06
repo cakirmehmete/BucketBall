@@ -19,6 +19,10 @@ class Ball extends Group {
             angVelocity: new Vector3(),
             acceleration: new Vector3(),
             shot: false, // Was the golf ball shot?
+            projPos: [],
+            speedMPH: 30,
+            verticalAngleDegrees: 135,
+            horizontalAngleDegrees: 0,
         };
         this.name = 'ball';
         this.radius = 1.5;
@@ -52,28 +56,33 @@ class Ball extends Group {
                 this.state.velocity,
                 this.state.angVelocity,
                 this.position,
-                this.radius
+                this.state.projPos
             );
         }
+    }
+
+    updateShotDirectionPower(changeX, changeY, power) {
+        this.state.projPos = [];
+        this.state.verticalAngleDegrees += changeY;
+        this.state.horizontalAngleDegrees += changeX;
+        this.state.speedMPH = power * 10;
+        console.log(this.state.verticalAngleDegrees);
     }
 
     // Add a shooting force to the ball with the given power and direction
     /*
     Adapted From: https://github.com/jcole/golf-shot-simulation
     */
-    shootBall(position, power) {
+    shootBall() {
         // initial shot attributes
-        let initSpeedMPH = 20;
-        let initVerticalAngleDegrees = 50;
-        let initHorizontalAngleDegrees = 9;
         let initBackspinRPM = 3000;
-        let initSpinAngle = 45;
+        let initSpinAngle = 0;
         // Initial velocity
         this.state.velocity = calculateInitialVelocity(
-            initSpeedMPH,
+            this.state.speedMPH,
             SceneParams.SMASH,
-            initVerticalAngleDegrees,
-            initHorizontalAngleDegrees
+            this.state.verticalAngleDegrees,
+            this.state.horizontalAngleDegrees
         );
 
         // Initial spin
@@ -83,6 +92,18 @@ class Ball extends Group {
         );
 
         this.state.shot = true;
+    }
+
+    calculateTrajectory() {
+        this.shootBall();
+        for (var i = 0; i < 100; i++) {
+            projectShot(
+                this.state.velocity,
+                this.state.angVelocity,
+                this.position,
+                this.state.projPos
+            );
+        }
     }
 
     // Handle collisions with the floor of the terrain

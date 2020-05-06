@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper, Vector3 } from 'three';
 import { Ball, Terrain, Cloud, Bucket } from 'objects';
 import { BasicLights } from 'lights';
+import Arrow from '../objects/Arrow/Arrow';
 
 class MainScene extends Scene {
     constructor() {
@@ -36,6 +37,7 @@ class MainScene extends Scene {
         this.setupClouds(this.terrain.terrainDepth);
         this.setupBall();
         this.setupBucket();
+        this.setupArrow();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -118,6 +120,18 @@ class MainScene extends Scene {
         });
     }
 
+    setupArrow() {
+        const arrow = new Arrow(this, this.ball.position);
+        this.add(arrow);
+        arrow.updateShotDirectionPower(
+            this.ball.position,
+            0,
+            0,
+            this.ball.state.speedMPH/10
+        );
+        this.arrow = arrow;
+    }
+
     // Account for collisions between ball and given obstacles, environment, and terrain
     handleCollisions() {
         this.ball.handleFloorCollisions(this.terrain);
@@ -125,18 +139,44 @@ class MainScene extends Scene {
 
     // Callback function for keydown events
     handleKeyDownEvents(event) {
+        let offset = 2;
+        let power = 3;
         if (event.key === 'w') {
             // Up
-            console.log('Up');
+            this.arrow.updateShotDirectionPower(
+                this.ball.position,
+                0,
+                -offset,
+                power
+            );
+            this.ball.updateShotDirectionPower(0, -offset, power);
         } else if (event.key === 's') {
             // Down
-            console.log('Down');
+            this.arrow.updateShotDirectionPower(
+                this.ball.position,
+                0,
+                offset,
+                power
+            );
+            this.ball.updateShotDirectionPower(0, offset, power);
         } else if (event.key === 'a') {
             // Left
-            console.log('Left');
+            this.arrow.updateShotDirectionPower(
+                this.ball.position,
+                offset,
+                0,
+                power
+            );
+            this.ball.updateShotDirectionPower(offset, 0, power);
         } else if (event.key === 'd') {
             // Right
-            console.log('Right');
+            this.arrow.updateShotDirectionPower(
+                this.ball.position,
+                -offset,
+                0,
+                power
+            );
+            this.ball.updateShotDirectionPower(-offset, 0, power);
         } else if (event.key === ' ') {
             // Power
             if (!this.state.spaceBarDown) {
@@ -150,6 +190,7 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
+                this.arrow.cleanUp();
                 this.ball.shootBall(this.state.direction, this.state.power);
                 this.state.spaceBarDown = false;
             }

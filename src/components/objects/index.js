@@ -4,3 +4,4 @@ export * from './Terrain';
 export * from './Ball';
 export * from './Cloud';
 export * from './Bucket';
+export * from './Arrow';

@@ -74,7 +74,7 @@ function calculateAngularDecay(angVelocity) {
 /*
     Adapted From: https://github.com/jcole/golf-shot-simulation
 */
-export function projectShot(velocity, angVelocity, position, radius) {
+export function projectShot(velocity, angVelocity, position, projPos) {
     // Use Euler integration to simulate projectile motion
         // Acceleration
         let acceleration = calculateAcceleration(velocity, angVelocity);
@@ -82,6 +82,7 @@ export function projectShot(velocity, angVelocity, position, radius) {
         // Velocity
         velocity.add(acceleration.clone().multiplyScalar(SceneParams.TIMESTEP));
         position.add(velocity.clone().multiplyScalar(SceneParams.TIMESTEP));
+        projPos.push(position.clone());
 
         // Spin
         let decay = calculateAngularDecay(angVelocity);
