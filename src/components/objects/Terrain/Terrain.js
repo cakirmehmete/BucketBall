@@ -1,6 +1,6 @@
 import { Group, Vector3, Face3, Vector2 } from 'three';
 import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
-import { PlaneBufferGeometry, BoxBufferGeometry, Geometry } from 'three';
+import { BoxBufferGeometry, Geometry } from 'three';
 import { Noise } from 'noisejs';
 
 class Terrain extends Group {

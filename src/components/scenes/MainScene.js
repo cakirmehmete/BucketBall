@@ -164,11 +164,12 @@ class MainScene extends Scene {
     // Handle animations
     update(timeStamp) {
         const { updateList } = this.state;
-
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        this.handleCollisions();
     }
 }
 

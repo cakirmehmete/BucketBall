@@ -39,5 +39,5 @@ class Params {
     }
 }
 
-var SceneParams = new Params();
+const SceneParams = new Params();
 export default SceneParams;
