@@ -18,8 +18,7 @@ class MainScene extends Scene {
 
             // Direction/Power for golf ball
             spaceBarDown: false,
-            power: 1,
-            direction: new Vector3(1, 1, 1),
+            power: 3,
         };
         this.terrain = null;
         this.ball = null;
@@ -53,7 +52,15 @@ class MainScene extends Scene {
         );
 
         // Populate GUI
-        this.state.gui.add(this.state, 'power', 1, 10);
+        let slider = this.state.gui.add(this.state, 'power', 1, 10);
+        slider.onChange(function () {
+            this.arrow.updateShotDirectionPower(
+                this.ball.position,
+                0,
+                0,
+                this.state.power
+            );
+        }.bind(this));
     }
 
     // Add X-Z aligned terrain to the environment
@@ -128,11 +135,11 @@ class MainScene extends Scene {
             this.ball.position,
             0,
             0,
-            this.ball.state.speedMPH/10
+            this.state.power
         );
         this.arrow = arrow;
     }
-    
+
     setupCrates() {
         const crateSize = 10.0;
         const crates = [];
@@ -166,7 +173,7 @@ class MainScene extends Scene {
     // Callback function for keydown events
     handleKeyDownEvents(event) {
         let offset = 2;
-        let power = 3;
+        let power = this.state.power;
         if (event.key === 'w') {
             // Up
             this.arrow.updateShotDirectionPower(
@@ -217,7 +224,7 @@ class MainScene extends Scene {
             // Power
             if (this.state.spaceBarDown) {
                 this.arrow.cleanUp();
-                this.ball.shootBall(this.state.direction, this.state.power);
+                this.ball.shootBall();
                 this.state.spaceBarDown = false;
             }
         }

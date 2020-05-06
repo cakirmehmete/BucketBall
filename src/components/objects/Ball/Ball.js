@@ -66,7 +66,6 @@ class Ball extends Group {
         this.state.verticalAngleDegrees += changeY;
         this.state.horizontalAngleDegrees += changeX;
         this.state.speedMPH = power * 10;
-        console.log(this.state.verticalAngleDegrees);
     }
 
     // Add a shooting force to the ball with the given power and direction
