@@ -14,18 +14,20 @@ class Bucket extends Group {
         this.state = {};
         this.name = 'bucket';
         this.radius = 3.0;
+        this.flag = null;
 
-        // const loader = new OBJLoader();
-        // const mtlLoader = new MTLLoader();
-        // mtlLoader.setResourcePath('src/components/objects/Bucket/');
-        // mtlLoader.load(MAT, (material) => {
-        //     material.preload();
-        //     loader.setMaterials(material).load(MODEL, (obj) => {
-        //         obj.scale.set(100, 100, 100);
-        //         obj.position.set(0, 0, 0);
-        //         this.add(obj);
-        //     });
-        // });
+        const loader = new OBJLoader();
+        const mtlLoader = new MTLLoader();
+        mtlLoader.setResourcePath('src/components/objects/Bucket/');
+        mtlLoader.load(MAT, (material) => {
+            material.preload();
+            loader.setMaterials(material).load(MODEL, (obj) => {
+                obj.scale.set(25, 30, 25);
+                obj.position.set(1.0, 15.0, 1.0);
+                obj.rotateY(-Math.PI/4);
+                this.add(obj);
+            });
+        });
 
         // Create a bucket using an open-ended cylinder
         const segmentSize = 32;
