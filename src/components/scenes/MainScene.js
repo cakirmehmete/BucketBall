@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper, Vector3 } from 'three';
-import { Ball, Terrain, Cloud, Bucket } from 'objects';
+import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
 
 class MainScene extends Scene {
@@ -36,6 +36,7 @@ class MainScene extends Scene {
         this.setupClouds(this.terrain.terrainDepth);
         this.setupBall();
         this.setupBucket();
+        this.setupCrates();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -115,6 +116,31 @@ class MainScene extends Scene {
 
         clouds.forEach((cloud) => {
             this.add(cloud);
+        });
+    }
+
+    setupCrates() {
+        const crateSize = 10.0;
+        const crates = [];
+        for (let i = 0; i < 7; i++) {
+            const crate = new Crate(crateSize);
+            crates.push(crate);
+        }
+
+        crates.forEach((crate, index) => {
+            const maxXPosition = this.terrain.terrainWidth / 2 - crateSize;
+            const minXPosition = -this.terrain.terrainWidth / 2 + crateSize;
+            const maxZPosition = this.terrain.terrainHeight / 2 - crateSize;
+            const minZPosition = -this.terrain.terrainHeight / 2 + crateSize;
+            const xPos = Math.random() * (maxXPosition - minXPosition) + minXPosition;
+            const yPos = crateSize / 2;
+            const zPos = Math.random() * (maxZPosition - minZPosition) + minZPosition;
+            crate.position.set(xPos, yPos, zPos);
+            crate.rotateY(Math.random() * Math.PI);
+        });
+
+        crates.forEach((crate) => {
+            this.add(crate);
         });
     }
 
