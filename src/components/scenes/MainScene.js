@@ -60,6 +60,7 @@ class MainScene extends Scene {
                 0,
                 this.state.power
             );
+            this.ball.updateShotDirectionPower(0, 0, this.state.power);
         }.bind(this));
     }
 
