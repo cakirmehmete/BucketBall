@@ -27,12 +27,12 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-// // Add slider
-// const slider = document.createElement("input");
-// slider.setAttribute("type", "range");
-// slider.setAttribute('min', 0);
-// slider.setAttribute('max', 100);
-// document.body.appendChild(slider);
+// Add slider
+const slider = document.createElement("input");
+slider.setAttribute("type", "range");
+slider.setAttribute('min', 0);
+slider.setAttribute('max', 100);
+document.body.appendChild(slider);
 
 
 // Set up controls
