@@ -9,7 +9,7 @@ class Cloud extends Group {
         // Init state
         this.state = {};
 
-        // Load object
+        // Load cloud object
         const loader = new GLTFLoader();
         this.name = 'cloud';
         loader.load(MODEL, (gltf) => {
