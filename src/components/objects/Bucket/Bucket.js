@@ -1,8 +1,10 @@
 import { Group } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { CircleBufferGeometry } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './flag.gltf';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import MODEL from './flag.obj';
+import MAT from './flag.mtl';
 
 class Bucket extends Group {
     constructor() {
@@ -13,14 +15,17 @@ class Bucket extends Group {
         this.name = 'bucket';
         this.radius = 3.0;
 
-        // Load flag mesh
-        const loader = new GLTFLoader();
-        this.name = 'bucket';
-        loader.load(MODEL, (gltf) => {
-            const flagMesh = gltf.scene;
-            flagMesh.scale.set(2, 2, 2);
-            this.add(flagMesh);
-        });
+        // const loader = new OBJLoader();
+        // const mtlLoader = new MTLLoader();
+        // mtlLoader.setResourcePath('src/components/objects/Bucket/');
+        // mtlLoader.load(MAT, (material) => {
+        //     material.preload();
+        //     loader.setMaterials(material).load(MODEL, (obj) => {
+        //         obj.scale.set(100, 100, 100);
+        //         obj.position.set(0, 0, 0);
+        //         this.add(obj);
+        //     });
+        // });
 
         // Create a bucket using an open-ended cylinder
         const segmentSize = 32;
