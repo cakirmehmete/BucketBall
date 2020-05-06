@@ -131,6 +131,8 @@ class MainScene extends Scene {
             this.ball.state.speedMPH/10
         );
         this.arrow = arrow;
+    }
+    
     setupCrates() {
         const crateSize = 10.0;
         const crates = [];
