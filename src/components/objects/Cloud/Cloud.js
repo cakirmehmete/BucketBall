@@ -1,6 +1,8 @@
 import { Group } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './cloud.gltf';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import MODEL from './cloud.obj';
+import MAT from './cloud.mtl';
 
 class Cloud extends Group {
     constructor() {
@@ -9,15 +11,16 @@ class Cloud extends Group {
         // Init state
         this.state = {};
 
-        // Load cloud object
-        const loader = new GLTFLoader();
-        this.name = 'cloud';
-        loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
-        });
-
-        const randomScale = 5;
-        this.scale.set(randomScale, randomScale, randomScale);
+       const loader = new OBJLoader();
+       const mtlLoader = new MTLLoader();
+       mtlLoader.setResourcePath('src/components/objects/Cloud/');
+       mtlLoader.load(MAT, (material) => {
+           material.preload();
+           loader.setMaterials(material).load(MODEL, (obj) => {
+               obj.scale.set(5, 5, 5);
+               this.add(obj);
+           });
+       });
     }
 }
 
