@@ -1,6 +1,7 @@
 import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
+import golfBMTexture from '../../../resources/golfbumpmap.jpg';
 import {
     projectShot,
     calculateInitialVelocity,
@@ -35,7 +36,7 @@ class Ball extends Group {
         );
 
         const loader = new TextureLoader();
-        const golfBumpMap = loader.load('src/resources/golfbumpmap.jpg');
+        const golfBumpMap = loader.load(golfBMTexture);
         // const golfNormalMap = loader.load('src/resources/golfnormalmap.jpg');
         const ballMaterial = new MeshStandardMaterial({
             color: 0xffffff,

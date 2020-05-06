@@ -1,6 +1,7 @@
 import { Group, Vector3, Face3, Vector2 } from 'three';
 import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
 import { BoxBufferGeometry, Geometry } from 'three';
+import grassTexture from '../../../resources/grass.png';
 import { Noise } from 'noisejs';
 
 class Terrain extends Group {
@@ -62,7 +63,7 @@ class Terrain extends Group {
         const loader = new TextureLoader();
         const terrainMaterial = new MeshStandardMaterial({
             color: 0x315e00,
-            map: loader.load('src/resources/grass.png'),
+            map: loader.load(grassTexture),
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
         terrainMesh.translateX(-this.terrainWidth / 2);

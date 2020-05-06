@@ -1,5 +1,7 @@
 import { Group, TextureLoader } from 'three';
 import { BoxGeometry, MeshStandardMaterial, Mesh } from 'three';
+import crateNormalTexture from '../../../resources/crate0_normal.png';
+import crateDiffuseTexture from '../../../resources/crate0_diffuse.png';
 
 class Crate extends Group {
     constructor(size) {
@@ -22,8 +24,8 @@ class Crate extends Group {
         const crateMaterial = new MeshStandardMaterial({
             roughness: 0.8,
             metalness: 0.0,
-            map: loader.load('src/resources/crate0_diffuse.png'),
-            normalMap: loader.load('src/resources/crate0_normal.png'),
+            map: loader.load(crateDiffuseTexture),
+            normalMap: loader.load(crateNormalTexture),
         });
         const crateMesh = new Mesh(crateGeometry, crateMaterial);
         this.add(crateMesh);
