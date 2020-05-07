@@ -23,8 +23,6 @@ class MainScene extends Scene {
             power: 3,
         };
 
-        this.world = new World();
-        this.world.broadphase = new NaiveBroadphase();
         this.terrain = null;
         this.ball = null;
         this.bucket = null;
