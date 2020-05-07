@@ -1,4 +1,4 @@
-import { Group, Vector3, Face3, Vector2 } from 'three';
+import { Group, Vector3, Face3 } from 'three';
 import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
 import { BoxBufferGeometry, Geometry } from 'three';
 import grassTexture from '../../../resources/grass.png';
@@ -119,14 +119,15 @@ class Terrain extends Group {
         const sidePosition = this.terrainWidth / 2 + boxWidth / 2;
         const fbPosition = this.terrainHeight / 2 + boxWidth / 2;
         borderRightMesh.position.set(sidePosition - EPS, boxDepth / 2, 0);
-        borderLeftMesh.position.set(-sidePosition, boxDepth / 2, 0);
-        borderTopMesh.position.set(0, boxDepth / 2, -fbPosition);
+        borderLeftMesh.position.set(-sidePosition + EPS, boxDepth / 2, 0);
+        borderTopMesh.position.set(0, boxDepth / 2, -fbPosition + EPS);
         borderBottomMesh.position.set(0, boxDepth / 2, fbPosition - EPS);
 
         this.add(borderLeftMesh);
         this.add(borderRightMesh);
         this.add(borderTopMesh);
         this.add(borderBottomMesh);
+        console.log(borderLeftMesh);
     }
 }
 

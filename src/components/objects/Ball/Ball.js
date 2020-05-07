@@ -1,7 +1,6 @@
 import { Group, Vector3, TextureLoader } from 'three';
 import { MeshStandardMaterial, Mesh } from 'three';
 import { SphereGeometry } from 'three';
-import { Box3 } from 'three';
 import golfBMTexture from '../../../resources/golfbumpmap.jpg';
 import {
     projectShot,
@@ -77,8 +76,8 @@ class Ball extends Group {
     */
     shootBall() {
         // initial shot attributes
-        let initBackspinRPM = 3000;
-        let initSpinAngle = 0;
+        const initBackspinRPM = 3000;
+        const initSpinAngle = 0;
         // Initial velocity
         this.state.velocity = calculateInitialVelocity(
             this.state.speedMPH,
@@ -98,7 +97,7 @@ class Ball extends Group {
 
     calculateTrajectory() {
         this.shootBall();
-        for (var i = 0; i < 100; i++) {
+        for (let i = 0; i < 100; i++) {
             projectShot(
                 this.state.velocity,
                 this.state.angVelocity,

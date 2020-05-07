@@ -1,7 +1,8 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper, Vector3 } from 'three';
+import { Scene, Color, AxesHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
+import { World, Sphere, Box, Vec3 } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 
 class MainScene extends Scene {
@@ -23,6 +24,7 @@ class MainScene extends Scene {
         this.terrain = null;
         this.ball = null;
         this.bucket = null;
+        this.crates = [];
 
         // Set background to a light blue to represent sky
         this.background = new Color(0x87ceeb);
@@ -32,6 +34,7 @@ class MainScene extends Scene {
 
         this.add(lights, axesHelper);
 
+        // Initialize different objects and place them accordingly in the scene
         this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
         this.setupClouds(this.terrain.terrainDepth);
         this.setupBall();
@@ -54,7 +57,7 @@ class MainScene extends Scene {
         // Populate GUI
         const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
-            function() {
+            function () {
                 this.arrow.updateShotDirectionPower(
                     this.ball.position,
                     0,
@@ -110,20 +113,14 @@ class MainScene extends Scene {
         }
 
         clouds.forEach((cloud, index) => {
-            const cloudDepth = Math.floor(Math.random() * (125.0 - 10.0) + 10.0);
-            const cloudWidth = Math.floor(Math.random() * (150.0));
+            const cloudDepth = Math.floor(
+                Math.random() * (125.0 - 10.0) + 10.0
+            );
+            const cloudWidth = Math.floor(Math.random() * 150.0);
             if (index < clouds.length / 2) {
-                cloud.position.set(
-                    -cloudWidth,
-                    cloudHeight,
-                    -cloudDepth
-                );
+                cloud.position.set(-cloudWidth, cloudHeight, -cloudDepth);
             } else {
-                cloud.position.set(
-                    cloudWidth,
-                    cloudHeight,
-                    -cloudDepth
-                );
+                cloud.position.set(cloudWidth, cloudHeight, -cloudDepth);
             }
             this.add(cloud);
         });
@@ -149,7 +146,7 @@ class MainScene extends Scene {
             crates.push(crate);
         }
 
-        crates.forEach((crate, index) => {
+        crates.forEach((crate) => {
             const maxXPosition = this.terrain.terrainWidth / 2 - crateSize;
             const minXPosition = -this.terrain.terrainWidth / 2 + crateSize;
             const maxZPosition = this.terrain.terrainHeight / 2 - crateSize;
@@ -160,7 +157,7 @@ class MainScene extends Scene {
             const zPos =
                 Math.random() * (maxZPosition - minZPosition) + minZPosition;
             crate.position.set(xPos, yPos, zPos);
-            crate.rotateY(Math.random() * Math.PI);
+            // crate.rotateY(Math.random() * Math.PI);
         });
 
         crates.forEach((crate) => {
@@ -175,8 +172,8 @@ class MainScene extends Scene {
 
     // Callback function for keydown events
     handleKeyDownEvents(event) {
-        let offset = 2;
-        let power = this.state.power;
+        const offset = 2;
+        const power = this.state.power;
         if (event.key === 'w') {
             // Up
             this.arrow.updateShotDirectionPower(
