@@ -52,9 +52,9 @@ class MainScene extends Scene {
         );
 
         // Populate GUI
-        let slider = this.state.gui.add(this.state, 'power', 1, 10);
+        const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
-            function () {
+            function() {
                 this.arrow.updateShotDirectionPower(
                     this.ball.position,
                     0,
@@ -102,31 +102,29 @@ class MainScene extends Scene {
 
     // Add randomized clouds to the environment
     setupClouds() {
-        const baseDepth = this.terrain.terrainDepth;
         const clouds = [];
-        const cloudHeight = baseDepth + 100.0;
-        for (let i = 0; i < 5; i++) {
+        const cloudHeight = this.terrain.terrainDepth + 100.0;
+        for (let i = 0; i < 8; i++) {
             const cloud = new Cloud();
             clouds.push(cloud);
         }
 
         clouds.forEach((cloud, index) => {
+            const cloudDepth = Math.floor(Math.random() * (125.0 - 10.0) + 10.0);
+            const cloudWidth = Math.floor(Math.random() * (150.0));
             if (index < clouds.length / 2) {
                 cloud.position.set(
-                    -index * 125.0,
+                    -cloudWidth,
                     cloudHeight,
-                    Math.random() * 50.0
+                    -cloudDepth
                 );
             } else {
                 cloud.position.set(
-                    (index - clouds.length / 2) * 125.0,
+                    cloudWidth,
                     cloudHeight,
-                    Math.random() * -50.0
+                    -cloudDepth
                 );
             }
-        });
-
-        clouds.forEach((cloud) => {
             this.add(cloud);
         });
     }

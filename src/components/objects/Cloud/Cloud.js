@@ -17,7 +17,7 @@ class Cloud extends Group {
        mtlLoader.load(MAT, (material) => {
            material.preload();
            loader.setMaterials(material).load(MODEL, (obj) => {
-               obj.scale.set(5, 5, 5);
+               obj.scale.set(5.0, 5.0, 5.0);
                this.add(obj);
            });
        });
