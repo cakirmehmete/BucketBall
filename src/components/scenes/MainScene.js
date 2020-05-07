@@ -191,7 +191,7 @@ class MainScene extends Scene {
 
     // Account for collisions between ball and given obstacles, environment, and terrain
     handleCollisions() {
-        //this.ball.handleFloorCollisions(this.terrain);
+        this.ball.handleFloorCollisions(this.terrain);
     }
 
     // Callback function for keydown events
