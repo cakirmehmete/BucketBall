@@ -146,7 +146,7 @@ class MainScene extends Scene {
     setupCrates() {
         const crateSize = 10.0;
         const crates = [];
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 5; i++) {
             const crate = new Crate(crateSize);
             crates.push(crate);
         }
