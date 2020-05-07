@@ -2,8 +2,9 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
-import { World, Sphere, Box, Vec3 } from 'cannon';
+import { World, Sphere, Plane, NaiveBroadphase, Body } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
+import SceneParams from '../params';
 
 class MainScene extends Scene {
     constructor() {
@@ -25,6 +26,14 @@ class MainScene extends Scene {
         this.ball = null;
         this.bucket = null;
         this.crates = [];
+
+        // Setup Collisions
+        this.world = new World();
+        this.world.broadphase = new NaiveBroadphase();
+        this.cannonDebugRenderer = new THREE.CannonDebugRenderer(
+            this,
+            this.world
+        );
 
         // Set background to a light blue to represent sky
         this.background = new Color(0x87ceeb);
@@ -74,6 +83,10 @@ class MainScene extends Scene {
         const terrain = new Terrain(terrainWidth, terrainHeight);
         this.add(terrain);
         this.terrain = terrain;
+
+        var groundShape = new Plane();
+        var groundBody = new Body({ mass: 0, shape: groundShape });
+        this.world.add(groundBody);
     }
 
     // Add ball to the environment
@@ -87,6 +100,17 @@ class MainScene extends Scene {
             this.ball.radius,
             rootPosition.z
         );
+
+        var mass = 5,
+            radius = 1.5;
+        var sphereShape = new Sphere(radius); // Step 1
+        var sphereBody = new Body({ mass: mass, shape: sphereShape }); // Step 2
+        sphereBody.position.set(
+            rootPosition.x,
+            this.ball.radius,
+            rootPosition.z
+        );
+        this.world.add(sphereBody); // Step 3
     }
 
     // Add bucket/hole to the environment
@@ -167,7 +191,7 @@ class MainScene extends Scene {
 
     // Account for collisions between ball and given obstacles, environment, and terrain
     handleCollisions() {
-        this.ball.handleFloorCollisions(this.terrain);
+        //this.ball.handleFloorCollisions(this.terrain);
     }
 
     // Callback function for keydown events
@@ -244,6 +268,9 @@ class MainScene extends Scene {
         }
 
         this.handleCollisions();
+
+        this.world.step(SceneParams.TIMESTEP); // Update physics
+        this.cannonDebugRenderer.update(); // Update the debug renderer
     }
 }
 

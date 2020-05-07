@@ -53,14 +53,12 @@ class Ball extends Group {
 
     update(timeStamp) {
         // Use Euler integration to simulate projectile motion
-        if (this.state.shot) {
-            projectShot(
-                this.state.velocity,
-                this.state.angVelocity,
-                this.position,
-                this.state.projPos
-            );
-        }
+        projectShot(
+            this.state.velocity,
+            this.state.angVelocity,
+            this.position,
+            this.state.projPos
+        );
     }
 
     updateShotDirectionPower(changeX, changeY, power) {
