@@ -2,7 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
-import { World, Sphere, Plane, NaiveBroadphase, Body } from 'cannon';
+import { World, Sphere, Box, Vec3, NaiveBroadphase, Body, Plane } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 
@@ -22,10 +22,12 @@ class MainScene extends Scene {
             spaceBarDown: false,
             power: 3,
         };
+
+        this.world = new World();
+        this.world.broadphase = new NaiveBroadphase();
         this.terrain = null;
         this.ball = null;
         this.bucket = null;
-        this.crates = [];
 
         // Setup Collisions
         this.world = new World();
@@ -93,7 +95,11 @@ class MainScene extends Scene {
     setupBall() {
         this.ball = new Ball(this);
         this.add(this.ball);
-
+        const ballMesh = this.ball.children[0];
+        const mass = 0.1;
+        const sphereShape = new Sphere(ballMesh.radius); // Step 1
+        const sphereBody = new Body({mass: mass, shape: sphereShape}); // Step 2
+        this.sphereBody = sphereBody;
         const rootPosition = this.terrain.position;
         this.ball.position.set(
             rootPosition.x,
@@ -101,15 +107,7 @@ class MainScene extends Scene {
             rootPosition.z
         );
 
-        var mass = 5,
-            radius = 1.5;
-        var sphereShape = new Sphere(radius); // Step 1
-        var sphereBody = new Body({ mass: mass, shape: sphereShape }); // Step 2
-        sphereBody.position.set(
-            rootPosition.x,
-            this.ball.radius,
-            rootPosition.z
-        );
+        sphereBody.position.set(this.ball.position.clone());
         this.world.add(sphereBody); // Step 3
     }
 
@@ -185,7 +183,13 @@ class MainScene extends Scene {
         });
 
         crates.forEach((crate) => {
+            const crateMesh = this.ball.children[0];
+            const mass = 1.0;
+            const boxShape = new Box(new Vec3(10.0, 10.0, 10.0)); // Step 1
+            const boxBody = new Body({mass: mass, shape: boxShape}); // Step 2
             this.add(crate);
+            boxBody.position.set(crateMesh.position.clone());
+            this.world.addBody(boxBody);
         });
     }
 
@@ -266,7 +270,8 @@ class MainScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-
+        this.sphereBody.position.set(this.ball.position.clone());
+        this.world.step(timeStamp);
         this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics

@@ -127,7 +127,6 @@ class Terrain extends Group {
         this.add(borderRightMesh);
         this.add(borderTopMesh);
         this.add(borderBottomMesh);
-        console.log(borderLeftMesh);
     }
 }
 
