@@ -96,7 +96,7 @@ class MainScene extends Scene {
         const ballMesh = this.ball.children[0];
         const mass = 0.1;
         const sphereShape = new Sphere(ballMesh.radius); // Step 1
-        const sphereBody = new Body({mass: mass, shape: sphereShape}); // Step 2
+        const sphereBody = new Body({ mass: mass, shape: sphereShape }); // Step 2
         this.sphereBody = sphereBody;
         const rootPosition = this.terrain.position;
         this.ball.position.set(
@@ -105,7 +105,11 @@ class MainScene extends Scene {
             rootPosition.z
         );
 
-        sphereBody.position.set(this.ball.position.clone());
+        sphereBody.position.set(
+            rootPosition.x,
+            this.ball.radius,
+            rootPosition.z
+        );
         this.world.add(sphereBody); // Step 3
     }
 
@@ -184,7 +188,7 @@ class MainScene extends Scene {
             const crateMesh = this.ball.children[0];
             const mass = 1.0;
             const boxShape = new Box(new Vec3(10.0, 10.0, 10.0)); // Step 1
-            const boxBody = new Body({mass: mass, shape: boxShape}); // Step 2
+            const boxBody = new Body({ mass: mass, shape: boxShape }); // Step 2
             this.add(crate);
             boxBody.position.set(crateMesh.position.clone());
             this.world.addBody(boxBody);
@@ -268,8 +272,7 @@ class MainScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-        this.sphereBody.position.set(this.ball.position.clone());
-        this.world.step(timeStamp);
+        //this.sphereBody.position.set(this.ball.position.clone());
         this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
