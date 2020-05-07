@@ -83,10 +83,6 @@ class MainScene extends Scene {
         const terrain = new Terrain(terrainWidth, terrainHeight);
         this.add(terrain);
         this.terrain = terrain;
-
-        var groundShape = new Plane();
-        var groundBody = new Body({ mass: 0, shape: groundShape });
-        this.world.add(groundBody);
     }
 
     // Add ball to the environment
