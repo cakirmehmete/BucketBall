@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper } from 'three';
+import { Scene, Color, AxesHelper, Vector3 } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
 import { World, Sphere, Box, Vec3, NaiveBroadphase, Body } from 'cannon';
@@ -25,12 +25,14 @@ class MainScene extends Scene {
 
         this.terrain = null;
         this.ball = null;
+        this.ballBody = null;
         this.bucket = null;
 
-        // Setup Collisions
+        // Setup physical world using CannonJS
         this.world = new World();
         this.world.broadphase = new NaiveBroadphase();
-        this.world.gravity.set(0, -9.82, 0);
+        this.world.gravity.set(0, 0, 0);
+        this.world.solver.iterations = 10;
         this.cannonDebugRenderer = new THREE.CannonDebugRenderer(
             this,
             this.world
@@ -86,14 +88,14 @@ class MainScene extends Scene {
         this.terrain = terrain;
 
         const groundShape = new Box(
-            new Vec3(terrainWidth / 2, 0.01, terrainHeight / 2)
+            new Vec3(terrainWidth / 2, 100, terrainHeight / 2)
         );
         const groundBody = new Body({
             mass: 0,
             shape: groundShape,
-            position: new Vec3(0, 0, 0),
+            position: new Vec3(0, -100, 0), // hacky way to make sure ball doesnt fall through
         });
-        this.world.add(groundBody);
+        this.world.addBody(groundBody);
     }
 
     // Add ball to the environment
@@ -110,12 +112,12 @@ class MainScene extends Scene {
 
         // Add cannon body to ball
         const ballMesh = this.ball.children[0];
-        const mass = 0.1;
+        const mass = SceneParams.MASS;
         const ballShape = new Sphere(ballMesh.radius);
         const ballBody = new Body({
             mass: mass,
             shape: ballShape,
-            position: new Vec3(0, this.ball.position.y + 50, -125)
+            position: new Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z),
         });
         this.ballBody = ballBody;
         this.world.add(ballBody);
@@ -283,10 +285,11 @@ class MainScene extends Scene {
             obj.update(timeStamp);
         }
 
-        // const ballPos = this.ball.position.clone();
-        // this.ballBody.position.set(ballPos.x, ballPos.y, ballPos.z);
+        // // Copy coordinates from Cannon.js to Three.js
+        // this.ball.position.copy(this.ballBody.position);
+        // this.ball.quaternion.copy(this.ballBody.quaternion);
 
-        this.handleCollisions();
+        // this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer

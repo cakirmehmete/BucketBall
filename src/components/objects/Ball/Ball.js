@@ -27,7 +27,7 @@ class Ball extends Group {
         };
         this.name = 'ball';
         this.radius = 1.5;
-        this.boundingBox = null;
+        this.ballBody = null; // Set in the setupBall() function in main Scene
 
         const segmentSize = 32;
         const ballGeometry = new SphereGeometry(
