@@ -260,6 +260,7 @@ class MainScene extends Scene {
     animatePowerSlider(timeStamp) {
         this.state.power = 3;
         this.state.power = Math.ceil(5 * Math.sin(timeStamp / 200) + 5);
+        this.updateBallHelper(0,0, this.state.power);
     }
 
     // Handle animations
