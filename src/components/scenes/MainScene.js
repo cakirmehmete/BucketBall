@@ -30,6 +30,7 @@ class MainScene extends Scene {
         // Setup Collisions
         this.world = new World();
         this.world.broadphase = new NaiveBroadphase();
+        this.world.gravity.set(0, -9.82, 0);
         this.cannonDebugRenderer = new THREE.CannonDebugRenderer(
             this,
             this.world
@@ -111,11 +112,12 @@ class MainScene extends Scene {
         const ballMesh = this.ball.children[0];
         const mass = 0.1;
         const ballShape = new Sphere(ballMesh.radius);
-        const ballBody = new Body({ mass: mass, shape: ballShape });
+        const ballBody = new Body({
+            mass: mass,
+            shape: ballShape,
+            position: new Vec3(0, this.ball.position.y + 50, -125)
+        });
         this.ballBody = ballBody;
-
-        const ballPos = this.ball.position;
-        ballBody.position.set(ballPos.x, ballPos.y, ballPos.z);
         this.world.add(ballBody);
     }
 
@@ -284,7 +286,7 @@ class MainScene extends Scene {
         // const ballPos = this.ball.position.clone();
         // this.ballBody.position.set(ballPos.x, ballPos.y, ballPos.z);
 
-        // this.handleCollisions();
+        this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer

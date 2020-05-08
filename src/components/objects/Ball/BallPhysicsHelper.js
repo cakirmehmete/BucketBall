@@ -5,7 +5,7 @@ import SceneParams from '../../params';
     Adapted From: https://github.com/jcole/golf-shot-simulation
 */
 export function calculateInitialSpin(rpm, angle) {
-    let spin = new Vector3(0, 0, 0);
+    const spin = new Vector3(0, 0, 0);
     spin.x = -1;
     spin.y = Math.sin((angle * Math.PI) / 180);
     spin.normalize().multiplyScalar((rpm * 2 * Math.PI) / 60);
@@ -21,12 +21,12 @@ export function calculateInitialVelocity(
     verticalDeg,
     horizontalDeg
 ) {
-    let velocity = new Vector3(0, 0, 0);
+    const velocity = new Vector3(0, 0, 0);
     velocity.x = Math.sin((-1 * horizontalDeg * Math.PI) / 180);
     velocity.y = Math.sin((verticalDeg * Math.PI) / 180);
     velocity.z = Math.cos((verticalDeg * Math.PI) / 180);
 
-    let ballSpeed = speed * smashFactor * 0.44704;
+    const ballSpeed = speed * smashFactor * 0.44704;
 
     return velocity.normalize().multiplyScalar(ballSpeed);
 }
@@ -40,7 +40,7 @@ function calculateAcceleration(velocity, angVelocity) {
 
     // Drag Force
     let dragCoeff = SceneParams.DRAG * Math.min(1.0, 14 / velocity.length());
-    var drag = velocity
+    const drag = velocity
         .clone()
         .multiplyScalar(
             (-1 * dragCoeff * SceneParams.AIRDENSITY * SceneParams.AREA) /
@@ -48,13 +48,13 @@ function calculateAcceleration(velocity, angVelocity) {
         );
 
     // Magnus Force
-    var magnus = angVelocity
+    const magnus = angVelocity
         .clone()
         .cross(velocity)
         .multiplyScalar(SceneParams.LIFT / SceneParams.MASS);
 
     // Final Acceleration
-    var acceleration = new Vector3(0, 0, 0).add(gravity).add(drag).add(magnus);
+    const acceleration = new Vector3(0, 0, 0).add(gravity).add(drag).add(magnus);
 
     return acceleration;
 }
@@ -63,7 +63,7 @@ function calculateAcceleration(velocity, angVelocity) {
     Adapted From: https://github.com/jcole/golf-shot-simulation
 */
 function calculateAngularDecay(angVelocity) {
-    var decay = angVelocity.clone();
+    const decay = angVelocity.clone();
     decay
         .normalize()
         .negate()
@@ -77,7 +77,7 @@ function calculateAngularDecay(angVelocity) {
 export function projectShot(velocity, angVelocity, position, projPos) {
     // Use Euler integration to simulate projectile motion
     // Acceleration
-    let acceleration = calculateAcceleration(velocity, angVelocity);
+    const acceleration = calculateAcceleration(velocity, angVelocity);
 
     // Velocity
     velocity.add(acceleration.clone().multiplyScalar(SceneParams.TIMESTEP));
@@ -85,6 +85,6 @@ export function projectShot(velocity, angVelocity, position, projPos) {
     projPos.push(position.clone());
 
     // Spin
-    let decay = calculateAngularDecay(angVelocity);
+    const decay = calculateAngularDecay(angVelocity);
     angVelocity.add(decay);
 }
