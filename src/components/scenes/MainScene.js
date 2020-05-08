@@ -2,7 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
-import { World, Sphere, Box, Vec3, NaiveBroadphase, Body, Plane } from 'cannon';
+import { World, Sphere, Box, Vec3, NaiveBroadphase, Body } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 
@@ -80,26 +80,26 @@ class MainScene extends Scene {
 
     // Add X-Z aligned terrain to the environment
     setupTerrain(terrainWidth, terrainHeight) {
-        const terrain = new Terrain(terrainWidth, terrainHeight);
+        const terrain = new Terrain(terrainWidth, terrainHeight, this);
         this.add(terrain);
         this.terrain = terrain;
 
-        const groundShape = new Plane();
-        const groundBody = new Body({ mass: 0, shape: groundShape });
-        groundBody.quaternion.set(0, -1, 0);
+        const groundShape = new Box(
+            new Vec3(terrainWidth / 2, 0.01, terrainHeight / 2)
+        );
+        const groundBody = new Body({
+            mass: 0,
+            shape: groundShape,
+            position: new Vec3(0, 0, 0),
+        });
         this.world.add(groundBody);
     }
 
     // Add ball to the environment
     setupBall() {
+        // Add ball mesh to scene
         this.ball = new Ball(this);
         this.add(this.ball);
-        const ballMesh = this.ball.children[0];
-        const mass = 1.0;
-        const sphereShape = new Sphere(ballMesh.radius); // Step 1
-        const sphereBody = new Body({ mass: mass, shape: sphereShape }); // Step 2
-        this.sphereBody = sphereBody;
-
         const rootPosition = this.terrain.position;
         this.ball.position.set(
             rootPosition.x,
@@ -107,12 +107,16 @@ class MainScene extends Scene {
             rootPosition.z
         );
 
-        sphereBody.position.set(
-            rootPosition.x,
-            this.ball.radius,
-            rootPosition.z
-        );
-        this.world.add(sphereBody); // Step 3
+        // Add cannon body to ball
+        const ballMesh = this.ball.children[0];
+        const mass = 0.1;
+        const ballShape = new Sphere(ballMesh.radius);
+        const ballBody = new Body({ mass: mass, shape: ballShape });
+        this.ballBody = ballBody;
+
+        const ballPos = this.ball.position;
+        ballBody.position.set(ballPos.x, ballPos.y, ballPos.z);
+        this.world.add(ballBody);
     }
 
     // Add bucket/hole to the environment
@@ -185,12 +189,13 @@ class MainScene extends Scene {
             crate.position.set(xPos, yPos, zPos);
 
             // Add a cannon body to each crate
-            const mass = 1.0;
-            const boxShape = new Box(new Vec3(crateSize / 2, crateSize / 2, crateSize / 2)); // Step 1
-            const boxBody = new Body({ mass: mass, shape: boxShape }); // Step 2
-            boxBody.position.set(xPos, yPos, zPos);
-            boxBody.collisionResponse = false;
-            this.world.addBody(boxBody);
+            const mass = 0;
+            const crateShape = new Box(
+                new Vec3(crateSize / 2, crateSize / 2, crateSize / 2)
+            );
+            const crateBody = new Body({ mass: mass, shape: crateShape }); // Step 2
+            crateBody.position.set(xPos, yPos, zPos);
+            this.world.addBody(crateBody);
         });
 
         crates.forEach((crate) => {
@@ -276,10 +281,10 @@ class MainScene extends Scene {
             obj.update(timeStamp);
         }
 
-        const ballPos = this.ball.position.clone();
-        this.sphereBody.position.set(ballPos.x, ballPos.y, ballPos.z);
+        // const ballPos = this.ball.position.clone();
+        // this.ballBody.position.set(ballPos.x, ballPos.y, ballPos.z);
 
-        this.handleCollisions();
+        // this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer

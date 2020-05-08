@@ -3,12 +3,13 @@ import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
 import { BoxBufferGeometry, Geometry } from 'three';
 import grassTexture from '../../../resources/grass.png';
 import { Noise } from 'noisejs';
+import { Box, Vec3, Body } from 'cannon';
 
 class Terrain extends Group {
-    constructor(width, height) {
+    constructor(width, height, parent) {
         super();
         this.name = 'terrain';
-
+        this.parent = parent;
         // Set the height and width of the game terrain
         this.terrainWidth = width; // width associated with x-axis
         this.terrainHeight = height; // height associated with z-axis
@@ -127,6 +128,55 @@ class Terrain extends Group {
         this.add(borderRightMesh);
         this.add(borderTopMesh);
         this.add(borderBottomMesh);
+
+        // Add corresponding cannon bodies to each border
+        const sideBorderShape = new Box(
+            new Vec3(boxWidth / 2.0, boxDepth / 2.0, (this.terrainHeight + boxWidth * 2.0) / 2.0)
+        );
+        const fbBorderShape = new Box(
+            new Vec3((this.terrainHeight + boxWidth * 2.0) / 2.0, boxDepth / 2.0, boxWidth / 2.0)
+        );
+        const borderLeftBody = new Body({
+            mass: 0,
+            shape: sideBorderShape,
+            position: new Vec3(
+                borderLeftMesh.position.x,
+                borderLeftMesh.position.y,
+                borderLeftMesh.position.z
+            ),
+        });
+        const borderRightBody = new Body({
+            mass: 0,
+            shape: sideBorderShape,
+            position: new Vec3(
+                borderRightMesh.position.x,
+                borderRightMesh.position.y,
+                borderRightMesh.position.z
+            ),
+        });
+        const borderTopBody = new Body({
+            mass: 0,
+            shape: fbBorderShape,
+            position: new Vec3(
+                borderTopMesh.position.x,
+                borderTopMesh.position.y,
+                borderTopMesh.position.z
+            ),
+        });
+        const borderBottomBody = new Body({
+            mass: 0,
+            shape: fbBorderShape,
+            position: new Vec3(
+                borderBottomMesh.position.x,
+                borderBottomMesh.position.y,
+                borderBottomMesh.position.z
+            ),
+        });
+
+        this.parent.world.add(borderLeftBody);
+        this.parent.world.add(borderRightBody);
+        this.parent.world.add(borderTopBody);
+        this.parent.world.add(borderBottomBody);
     }
 }
 
