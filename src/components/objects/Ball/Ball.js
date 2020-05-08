@@ -8,6 +8,7 @@ import {
     calculateInitialSpin,
 } from './BallPhysicsHelper';
 import SceneParams from '../../params';
+import { Sphere, Vec3, Body } from 'cannon';
 
 class Ball extends Group {
     constructor(parent) {
@@ -27,7 +28,7 @@ class Ball extends Group {
         };
         this.name = 'ball';
         this.radius = 1.5;
-        this.ballBody = null; // Set in the setupBall() function in main Scene
+        this.body = null;
 
         const segmentSize = 32;
         const ballGeometry = new SphereGeometry(
@@ -49,6 +50,20 @@ class Ball extends Group {
 
         // For animating the golf ball projectile motion
         parent.addToUpdateList(this);
+    }
+
+    // Initializes the cannonjs body associated with the ball, and returns it
+    initBallBody() {
+        // Add cannon body to ball
+        const mass = SceneParams.MASS;
+        const ballShape = new Sphere(this.radius);
+        const ballBody = new Body({
+            mass: mass,
+            shape: ballShape,
+            position: new Vec3(this.position.x, this.position.y, this.position.z),
+        });
+        this.body = ballBody;
+        return ballBody;
     }
 
     update(timeStamp) {

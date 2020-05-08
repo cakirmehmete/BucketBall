@@ -110,15 +110,18 @@ class MainScene extends Scene {
             rootPosition.z
         );
 
+        // // Add cannon body to ball
+        // const ballMesh = this.ball.children[0];
+        // const mass = SceneParams.MASS;
+        // const ballShape = new Sphere(ballMesh.radius);
+        // const ballBody = new Body({
+        //     mass: mass,
+        //     shape: ballShape,
+        //     position: new Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z),
+        // });
+
         // Add cannon body to ball
-        const ballMesh = this.ball.children[0];
-        const mass = SceneParams.MASS;
-        const ballShape = new Sphere(ballMesh.radius);
-        const ballBody = new Body({
-            mass: mass,
-            shape: ballShape,
-            position: new Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z),
-        });
+        const ballBody = this.ball.initBallBody();
         this.ballBody = ballBody;
         this.world.add(ballBody);
     }
@@ -197,7 +200,7 @@ class MainScene extends Scene {
             const crateShape = new Box(
                 new Vec3(crateSize / 2, crateSize / 2, crateSize / 2)
             );
-            const crateBody = new Body({ mass: mass, shape: crateShape }); // Step 2
+            const crateBody = new Body({ mass: mass, shape: crateShape });
             crateBody.position.set(xPos, yPos, zPos);
             this.world.addBody(crateBody);
         });
