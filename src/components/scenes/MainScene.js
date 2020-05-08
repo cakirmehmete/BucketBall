@@ -280,9 +280,18 @@ class MainScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    animateSlider(timeStamp) {
+        this.state.power = 0;
+        this.state.power = Math.ceil((5 * Math.sin(timeStamp / 200)) + 5);
+    }
+
     // Handle animations
     update(timeStamp) {
         const { updateList } = this.state;
+
+        if (this.state.spaceBarDown) {
+            this.animateSlider(timeStamp);
+        }
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
@@ -291,8 +300,7 @@ class MainScene extends Scene {
         // // Copy coordinates from Cannon.js to Three.js
         // this.ball.position.copy(this.ballBody.position);
         // this.ball.quaternion.copy(this.ballBody.quaternion);
-
-        // this.handleCollisions();
+        this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
