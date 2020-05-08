@@ -78,6 +78,13 @@ class Ball extends Group {
             this.position,
             this.state.projPos
         );
+        if (this.body) {
+            this.body.position.set(
+                this.position.x,
+                this.position.y,
+                this.position.z
+            );
+        }
     }
 
     updateShotDirectionPower(changeX, changeY, power) {

@@ -260,7 +260,7 @@ class MainScene extends Scene {
     animatePowerSlider(timeStamp) {
         this.state.power = 3;
         this.state.power = Math.ceil(5 * Math.sin(timeStamp / 200) + 5);
-        this.updateBallHelper(0,0, this.state.power);
+        this.updateBallHelper(0, 0, this.state.power);
     }
 
     // Handle animations
@@ -277,9 +277,6 @@ class MainScene extends Scene {
             obj.update(timeStamp);
         }
 
-        // // Copy coordinates from Cannon.js to Three.js
-        // this.ball.position.copy(this.ballBody.position);
-        // this.ball.quaternion.copy(this.ballBody.quaternion);
         this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
