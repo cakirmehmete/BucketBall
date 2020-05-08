@@ -15,25 +15,6 @@ class Arrow extends Group {
         // Initialize state
         this.state = {};
 
-        // var geometry = new BoxGeometry(2, 2, 20);
-        // geometry.rotateZ(Math.degToRad(90));
-        // var mesh = new Mesh(
-        //     geometry,
-        //     new MeshBasicMaterial({ color: 0x00ff00 })
-        // );
-        // mesh.position.set(0, 0, -10);
-        // this.add(mesh);
-
-        // let pivot = new Group();
-        // this.pivot = pivot;
-        // console.log(ballPos);
-        // pivot.position.set(ballPos.x, ballPos.y, ballPos.z);
-        // this.add(pivot);
-        // pivot.add(mesh);
-
-        // // Amount to increment arrow
-        // this.inc = .1;
-
         let ball = new Ball(parent);
         this.ball = ball;
 
@@ -69,22 +50,6 @@ class Arrow extends Group {
             this.add(point);
         }
     }
-
-    // rotateYInc() {
-    //     this.pivot.rotation.y += this.inc;
-    // }
-
-    // rotateYDec() {
-    //     this.pivot.rotation.y -= this.inc;
-    // }
-
-    // rotateXInc() {
-    //     this.pivot.rotation.x += this.inc;
-    // }
-
-    // rotateXDec() {
-    //     this.pivot.rotation.x -= this.inc;
-    // }
 }
 
 export default Arrow;

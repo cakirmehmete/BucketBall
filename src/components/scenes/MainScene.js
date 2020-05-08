@@ -68,7 +68,7 @@ class MainScene extends Scene {
         // Populate GUI
         const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
-            function() {
+            function () {
                 this.arrow.updateShotDirectionPower(
                     this.ball.position,
                     0,
@@ -223,46 +223,27 @@ class MainScene extends Scene {
         const power = this.state.power;
         if (event.key === 'w') {
             // Up
-            this.arrow.updateShotDirectionPower(
-                this.ball.position,
-                0,
-                -offset,
-                power
-            );
-            this.ball.updateShotDirectionPower(0, -offset, power);
+            this.updateBallHelper(0, -offset, power);
         } else if (event.key === 's') {
             // Down
-            this.arrow.updateShotDirectionPower(
-                this.ball.position,
-                0,
-                offset,
-                power
-            );
-            this.ball.updateShotDirectionPower(0, offset, power);
+            this.updateBallHelper(0, offset, power);
         } else if (event.key === 'a') {
             // Left
-            this.arrow.updateShotDirectionPower(
-                this.ball.position,
-                offset,
-                0,
-                power
-            );
-            this.ball.updateShotDirectionPower(offset, 0, power);
+            this.updateBallHelper(offset, 0, power);
         } else if (event.key === 'd') {
             // Right
-            this.arrow.updateShotDirectionPower(
-                this.ball.position,
-                -offset,
-                0,
-                power
-            );
-            this.ball.updateShotDirectionPower(-offset, 0, power);
+            this.updateBallHelper(-offset, 0, power);
         } else if (event.key === ' ') {
             // Power
             if (!this.state.spaceBarDown) {
                 this.state.spaceBarDown = true;
             }
         }
+    }
+
+    updateBallHelper(x, y, power) {
+        this.arrow.updateShotDirectionPower(this.ball.position, x, y, power);
+        this.ball.updateShotDirectionPower(x, y, power);
     }
 
     // Callback function for keyup events
