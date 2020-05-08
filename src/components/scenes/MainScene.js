@@ -69,13 +69,7 @@ class MainScene extends Scene {
         const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
             function () {
-                this.arrow.updateShotDirectionPower(
-                    this.ball.position,
-                    0,
-                    0,
-                    this.state.power
-                );
-                this.ball.updateShotDirectionPower(0, 0, this.state.power);
+                this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
     }
