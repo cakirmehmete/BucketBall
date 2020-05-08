@@ -60,7 +60,11 @@ class Ball extends Group {
         const ballBody = new Body({
             mass: mass,
             shape: ballShape,
-            position: new Vec3(this.position.x, this.position.y, this.position.z),
+            position: new Vec3(
+                this.position.x,
+                this.position.y,
+                this.position.z
+            ),
         });
         this.body = ballBody;
         return ballBody;

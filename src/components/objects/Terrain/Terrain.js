@@ -22,7 +22,6 @@ class Terrain extends Group {
 
         // Use Perlin Noise to randomly generate a hill-like terrain on given
         // parts of the field. Adapted from http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
-
         // Seed the noise so that the hills are randomized at a given time
         const date = new Date();
         const noise = new Noise(date.getMilliseconds());
@@ -131,10 +130,18 @@ class Terrain extends Group {
 
         // Add corresponding cannon bodies to each border
         const sideBorderShape = new Box(
-            new Vec3(boxWidth / 2.0, boxDepth / 2.0, (this.terrainHeight + boxWidth * 2.0) / 2.0)
+            new Vec3(
+                boxWidth / 2.0,
+                boxDepth / 2.0,
+                (this.terrainHeight + boxWidth * 2.0) / 2.0
+            )
         );
         const fbBorderShape = new Box(
-            new Vec3((this.terrainHeight + boxWidth * 2.0) / 2.0, boxDepth / 2.0, boxWidth / 2.0)
+            new Vec3(
+                (this.terrainHeight + boxWidth * 2.0) / 2.0,
+                boxDepth / 2.0,
+                boxWidth / 2.0
+            )
         );
         const borderLeftBody = new Body({
             mass: 0,

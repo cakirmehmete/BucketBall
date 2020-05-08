@@ -22,7 +22,6 @@ class MainScene extends Scene {
             spaceBarDown: false,
             power: 3,
         };
-
         this.terrain = null;
         this.ball = null;
         this.ballBody = null;
@@ -48,7 +47,7 @@ class MainScene extends Scene {
 
         // Initialize different objects and place them accordingly in the scene
         this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
-        this.setupClouds(this.terrain.terrainDepth);
+        this.setupClouds();
         this.setupBall();
         this.setupBucket();
         this.setupArrow();
@@ -69,7 +68,7 @@ class MainScene extends Scene {
         // Populate GUI
         const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
-            function () {
+            function() {
                 this.arrow.updateShotDirectionPower(
                     this.ball.position,
                     0,
@@ -163,6 +162,7 @@ class MainScene extends Scene {
         });
     }
 
+    // Add projectile arrow graphic to the ball
     setupArrow() {
         const arrow = new Arrow(this, this.ball.position);
         this.add(arrow);
@@ -175,6 +175,7 @@ class MainScene extends Scene {
         this.arrow = arrow;
     }
 
+    // Add randomized crates to the environment
     setupCrates() {
         const crateSize = 10.0;
         const crates = [];
@@ -211,6 +212,7 @@ class MainScene extends Scene {
     }
 
     // Account for collisions between ball and given obstacles, environment, and terrain
+    // ** DEBUGGING PURPOSES ONLY, COLLISIONS HANDLED BY CANNONJS **
     handleCollisions() {
         this.ball.handleFloorCollisions(this.terrain);
     }
@@ -280,18 +282,20 @@ class MainScene extends Scene {
         this.state.updateList.push(object);
     }
 
-    animateSlider(timeStamp) {
-        this.state.power = 0;
-        this.state.power = Math.ceil((5 * Math.sin(timeStamp / 200)) + 5);
+    animatePowerSlider(timeStamp) {
+        this.state.power = 3;
+        this.state.power = Math.ceil(5 * Math.sin(timeStamp / 200) + 5);
     }
 
     // Handle animations
     update(timeStamp) {
         const { updateList } = this.state;
 
+        // Animate power slider when spacebar held down
         if (this.state.spaceBarDown) {
-            this.animateSlider(timeStamp);
+            this.animatePowerSlider(timeStamp);
         }
+
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);

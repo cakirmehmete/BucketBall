@@ -54,7 +54,10 @@ function calculateAcceleration(velocity, angVelocity) {
         .multiplyScalar(SceneParams.LIFT / SceneParams.MASS);
 
     // Final Acceleration
-    const acceleration = new Vector3(0, 0, 0).add(gravity).add(drag).add(magnus);
+    const acceleration = new Vector3(0, 0, 0)
+        .add(gravity)
+        .add(drag)
+        .add(magnus);
 
     return acceleration;
 }
