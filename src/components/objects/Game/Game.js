@@ -6,6 +6,7 @@ class Game {
         document.getElementById("counterDisplay").innerHTML= "Attempts: " + this.state.attempts;
     }
 
+    // Update the number of attempts made by player
     updateAttempt() {
         this.state.attempts += 1;
         document.getElementById("counterDisplay").innerHTML= "Attempts: " + this.state.attempts;
@@ -31,6 +32,12 @@ class Game {
         }
         return false;
     }
+
+    displayWinCondition() {
+        document.getElementById("winDisplay").innerHTML = "You won in " + this.state.attempts + " attempts! Press enter to play next level.";
+        document.getElementById('win').style.display = 'block';
+    }
+
 }
 
 export default Game;
