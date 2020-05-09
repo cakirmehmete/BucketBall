@@ -1,4 +1,4 @@
-import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { Group, Box3, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
 
 class Arrow extends Group {
     constructor(parent, ballPos) {
@@ -35,12 +35,19 @@ class Arrow extends Group {
 
     updateShotDirectionPower(offset, power) {
         // Change the arrow
+        this.pivot.remove(this.cube);
         this.pivot.position.set(
             this.ballPos.x,
             this.ballPos.y + 1.5,
             this.ballPos.z
         );
         this.show();
+
+        this.cube.scale.set(1, 1, power / 10 + 0.5);
+        const newZ = new Box3().setFromObject(this.cube).getSize().z;
+        this.cube.position.set(0, 0, -newZ / 2 - 2);
+        this.pivot.add(this.cube);
+
         this.pivot.rotation.y += offset;
     }
 
