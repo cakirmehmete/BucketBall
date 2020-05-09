@@ -30,9 +30,9 @@ class Arrow extends Group {
         this.add(cube);
 
         // Create pyramid
-        const radius = 2;
+        const radius = 1.5;
         const height = 3;
-        const radialSegments = 3;
+        const radialSegments = 32;
         var geometryPyramid = new ConeGeometry(radius, height, radialSegments);
         var materialPyramid = new MeshBasicMaterial({
             color: 0xffff00,
