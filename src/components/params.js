@@ -7,7 +7,7 @@ class Params {
         //                     Physical Constants
         // ====================================================================
         // Golf ball properties
-        this.MASS = 5;
+        this.MASS = 1;
         this.RADIUS = 1.5;
         this.AREA = (0.04267 * Math.PI) / 4;
         this.SMASH = 1.49;

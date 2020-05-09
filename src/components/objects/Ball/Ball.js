@@ -42,7 +42,6 @@ class Ball extends Group {
         let sphereBody = new Body({ mass: mass });
         sphereBody.addShape(sphereShape);
         sphereBody.position.set(0, 5, 0);
-        sphereBody.linearDamping = 0.9;
         this.parent.world.add(sphereBody);
         this.body = sphereBody;
     }
@@ -86,7 +85,7 @@ class Ball extends Group {
 
         //const shootDirection = getShootDir();
 
-        this.body.velocity.set(10, 10, 10);
+        this.body.velocity.set(10, 10, -10);
 
         this.body.position.set(x, y, z);
         this.mesh.position.set(x, y, z);
