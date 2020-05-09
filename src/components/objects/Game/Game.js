@@ -3,13 +3,15 @@ class Game {
         this.state = {
             attempts: 0,
         };
-        document.getElementById("counterDisplay").innerHTML= "Attempts: " + this.state.attempts;
+        document.getElementById('counterDisplay').innerHTML =
+            'Attempts: ' + this.state.attempts;
     }
 
     // Update the number of attempts made by player
     updateAttempt() {
         this.state.attempts += 1;
-        document.getElementById("counterDisplay").innerHTML= "Attempts: " + this.state.attempts;
+        document.getElementById('counterDisplay').innerHTML =
+            'Attempts: ' + this.state.attempts;
     }
 
     // Determine win condition by checking ball's distance from bucket
@@ -27,17 +29,19 @@ class Game {
         const distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
 
         if (distance < bucketRadius) {
-            document.getElementById("counterDisplay").innerHTML= "Win!";
+            document.getElementById('counterDisplay').innerHTML = 'Win!';
             return true;
         }
         return false;
     }
 
     displayWinCondition() {
-        document.getElementById("winDisplay").innerHTML = "You won in " + this.state.attempts + " attempts! Press enter to play next level.";
+        document.getElementById('winDisplay').innerHTML =
+            'You won in ' +
+            this.state.attempts +
+            ' attempts! Press enter to play next level.';
         document.getElementById('win').style.display = 'block';
     }
-
 }
 
 export default Game;

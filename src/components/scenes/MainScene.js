@@ -144,17 +144,14 @@ class MainScene extends Scene {
     setupBall() {
         // Add ball mesh to scene
         const edgeOffset = 30.0;
-        const startingPositionX = -(this.terrain.terrainWidth / 2.0) + edgeOffset;
+        const startingPositionX =
+            -(this.terrain.terrainWidth / 2.0) + edgeOffset;
         const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
         this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);
 
         // Hacky way to push the ball up
-        this.ball.position.set(
-            0,
-            this.ball.radius,
-            0
-        );
+        this.ball.position.set(0, this.ball.radius, 0);
     }
 
     // Add bucket/hole to the environment
@@ -245,7 +242,11 @@ class MainScene extends Scene {
                 new Vec3(crateSize / 2, crateSize / 2, crateSize / 2)
             );
             const crateBody = new Body({ mass: mass, shape: crateShape });
-            crateBody.position.set(crate.position.x, crate.position.y, crate.position.z);
+            crateBody.position.set(
+                crate.position.x,
+                crate.position.y,
+                crate.position.z
+            );
             this.world.addBody(crateBody);
         });
     }
