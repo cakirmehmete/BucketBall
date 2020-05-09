@@ -71,11 +71,10 @@ class Arrow extends Group {
         this.show();
 
         this.cube.scale.set(1, 1, power / 10 + 0.5);
-        const newZ = new Box3().setFromObject(this.cube).getSize().z;
-        this.cube.position.set(0, 0, -newZ / 2 - 2);
+        const width = new Box3().setFromObject(this.cube).getSize().z;
+        this.cube.position.set(0, 0, -width / 2 - 2);
         this.pivot.add(this.cube);
-
-        this.cone.position.set(0, 0, this.cube.position.z - newZ);
+        this.cone.position.set(0, 0, this.cube.position.z - width / 2);
         this.pivot.add(this.cone);
 
         this.pivot.rotation.y += offset;
