@@ -1,4 +1,5 @@
 import { Vector3 } from 'three';
+import { Vec3 } from 'cannon';
 import SceneParams from '../../params';
 
 /*
@@ -84,7 +85,9 @@ export function projectShot(velocity, angVelocity, position, projPos) {
 
     // Velocity
     velocity.add(acceleration.clone().multiplyScalar(SceneParams.TIMESTEP));
-    position.add(velocity.clone().multiplyScalar(SceneParams.TIMESTEP));
+    let pos = velocity.clone().multiplyScalar(SceneParams.TIMESTEP);
+    position.set(pos.x, pos.y, pos.z);
+    //position.add(velocity.clone().multiplyScalar(SceneParams.TIMESTEP));
     projPos.push(position.clone());
 
     // Spin

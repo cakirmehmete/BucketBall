@@ -31,7 +31,7 @@ class MainScene extends Scene {
         this.world = new World();
         this.world.broadphase = new NaiveBroadphase();
         this.world.gravity.set(0, 0, 0);
-        this.world.solver.iterations = 10;
+        // this.world.solver.iterations = 10;
         this.cannonDebugRenderer = new THREE.CannonDebugRenderer(
             this,
             this.world
@@ -259,7 +259,7 @@ class MainScene extends Scene {
 
     animatePowerSlider(timeStamp) {
         this.state.power = 3;
-        this.state.power = Math.ceil(5 * Math.sin(timeStamp / 200) + 5);
+        this.state.power = Math.ceil(5 * Math.sin(timeStamp / 400) + 5);
         this.updateBallHelper(0, 0, this.state.power);
     }
 
@@ -277,7 +277,7 @@ class MainScene extends Scene {
             obj.update(timeStamp);
         }
 
-        this.handleCollisions();
+        //this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer

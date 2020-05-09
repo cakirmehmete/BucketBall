@@ -71,19 +71,19 @@ class Ball extends Group {
     }
 
     update(timeStamp) {
-        // Use Euler integration to simulate projectile motion
-        projectShot(
-            this.state.velocity,
-            this.state.angVelocity,
-            this.position,
-            this.state.projPos
-        );
         if (this.body) {
-            this.body.position.set(
-                this.position.x,
-                this.position.y,
-                this.position.z
-            );
+            // Use Euler integration to simulate projectile motion
+            // projectShot(
+            //     this.state.velocity,
+            //     this.state.angVelocity,
+            //     this.body.position,
+            //     this.state.projPos
+            // );
+            // this.position.set(
+            //     this.body.position.x,
+            //     this.body.position.y,
+            //     this.body.position.z
+            // );
         }
     }
 
@@ -122,12 +122,12 @@ class Ball extends Group {
     calculateTrajectory() {
         this.shootBall();
         for (let i = 0; i < 100; i++) {
-            projectShot(
-                this.state.velocity,
-                this.state.angVelocity,
-                this.position,
-                this.state.projPos
-            );
+            // projectShot(
+            //     this.state.velocity,
+            //     this.state.angVelocity,
+            //     this.position,
+            //     this.state.projPos
+            // );
         }
     }
 
