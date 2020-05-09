@@ -1,6 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
+import { Game } from 'objects';
 import { BasicLights } from 'lights';
 import {
     World,
@@ -36,9 +37,13 @@ class MainScene extends Scene {
         this.terrain = null;
         this.ball = null;
         this.bucket = null;
+        this.game = null;
 
         // Setup physical world using CannonJS
         this.setupCannon();
+
+        // Setup game object to keep track of score and win conditions
+        this.setupGame();
 
         // Set background to a light blue to represent sky
         this.background = new Color(0x87ceeb);
@@ -74,6 +79,10 @@ class MainScene extends Scene {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
+    }
+
+    setupGame() {
+        this.game = new Game();
     }
 
     /*
@@ -226,7 +235,7 @@ class MainScene extends Scene {
 
     // Callback function for keydown events
     handleKeyDownEvents(event) {
-        const offset = .1;
+        const offset = 0.1;
         const power = this.state.power;
         if (event.key === 'a') {
             // Left
@@ -254,6 +263,7 @@ class MainScene extends Scene {
             if (this.state.spaceBarDown) {
                 this.arrow.hide();
                 this.ball.shootBall();
+                this.game.updateAttempt();
                 this.state.spaceBarDown = false;
             }
         }
@@ -282,6 +292,11 @@ class MainScene extends Scene {
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
+        }
+
+        if (this.game.checkWinCondition(this.ball, this.bucket)) {
+            console.log('Win');
+            this.ball.mesh.visible = false;
         }
 
         this.world.step(SceneParams.TIMESTEP); // Update physics

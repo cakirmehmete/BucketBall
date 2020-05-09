@@ -6,3 +6,4 @@ export * from './Cloud';
 export * from './Bucket';
 export * from './Arrow';
 export * from './Crate';
+export * from './Game';
