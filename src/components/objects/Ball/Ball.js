@@ -13,6 +13,7 @@ import { Sphere, Vec3, Body } from 'cannon';
 class Ball extends Group {
     constructor(parent) {
         super();
+        this.parent = parent;
 
         // Initialize state and ball properties
         this.state = {
@@ -24,8 +25,30 @@ class Ball extends Group {
         };
         this.name = 'ball';
         this.radius = 1.5;
-        this.body = null;
 
+        // Handles Collisions
+        this.initBody();
+
+        // Creates the golf ball with bump maping
+        this.initMesh();
+
+        // For animating the golf ball projectile motion
+        parent.addToUpdateList(this);
+    }
+
+    initBody() {
+        let mass = SceneParams.MASS,
+            radius = SceneParams.RADIUS;
+        let sphereShape = new Sphere(radius);
+        let sphereBody = new Body({ mass: mass });
+        sphereBody.addShape(sphereShape);
+        sphereBody.position.set(0, 5, 0);
+        sphereBody.linearDamping = 0.9;
+        this.parent.world.add(sphereBody);
+        this.body = sphereBody;
+    }
+
+    initMesh() {
         const segmentSize = 32;
         const ballGeometry = new SphereGeometry(
             this.radius,
@@ -43,40 +66,14 @@ class Ball extends Group {
         });
         const ballMesh = new Mesh(ballGeometry, ballMaterial);
         this.add(ballMesh);
-
-        // For animating the golf ball projectile motion
-        parent.addToUpdateList(this);
-    }
-
-    // Initializes the cannonjs body associated with the ball, and returns it
-    initBallBody() {
-        // Add cannon body to ball
-        const mass = SceneParams.MASS;
-        const ballShape = new Sphere(this.radius);
-        const ballBody = new Body({
-            mass: mass,
-            shape: ballShape,
-            position: new Vec3(
-                this.position.x,
-                this.position.y,
-                this.position.z
-            ),
-        });
-        this.body = ballBody;
-        return ballBody;
+        this.mesh = ballMesh;
     }
 
     update(timeStamp) {
-        if (this.body) {
-            // Use Euler integration to simulate projectile motion
-        }
-    }
-
-    updateShotDirectionPower(changeX, changeY, power) {
-        this.state.projPos = [];
-        this.state.verticalAngleDegrees += changeY;
-        this.state.horizontalAngleDegrees += changeX;
-        this.state.speedMPH = power * 10;
+        // Update ball mesh
+        this.mesh.position.copy(this.body.position);
+        this.mesh.position.y -= SceneParams.RADIUS;
+        this.mesh.quaternion.copy(this.body.quaternion);
     }
 
     // Add a shooting force to the ball with the given power and direction
@@ -87,9 +84,14 @@ class Ball extends Group {
         this.state.shot = true;
     }
 
-    calculateTrajectory() {
-
+    updateShotDirectionPower(changeX, changeY, power) {
+        this.state.projPos = [];
+        this.state.verticalAngleDegrees += changeY;
+        this.state.horizontalAngleDegrees += changeX;
+        this.state.speedMPH = power * 10;
     }
+
+    calculateTrajectory() {}
 }
 
 export default Ball;

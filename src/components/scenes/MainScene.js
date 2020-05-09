@@ -1,8 +1,19 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper, Vector3 } from 'three';
+import { Scene, Color, AxesHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { BasicLights } from 'lights';
-import { World, Sphere, Box, Vec3, NaiveBroadphase, Body } from 'cannon';
+import {
+    World,
+    GSSolver,
+    Box,
+    Vec3,
+    NaiveBroadphase,
+    Body,
+    SplitSolver,
+    Material,
+    ContactMaterial,
+    Plane,
+} from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 
@@ -27,14 +38,7 @@ class MainScene extends Scene {
         this.bucket = null;
 
         // Setup physical world using CannonJS
-        this.world = new World();
-        this.world.broadphase = new NaiveBroadphase();
-        this.world.gravity.set(0, 0, 0);
-        // this.world.solver.iterations = 10;
-        this.cannonDebugRenderer = new THREE.CannonDebugRenderer(
-            this,
-            this.world
-        );
+        this.setupCannon();
 
         // Set background to a light blue to represent sky
         this.background = new Color(0x87ceeb);
@@ -72,21 +76,59 @@ class MainScene extends Scene {
         );
     }
 
+    /*
+    Adapted From: https://schteppe.github.io/cannon.js/examples/threejs_fps.html
+    */
+    setupCannon() {
+        // Setup our world
+        let world = new World();
+        this.world = world;
+        world.quatNormalizeSkip = 0;
+        world.quatNormalizeFast = false;
+
+        let solver = new GSSolver();
+
+        world.defaultContactMaterial.contactEquationStiffness = 1e9;
+        world.defaultContactMaterial.contactEquationRelaxation = 4;
+
+        solver.iterations = 7;
+        solver.tolerance = 0.1;
+        let split = true;
+        if (split) world.solver = new SplitSolver(solver);
+        else world.solver = solver;
+
+        world.gravity.set(0, -9.82, 0);
+        world.broadphase = new NaiveBroadphase();
+
+        // Debugging
+        this.cannonDebugRenderer = new THREE.CannonDebugRenderer(
+            this,
+            this.world
+        );
+
+        // Create a slippery material (friction coefficient = 0.0)
+        let physicsMaterial = new Material('slipperyMaterial');
+        let physicsContactMaterial = new ContactMaterial(
+            physicsMaterial,
+            physicsMaterial,
+            0.0, // friction coefficient
+            0.3 // restitution
+        );
+        // We must add the contact materials to the world
+        world.addContactMaterial(physicsContactMaterial);
+    }
+
     // Add X-Z aligned terrain to the environment
     setupTerrain(terrainWidth, terrainHeight) {
         const terrain = new Terrain(terrainWidth, terrainHeight, this);
         this.add(terrain);
         this.terrain = terrain;
 
-        const groundShape = new Box(
-            new Vec3(terrainWidth / 2, 100, terrainHeight / 2)
-        );
-        const groundBody = new Body({
-            mass: 0,
-            shape: groundShape,
-            position: new Vec3(0, -100, 0), // hacky way to make sure ball doesnt fall through
-        });
-        this.world.addBody(groundBody);
+        var groundShape = new Plane();
+        var groundBody = new Body({ mass: 0 });
+        groundBody.addShape(groundShape);
+        groundBody.quaternion.setFromAxisAngle(new Vec3(1, 0, 0), -Math.PI / 2);
+        this.world.add(groundBody);
     }
 
     // Add ball to the environment
