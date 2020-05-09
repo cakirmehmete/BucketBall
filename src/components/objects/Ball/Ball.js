@@ -11,7 +11,7 @@ import SceneParams from '../../params';
 import { Sphere, Body } from 'cannon';
 
 class Ball extends Group {
-    constructor(parent) {
+    constructor(parent, xPos, zPos) {
         super();
         this.parent = parent;
 
@@ -25,7 +25,7 @@ class Ball extends Group {
         this.radius = SceneParams.RADIUS;
 
         // Handles Collisions
-        this.initBody();
+        this.initBody(xPos, zPos);
 
         // Creates the golf ball with bump mapping
         this.initMesh();
@@ -34,13 +34,13 @@ class Ball extends Group {
         parent.addToUpdateList(this);
     }
 
-    initBody() {
+    initBody(xPos, zPos) {
         let mass = SceneParams.MASS,
             radius = SceneParams.RADIUS;
         let sphereShape = new Sphere(radius);
         let sphereBody = new Body({ mass: mass });
         sphereBody.addShape(sphereShape);
-        sphereBody.position.set(0, 5, 0);
+        sphereBody.position.set(xPos, 5, zPos);
         sphereBody.linearDamping = 0.1;
         this.parent.world.add(sphereBody);
         this.body = sphereBody;

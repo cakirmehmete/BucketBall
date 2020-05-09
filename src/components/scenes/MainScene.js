@@ -143,13 +143,17 @@ class MainScene extends Scene {
     // Add ball to the environment
     setupBall() {
         // Add ball mesh to scene
-        this.ball = new Ball(this);
+        const edgeOffset = 30.0;
+        const startingPositionX = -(this.terrain.terrainWidth / 2.0) + edgeOffset;
+        const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
+        this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);
-        const rootPosition = this.terrain.position;
+
+        // Hacky way to push the ball up
         this.ball.position.set(
-            rootPosition.x,
+            0,
             this.ball.radius,
-            rootPosition.z
+            0
         );
     }
 
@@ -201,35 +205,48 @@ class MainScene extends Scene {
     setupCrates() {
         const crateSize = 10.0;
         const crates = [];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
+            const xPosition = -75.0;
+            const yPosition = crateSize / 2.0;
+            const zPosition = 129.0 - i * crateSize;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
             crates.push(crate);
         }
 
-        crates.forEach((crate) => {
-            const maxXPosition = this.terrain.terrainWidth / 2 - crateSize;
-            const minXPosition = -this.terrain.terrainWidth / 2 + crateSize;
-            const maxZPosition = this.terrain.terrainHeight / 2 - crateSize;
-            const minZPosition = -this.terrain.terrainHeight / 2 + crateSize;
-            const xPos =
-                Math.random() * (maxXPosition - minXPosition) + minXPosition;
-            const yPos = crateSize / 2;
-            const zPos =
-                Math.random() * (maxZPosition - minZPosition) + minZPosition;
-            crate.position.set(xPos, yPos, zPos);
+        for (let i = 1; i < 20; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = 0;
+            const yPosition = crateSize / 2.0;
+            const zPosition = i * crateSize - 129.0;
 
-            // Add a cannon body to each crate
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        for (let i = 1; i < 20; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = 75.0;
+            const yPosition = crateSize / 2.0;
+            const zPosition = 129.0 - i * crateSize;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        // Add a cannon body to each crate
+        crates.forEach((crate) => {
             const mass = 0;
             const crateShape = new Box(
                 new Vec3(crateSize / 2, crateSize / 2, crateSize / 2)
             );
             const crateBody = new Body({ mass: mass, shape: crateShape });
-            crateBody.position.set(xPos, yPos, zPos);
+            crateBody.position.set(crate.position.x, crate.position.y, crate.position.z);
             this.world.addBody(crateBody);
-        });
-
-        crates.forEach((crate) => {
-            this.add(crate);
         });
     }
 
@@ -295,7 +312,6 @@ class MainScene extends Scene {
         }
 
         if (this.game.checkWinCondition(this.ball, this.bucket)) {
-            console.log('Win');
             this.ball.mesh.visible = false;
             this.game.displayWinCondition();
         }
