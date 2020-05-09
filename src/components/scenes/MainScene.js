@@ -183,7 +183,7 @@ class MainScene extends Scene {
 
     // Add projectile arrow graphic to the ball
     setupArrow() {
-        const arrow = new Arrow(this, this.ball.position);
+        const arrow = new Arrow(this, this.ball.mesh.position);
         this.add(arrow);
         this.arrow = arrow;
     }
@@ -226,20 +226,14 @@ class MainScene extends Scene {
 
     // Callback function for keydown events
     handleKeyDownEvents(event) {
-        const offset = 2;
+        const offset = .1;
         const power = this.state.power;
-        if (event.key === 'w') {
-            // Up
-            this.updateBallHelper(0, -offset, power);
-        } else if (event.key === 's') {
-            // Down
-            this.updateBallHelper(0, offset, power);
-        } else if (event.key === 'a') {
+        if (event.key === 'a') {
             // Left
-            this.updateBallHelper(offset, 0, power);
+            this.updateBallHelper(offset, power);
         } else if (event.key === 'd') {
             // Right
-            this.updateBallHelper(-offset, 0, power);
+            this.updateBallHelper(-offset, power);
         } else if (event.key === ' ') {
             // Power
             if (!this.state.spaceBarDown) {

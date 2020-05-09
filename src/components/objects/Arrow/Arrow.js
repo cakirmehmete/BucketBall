@@ -1,4 +1,4 @@
-import { Group, BoxGeometry, MeshBasicMaterial, Mesh, Math } from 'three';
+import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
 
 class Arrow extends Group {
     constructor(parent, ballPos) {
@@ -15,23 +15,43 @@ class Arrow extends Group {
 
     setupArrowMesh() {
         // Create a box and then a pyramid
-        var geometry = new THREE.BoxGeometry(1, 1, 10);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        var cube = new THREE.Mesh(geometry, material);
+        var geometry = new BoxGeometry(1, 1, 10);
+        var material = new MeshBasicMaterial({ color: 0x00ff00 });
+        var cube = new Mesh(geometry, material);
         cube.position.set(this.ballPos.x, this.ballPos.y, this.ballPos.z - 7);
+        this.cube = cube;
         this.add(cube);
+
+        let pivot = new Group();
+        this.pivot = pivot;
+        pivot.position.set(
+            this.ballPos.x,
+            this.ballPos.y + 1.5,
+            this.ballPos.z
+        );
+        this.add(pivot);
+        pivot.add(cube);
     }
 
     updateShotDirectionPower(offset, power) {
         // Change the arrow
+        this.pivot.position.set(
+            this.ballPos.x,
+            this.ballPos.y + 1.5,
+            this.ballPos.z
+        );
+        this.show();
+        this.pivot.rotation.y += offset;
     }
 
     show() {
         // Show the arrow
+        this.visible = true;
     }
 
     hide() {
         // Hide the arrow
+        this.visible = false;
     }
 }
 
