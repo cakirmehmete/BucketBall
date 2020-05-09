@@ -33,7 +33,7 @@ class Terrain extends Group {
                 let heightVal = 0;
                 if (z > this.terrainHeight / 2) {
                     heightVal = Math.abs(
-                        noise.perlin2(x / 10, z / 10) * this.maxHeight * 2.5
+                        noise.perlin2(x / 10, z / 10) * this.maxHeight * 1.5
                     );
                 }
                 const vertex = new Vector3(

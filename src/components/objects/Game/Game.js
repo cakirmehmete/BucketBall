@@ -3,10 +3,12 @@ class Game {
         this.state = {
             attempts: 0,
         };
+        document.getElementById("counterDisplay").innerHTML= "Attempts: " + this.state.attempts;
     }
 
     updateAttempt() {
         this.state.attempts += 1;
+        document.getElementById("counterDisplay").innerHTML= "Attempts: " + this.state.attempts;
     }
 
     // Determine win condition by checking ball's distance from bucket
@@ -24,6 +26,7 @@ class Game {
         const distance = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
 
         if (distance < bucketRadius) {
+            document.getElementById("counterDisplay").innerHTML= "Win!";
             return true;
         }
         return false;
