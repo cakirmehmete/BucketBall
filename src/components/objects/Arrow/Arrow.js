@@ -34,10 +34,7 @@ class Arrow extends Group {
         const height = 3;
         const radialSegments = 32;
         var geometryPyramid = new ConeGeometry(radius, height, radialSegments);
-        var materialPyramid = new MeshBasicMaterial({
-            color: 0xffff00,
-        });
-        var cone = new Mesh(geometryPyramid, materialPyramid);
+        var cone = new Mesh(geometryPyramid, material);
         cone.rotation.x = -Math.PI / 2;
         cone.position.set(
             this.ballPos.x,
