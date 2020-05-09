@@ -52,7 +52,7 @@ class MainScene extends Scene {
         this.setupClouds();
         this.setupBall();
         this.setupBucket();
-        // this.setupArrow(); TODO: NEED TO FIND A NEW WAY TO FIND TRAJECTORY
+        this.setupArrow();
         this.setupCrates();
 
         // Setup Event handler for Golf Ball
@@ -184,13 +184,7 @@ class MainScene extends Scene {
     // Add projectile arrow graphic to the ball
     setupArrow() {
         const arrow = new Arrow(this, this.ball.position);
-        // this.add(arrow);
-        arrow.updateShotDirectionPower(
-            this.ball.position,
-            0,
-            0,
-            this.state.power
-        );
+        this.add(arrow);
         this.arrow = arrow;
     }
 
@@ -254,10 +248,9 @@ class MainScene extends Scene {
         }
     }
 
-    updateBallHelper(x, y, power) {
-        // TODO: NEED TO FIND A NEW WAY TO FIND TRAJECTORY
-        // this.arrow.updateShotDirectionPower(this.ball.position, x, y, power);
-        this.ball.updateShotDirectionPower(x, y, power);
+    updateBallHelper(offset, power) {
+        this.arrow.updateShotDirectionPower(offset, power);
+        this.ball.updateShotDirectionPower(offset, power);
     }
 
     // Callback function for keyup events
@@ -265,7 +258,7 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
-                // this.arrow.cleanUp(); TODO: NEED TO FIND A NEW WAY TO FIND TRAJECTORY
+                this.arrow.hide();
                 this.ball.shootBall();
                 this.state.spaceBarDown = false;
             }
@@ -280,7 +273,7 @@ class MainScene extends Scene {
     animatePowerSlider(timeStamp) {
         this.state.power = 3;
         this.state.power = Math.ceil(5 * Math.sin(timeStamp / 400) + 5);
-        this.updateBallHelper(0, 0, this.state.power);
+        this.updateBallHelper(0, this.state.power);
     }
 
     // Handle animations
