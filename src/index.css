@@ -1,0 +1,29 @@
+#menu {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    text-align: center;
+    height: 100%;
+    background-image: url(./resources/menubg.jpg);
+    background-size: contain;
+    -webkit-transform: translate(-50%, 0);
+}
+
+#menu img {
+    width: 50%;
+    margin-top: 10%;
+}
+
+#menu p {
+    font-size: 30px;
+}
+#menu button {
+    height: 50px;
+    width: 200px;
+    font-size: large;
+}
+
+#menu ul {
+    font-weight: 500;
+    font-size: 30px;
+}
