@@ -31,7 +31,7 @@ class Terrain extends Group {
         for (let z = 0; z < this.terrainHeight; z++) {
             for (let x = 0; x < this.terrainWidth; x++) {
                 let heightVal = 0;
-                if (z > this.terrainHeight / 2) {
+                if (z > this.terrainHeight / 18) {
                     heightVal = Math.abs(
                         noise.perlin2(x / 10, z / 10) * this.maxHeight * 1.5
                     );
@@ -138,7 +138,7 @@ class Terrain extends Group {
         );
         const fbBorderShape = new Box(
             new Vec3(
-                (this.terrainHeight + boxWidth * 2.0) / 2.0,
+                (this.terrainWidth + boxWidth * 2.0) / 2.0,
                 boxDepth / 2.0,
                 boxWidth / 2.0
             )

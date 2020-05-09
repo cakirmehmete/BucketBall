@@ -201,12 +201,14 @@ class MainScene extends Scene {
     // Add randomized crates to the environment
     setupCrates() {
         const crateSize = 10.0;
+        const EPS = 4.0;
         const crates = [];
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = -75.0;
+            const xPosition = -(this.terrain.terrainWidth / 2) + 55.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = 129.0 - i * crateSize;
+            const zPosition =
+                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -217,7 +219,8 @@ class MainScene extends Scene {
             const crate = new Crate(crateSize);
             const xPosition = 0;
             const yPosition = crateSize / 2.0;
-            const zPosition = i * crateSize - 129.0;
+            const zPosition =
+                i * crateSize - (this.terrain.terrainHeight / 2 + EPS);
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -226,9 +229,10 @@ class MainScene extends Scene {
 
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = 75.0;
+            const xPosition = this.terrain.terrainWidth / 2 - 55.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = 129.0 - i * crateSize;
+            const zPosition =
+                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
