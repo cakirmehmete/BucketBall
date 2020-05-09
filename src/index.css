@@ -16,6 +16,7 @@
 
 #menu p {
     font-size: 30px;
+    color: #313A2D;
 }
 #menu button {
     height: 50px;
@@ -26,10 +27,20 @@
 #menu ul {
     font-weight: 500;
     font-size: 30px;
+    color: #313A2D;
 }
 
 #counter {
     position: absolute;
     top: 0%;
+    display: none;
+    color: #313A2D;
+}
+
+#win {
+    position: absolute;
+    text-align: center;
+    font-size: 36px;
+    color: #313A2D;
     display: none;
 }

@@ -297,6 +297,7 @@ class MainScene extends Scene {
         if (this.game.checkWinCondition(this.ball, this.bucket)) {
             console.log('Win');
             this.ball.mesh.visible = false;
+            this.game.displayWinCondition();
         }
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
