@@ -17,7 +17,6 @@ class Ball extends Group {
 
         // Initialize state and ball properties
         this.state = {
-            shot: false, // Was the golf ball shot?
             projPos: [],
             speedMPH: 30,
             verticalAngleDegrees: 135,
@@ -81,7 +80,16 @@ class Ball extends Group {
     Adapted From: 
     */
     shootBall() {
-        this.state.shot = true;
+        const x = this.body.position.x;
+        const y = this.body.position.y;
+        const z = this.body.position.z;
+
+        //const shootDirection = getShootDir();
+
+        this.body.velocity.set(10, 10, 10);
+
+        this.body.position.set(x, y, z);
+        this.mesh.position.set(x, y, z);
     }
 
     updateShotDirectionPower(changeX, changeY, power) {

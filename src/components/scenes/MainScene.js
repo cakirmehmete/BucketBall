@@ -52,7 +52,7 @@ class MainScene extends Scene {
         this.setupClouds();
         this.setupBall();
         this.setupBucket();
-        this.setupArrow();
+        // this.setupArrow(); TODO: NEED TO FIND A NEW WAY TO FIND TRAJECTORY
         this.setupCrates();
 
         // Setup Event handler for Golf Ball
@@ -184,7 +184,7 @@ class MainScene extends Scene {
     // Add projectile arrow graphic to the ball
     setupArrow() {
         const arrow = new Arrow(this, this.ball.position);
-        this.add(arrow);
+        // this.add(arrow);
         arrow.updateShotDirectionPower(
             this.ball.position,
             0,
@@ -255,7 +255,8 @@ class MainScene extends Scene {
     }
 
     updateBallHelper(x, y, power) {
-        this.arrow.updateShotDirectionPower(this.ball.position, x, y, power);
+        // TODO: NEED TO FIND A NEW WAY TO FIND TRAJECTORY
+        // this.arrow.updateShotDirectionPower(this.ball.position, x, y, power);
         this.ball.updateShotDirectionPower(x, y, power);
     }
 
@@ -264,7 +265,7 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
-                this.arrow.cleanUp();
+                // this.arrow.cleanUp(); TODO: NEED TO FIND A NEW WAY TO FIND TRAJECTORY
                 this.ball.shootBall();
                 this.state.spaceBarDown = false;
             }
