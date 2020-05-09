@@ -8,7 +8,7 @@ import {
 } from 'three';
 import golfBMTexture from '../../../resources/golfbumpmap.jpg';
 import SceneParams from '../../params';
-import { Sphere, Vec3, Body } from 'cannon';
+import { Sphere, Body } from 'cannon';
 
 class Ball extends Group {
     constructor(parent) {
@@ -18,17 +18,16 @@ class Ball extends Group {
         // Initialize state and ball properties
         this.state = {
             projPos: [],
-            speedMPH: 30,
-            verticalAngleDegrees: 135,
-            horizontalAngleDegrees: 0,
+            power: 3,
+            shootDirection: new Vector3(0, 0, -1),
         };
         this.name = 'ball';
-        this.radius = 1.5;
+        this.radius = SceneParams.RADIUS;
 
         // Handles Collisions
         this.initBody();
 
-        // Creates the golf ball with bump maping
+        // Creates the golf ball with bump mapping
         this.initMesh();
 
         // For animating the golf ball projectile motion
@@ -50,7 +49,7 @@ class Ball extends Group {
     initMesh() {
         const segmentSize = 32;
         const ballGeometry = new SphereGeometry(
-            this.radius,
+            SceneParams.RADIUS,
             segmentSize,
             segmentSize
         );
@@ -68,7 +67,7 @@ class Ball extends Group {
         this.mesh = ballMesh;
     }
 
-    update(timeStamp) {
+    update() {
         // Update ball mesh
         this.mesh.position.copy(this.body.position);
         this.mesh.position.y -= SceneParams.RADIUS;
@@ -80,22 +79,25 @@ class Ball extends Group {
     Adapted From: 
     */
     shootBall() {
-        const x = this.body.position.x;
-        const y = this.body.position.y;
-        const z = this.body.position.z;
+        const shootDirection = this.state.shootDirection;
+        const power = this.state.power;
 
-        //const shootDirection = getShootDir();
-
-        this.body.velocity.set(10, 0, -10);
-
-        this.body.position.set(x, y, z);
-        this.mesh.position.set(x, y, z);
+        this.body.velocity.set(
+            shootDirection.x * power,
+            shootDirection.y * power,
+            shootDirection.z * power
+        );
     }
 
-    updateShotDirectionPower(change, power) {
+    updateShotDirectionPower(angle, power) {
         this.state.projPos = [];
-        this.state.horizontalAngleDegrees += change;
-        this.state.speedMPH = power * 10;
+        var direction = this.state.shootDirection.clone();
+
+        var axis = new Vector3(0, 1, 0);
+
+        direction.applyAxisAngle(axis, angle);
+        this.state.shootDirection = direction;
+        this.state.power = power;
     }
 
     calculateTrajectory() {}
