@@ -1,12 +1,12 @@
-import { Group, Vector3, TextureLoader } from 'three';
-import { MeshStandardMaterial, Mesh } from 'three';
-import { SphereGeometry } from 'three';
-import golfBMTexture from '../../../resources/golfbumpmap.jpg';
 import {
-    projectShot,
-    calculateInitialVelocity,
-    calculateInitialSpin,
-} from './ARCHIVE/ARCHIVE_BallPhysicsHelper';
+    Group,
+    Vector3,
+    TextureLoader,
+    SphereGeometry,
+    MeshStandardMaterial,
+    Mesh,
+} from 'three';
+import golfBMTexture from '../../../resources/golfbumpmap.jpg';
 import SceneParams from '../../params';
 import { Sphere, Vec3, Body } from 'cannon';
 
@@ -16,10 +16,6 @@ class Ball extends Group {
 
         // Initialize state and ball properties
         this.state = {
-            previous: this.position,
-            velocity: new Vector3(),
-            angVelocity: new Vector3(),
-            acceleration: new Vector3(),
             shot: false, // Was the golf ball shot?
             projPos: [],
             speedMPH: 30,
@@ -73,17 +69,6 @@ class Ball extends Group {
     update(timeStamp) {
         if (this.body) {
             // Use Euler integration to simulate projectile motion
-            // projectShot(
-            //     this.state.velocity,
-            //     this.state.angVelocity,
-            //     this.body.position,
-            //     this.state.projPos
-            // );
-            // this.position.set(
-            //     this.body.position.x,
-            //     this.body.position.y,
-            //     this.body.position.z
-            // );
         }
     }
 
@@ -96,63 +81,14 @@ class Ball extends Group {
 
     // Add a shooting force to the ball with the given power and direction
     /*
-    Adapted From: https://github.com/jcole/golf-shot-simulation
+    Adapted From: 
     */
     shootBall() {
-        // initial shot attributes
-        const initBackspinRPM = 3000;
-        const initSpinAngle = 0;
-        // Initial velocity
-        this.state.velocity = calculateInitialVelocity(
-            this.state.speedMPH,
-            SceneParams.SMASH,
-            this.state.verticalAngleDegrees,
-            this.state.horizontalAngleDegrees
-        );
-
-        // Initial spin
-        this.state.angVelocity = calculateInitialSpin(
-            initBackspinRPM,
-            initSpinAngle
-        );
-
         this.state.shot = true;
     }
 
     calculateTrajectory() {
-        this.shootBall();
-        for (let i = 0; i < 100; i++) {
-            // projectShot(
-            //     this.state.velocity,
-            //     this.state.angVelocity,
-            //     this.position,
-            //     this.state.projPos
-            // );
-        }
-    }
 
-    // Handle collisions with the floor of the terrain
-    handleFloorCollisions(terrain) {
-        const ballXCoord = this.position.x;
-        const ballYCoord = this.position.y;
-        const ballZCoord = this.position.z;
-        const ballRadius = this.radius;
-
-        const withinTerrainWidth =
-            ballXCoord > -terrain.terrainWidth / 2 &&
-            ballXCoord < terrain.terrainWidth / 2;
-        const withinTerrainHeight =
-            ballZCoord > -terrain.terrainHeight / 2 &&
-            ballZCoord < terrain.terrainHeight / 2;
-        if (
-            withinTerrainWidth &&
-            withinTerrainHeight &&
-            ballYCoord < terrain.terrainDepth + ballRadius
-        ) {
-            this.state.velocity.y = 0;
-            this.state.acceleration.y = 0;
-            this.position.set(ballXCoord, ballRadius, ballZCoord);
-        }
     }
 }
 

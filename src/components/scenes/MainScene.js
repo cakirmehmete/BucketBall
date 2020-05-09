@@ -24,7 +24,6 @@ class MainScene extends Scene {
         };
         this.terrain = null;
         this.ball = null;
-        this.ballBody = null;
         this.bucket = null;
 
         // Setup physical world using CannonJS
@@ -42,7 +41,6 @@ class MainScene extends Scene {
 
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
-
         this.add(lights, axesHelper);
 
         // Initialize different objects and place them accordingly in the scene
@@ -102,21 +100,6 @@ class MainScene extends Scene {
             this.ball.radius,
             rootPosition.z
         );
-
-        // // Add cannon body to ball
-        // const ballMesh = this.ball.children[0];
-        // const mass = SceneParams.MASS;
-        // const ballShape = new Sphere(ballMesh.radius);
-        // const ballBody = new Body({
-        //     mass: mass,
-        //     shape: ballShape,
-        //     position: new Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z),
-        // });
-
-        // Add cannon body to ball
-        const ballBody = this.ball.initBallBody();
-        this.ballBody = ballBody;
-        this.world.add(ballBody);
     }
 
     // Add bucket/hole to the environment
@@ -205,12 +188,6 @@ class MainScene extends Scene {
         });
     }
 
-    // Account for collisions between ball and given obstacles, environment, and terrain
-    // ** DEBUGGING PURPOSES ONLY, COLLISIONS HANDLED BY CANNONJS **
-    handleCollisions() {
-        this.ball.handleFloorCollisions(this.terrain);
-    }
-
     // Callback function for keydown events
     handleKeyDownEvents(event) {
         const offset = 2;
@@ -276,8 +253,6 @@ class MainScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-
-        //this.handleCollisions();
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
