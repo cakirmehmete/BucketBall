@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import { Vec3 } from 'cannon';
-import SceneParams from '../../params';
+import SceneParams from '../../../params';
 
 /*
     Adapted From: https://github.com/jcole/golf-shot-simulation

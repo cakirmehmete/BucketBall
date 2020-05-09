@@ -1,13 +1,13 @@
-import { Group, Vector3, TextureLoader } from 'three';
-import { MeshStandardMaterial, Mesh } from 'three';
-import { SphereGeometry } from 'three';
+import { Group, Vector3, TextureLoader } from './node_modules/three';
+import { MeshStandardMaterial, Mesh } from './node_modules/three';
+import { SphereGeometry } from './node_modules/three';
 import golfBMTexture from '../../../resources/golfbumpmap.jpg';
 import {
     projectShot,
     calculateInitialVelocity,
     calculateInitialSpin,
-} from './ARCHIVE/ARCHIVE_BallPhysicsHelper';
-import SceneParams from '../../params';
+} from './ARCHIVE_BallPhysicsHelper';
+import SceneParams from '../../../params';
 import { Sphere, Vec3, Body } from 'cannon';
 
 class Ball extends Group {
