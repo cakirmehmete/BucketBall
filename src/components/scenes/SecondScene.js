@@ -60,7 +60,7 @@ class SecondScene extends Scene {
         this.add(lights, axesHelper);
 
         // Initialize different objects and place them accordingly in the scene
-        this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
+        this.setupTerrain(100, 240);
         this.setupClouds();
         this.setupBall();
         this.setupBucket();
@@ -95,16 +95,20 @@ class SecondScene extends Scene {
 
     setupScarecrow() {
         const scareCrow = new Scarecrow(this);
+        scareCrow.position.set(0, 0, -80);
         this.add(scareCrow);
     }
 
     setupHen() {
         const hen = new Hen(this);
+        hen.position.set(0, 30, -20);
         this.add(hen);
     }
 
     setupTractor() {
         const tractor = new Tractor(this);
+        tractor.position.set(-20, 0, 20);
+        tractor.rotation.y = Math.PI/2;
         this.add(tractor);
     }
 
@@ -115,6 +119,7 @@ class SecondScene extends Scene {
 
     setupWindmill() {
         const windmill = new Windmill(this);
+        windmill.position.set(-10, 0, 100);
         this.add(windmill);
     }
 
@@ -180,8 +185,9 @@ class SecondScene extends Scene {
     // Add ball to the environment
     setupBall() {
         // Add ball mesh to scene
-        const edgeOffset = 30.0;
-        const startingPositionX = this.terrain.terrainWidth / 2.0 - edgeOffset;
+        const edgeOffset = 10.0;
+        const startingPositionX =
+            this.terrain.terrainWidth / 2.0 - edgeOffset - 40;
         const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
         this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);

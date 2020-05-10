@@ -19,7 +19,6 @@ class Hen extends Group {
         const scale = 0.7;
         this.scale.set(scale, scale, scale);
         this.position.set(80, 30, 40);
-        this.rotation.y = Math.PI;
     }
 }
 
