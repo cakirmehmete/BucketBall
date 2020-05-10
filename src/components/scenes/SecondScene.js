@@ -102,8 +102,18 @@ class SecondScene extends Scene {
 
     setupHen() {
         const hen = new Hen(this);
-        hen.position.set(0, 30, -20);
+        hen.position.set(0, 27, -20);
         this.add(hen);
+
+        const mass = 5;
+        const shape = new Box(new Vec3(2, 5, 2));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(hen.position.x-7, 2, hen.position.z);
+        this.world.addBody(body);
+
+        const body1 = new Body({ mass: mass, shape: shape });
+        body1.position.set(hen.position.x + 7, 2, hen.position.z);
+        this.world.addBody(body1);
     }
 
     setupTractor() {
@@ -112,6 +122,19 @@ class SecondScene extends Scene {
         tractor.rotation.y = Math.PI / 2;
         this.add(tractor);
         this.tractor = tractor;
+        
+        const mass = 5;
+        const shape = new Box(
+            new Vec3(15, 10, 10)
+        );
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(
+            tractor.position.x,
+            tractor.position.y + 10,
+            tractor.position.z
+        );
+        this.tractor.body = body;
+        this.world.addBody(body);
     }
 
     setupGoldenGateBridge() {
@@ -383,12 +406,13 @@ class SecondScene extends Scene {
     }
 
     updateTractor() {
-        if (this.tractor.position.x >= 30) {
+        if (this.tractor.position.x >= 35) {
             this.state.offset = -1;
-        } else if (this.tractor.position.x <= -30) {
+        } else if (this.tractor.position.x <= -35) {
             this.state.offset = 1;
         }
         this.tractor.position.x += this.state.offset;
+        this.tractor.body.position.x += this.state.offset;
     }
 }
 
