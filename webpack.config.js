@@ -15,6 +15,20 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.html$/,
+                use: [
+                    // ...The other file-loader and extract-loader go here.
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            attributes: {
+                                root: path.resolve(__dirname, 'src'),
+                            },
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
             },
@@ -24,7 +38,7 @@ module.exports = {
                 exclude: path.resolve(__dirname, './node_modules/'),
             },
             {
-                test: /\.(jpe?g|png|gif|svg|tga|gltf|babylon|mtl|pcb|pcd|prwm|obj|mat|mp3|ogg)$/i,
+                test: /\.(jpe?g|png|gif|svg|tga|gltf|glb|babylon|mtl|pcb|pcd|prwm|obj|mat|mp3|ogg)$/i,
                 use: 'file-loader',
                 exclude: path.resolve(__dirname, './node_modules/'),
             },

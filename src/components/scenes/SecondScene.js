@@ -17,6 +17,10 @@ import {
 } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
+import Windmill from '../objects/Windmill/Windmill';
+import { Tractor } from '../objects';
+import { Hen } from '../objects/Hen';
+import { Scarecrow } from '../objects/Scarecrow';
 
 class SecondScene extends Scene {
     constructor(nextLevel, camera) {
@@ -34,6 +38,7 @@ class SecondScene extends Scene {
             spaceBarDown: false,
             power: 3,
             complete: false,
+            offset: 1,
         };
         this.terrain = null;
         this.ball = null;
@@ -49,18 +54,21 @@ class SecondScene extends Scene {
         this.setupGame();
 
         // Set background to a light blue to represent sky
-        this.background = new Color(0x870000);
+        this.background = new Color(0x87ceeb);
 
         const lights = new BasicLights();
-        const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
-        this.add(lights, axesHelper);
+        this.add(lights);
 
         // Initialize different objects and place them accordingly in the scene
-        this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
+        this.setupTerrain(102, 240);
         this.setupClouds();
         this.setupBall();
         this.setupBucket();
         this.setupArrow();
+        this.setupWindmill();
+        this.setupTractor();
+        this.setupHen();
+        this.setupScarecrow();
         this.setupCrates();
 
         // Setup Event handler for Golf Ball
@@ -82,6 +90,65 @@ class SecondScene extends Scene {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
+    }
+
+    setupScarecrow() {
+        const scareCrow = new Scarecrow(this);
+        scareCrow.position.set(0, 0, -80);
+        this.add(scareCrow);
+
+        const mass = 0;
+        const shape = new Box(new Vec3(2, 5, 2));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(scareCrow.position.x, 2, scareCrow.position.z);
+        this.world.addBody(body);
+    }
+
+    setupHen() {
+        const hen = new Hen(this);
+        hen.position.set(0, 27, -20);
+        this.add(hen);
+
+        const mass = 0;
+        const shape = new Box(new Vec3(2, 5, 2));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(hen.position.x - 7, 2, hen.position.z);
+        this.world.addBody(body);
+
+        const body1 = new Body({ mass: mass, shape: shape });
+        body1.position.set(hen.position.x + 7, 2, hen.position.z);
+        this.world.addBody(body1);
+    }
+
+    setupTractor() {
+        const tractor = new Tractor(this);
+        tractor.position.set(-20, 0, 20);
+        tractor.rotation.y = Math.PI / 2;
+        this.add(tractor);
+        this.tractor = tractor;
+
+        const mass = 0;
+        const shape = new Box(new Vec3(15, 10, 10));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(
+            tractor.position.x,
+            tractor.position.y + 10,
+            tractor.position.z
+        );
+        this.tractor.body = body;
+        this.world.addBody(body);
+    }
+
+    setupWindmill() {
+        const windmill = new Windmill(this);
+        windmill.position.set(-10, 0, 100);
+        this.add(windmill);
+
+        const mass = 0;
+        const shape = new Box(new Vec3(10, 10, 10));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(0, 10, 75);
+        this.world.addBody(body);
     }
 
     setupGame() {
@@ -146,8 +213,9 @@ class SecondScene extends Scene {
     // Add ball to the environment
     setupBall() {
         // Add ball mesh to scene
-        const edgeOffset = 30.0;
-        const startingPositionX = this.terrain.terrainWidth / 2.0 - edgeOffset;
+        const edgeOffset = 10.0;
+        const startingPositionX =
+            this.terrain.terrainWidth / 2.0 - edgeOffset - 40;
         const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
         this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);
@@ -205,36 +273,16 @@ class SecondScene extends Scene {
         const crateSize = 10.0;
         const EPS = 4.0;
         const crates = [];
-        for (let i = 1; i < 20; i++) {
-            const crate = new Crate(crateSize);
-            const xPosition =
-                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
-            const yPosition = crateSize / 2.0;
-            const zPosition = this.terrain.terrainHeight / 2 - 55.0;
 
-            crate.position.set(xPosition, yPosition, zPosition);
-            this.add(crate);
-            crates.push(crate);
-        }
-
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 11; i++) {
+            if (i === 5 || i === 6) {
+                continue;
+            }
             const crate = new Crate(crateSize);
             const xPosition =
                 i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
             const yPosition = crateSize / 2.0;
-            const zPosition = 0;
-
-            crate.position.set(xPosition, yPosition, zPosition);
-            this.add(crate);
-            crates.push(crate);
-        }
-
-        for (let i = 1; i < 20; i++) {
-            const crate = new Crate(crateSize);
-            const xPosition =
-                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
-            const yPosition = crateSize / 2.0;
-            const zPosition = -(this.terrain.terrainHeight / 2) + 55.0;
+            const zPosition = -20;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -353,8 +401,21 @@ class SecondScene extends Scene {
             this.arrow.updateShotDirectionPower(0, this.state.power);
         }
 
+        // Update tractor
+        this.updateTractor();
+
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
+    }
+
+    updateTractor() {
+        if (this.tractor.position.x >= 35) {
+            this.state.offset = -1;
+        } else if (this.tractor.position.x <= -35) {
+            this.state.offset = 1;
+        }
+        this.tractor.position.x += this.state.offset;
+        this.tractor.body.position.x += this.state.offset;
     }
 }
 
