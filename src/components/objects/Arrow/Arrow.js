@@ -5,6 +5,7 @@ import {
     MeshBasicMaterial,
     Mesh,
     ConeGeometry,
+    Vector3,
 } from 'three';
 
 class Arrow extends Group {
@@ -68,7 +69,8 @@ class Arrow extends Group {
         this.show();
 
         this.cube.scale.set(1, 1, power / 10 + 0.5);
-        const width = new Box3().setFromObject(this.cube).getSize().z;
+        const width = new Box3().setFromObject(this.cube).getSize(new Vector3())
+            .z;
         this.cube.position.set(0, 0, -width / 2 - 2);
         this.pivot.add(this.cube);
         this.cone.position.set(0, 0, this.cube.position.z - width / 2);

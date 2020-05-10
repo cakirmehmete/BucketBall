@@ -274,7 +274,9 @@ class MainScene extends Scene {
     }
 
     updateBallHelper(offset, power) {
-        this.arrow.updateShotDirectionPower(offset, power);
+        if (!this.ball.state.moving) {
+            this.arrow.updateShotDirectionPower(offset, power);
+        }
         this.ball.updateShotDirectionPower(offset, power);
     }
 
@@ -285,7 +287,9 @@ class MainScene extends Scene {
             if (this.state.spaceBarDown) {
                 this.arrow.hide();
                 this.ball.shootBall();
-                this.game.updateAttempt();
+                if (!this.ball.moving) {
+                    this.game.updateAttempt();
+                }
                 this.state.spaceBarDown = false;
             }
         }
@@ -319,6 +323,13 @@ class MainScene extends Scene {
         if (this.game.checkWinCondition(this.ball, this.bucket)) {
             this.ball.mesh.visible = false;
             this.game.displayWinCondition();
+        }
+
+        // Check if ball still moving
+        if (this.ball.state.moving) {
+            this.arrow.hide();
+        } else {
+            this.arrow.updateShotDirectionPower(0, this.state.power);
         }
 
         this.world.step(SceneParams.TIMESTEP); // Update physics
