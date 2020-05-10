@@ -9,6 +9,8 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MainScene } from 'scenes';
+import Menu from './Menu/Menu.js';
+import css from './index.css';
 
 // Initialize core ThreeJS components
 const scene = new MainScene();
