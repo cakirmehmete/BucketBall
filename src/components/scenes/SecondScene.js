@@ -18,7 +18,7 @@ import {
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 import Windmill from '../objects/Windmill/Windmill';
-import { GoldenGateBridge, Tractor } from '../objects';
+import { Tractor } from '../objects';
 import { Hen } from '../objects/Hen';
 import { Scarecrow } from '../objects/Scarecrow';
 
@@ -66,7 +66,6 @@ class SecondScene extends Scene {
         this.setupBucket();
         this.setupArrow();
         this.setupWindmill();
-        this.setupGoldenGateBridge();
         this.setupTractor();
         this.setupHen();
         this.setupScarecrow();
@@ -138,11 +137,6 @@ class SecondScene extends Scene {
         );
         this.tractor.body = body;
         this.world.addBody(body);
-    }
-
-    setupGoldenGateBridge() {
-        const goldenGate = new GoldenGateBridge(this);
-        //this.add(goldenGate);
     }
 
     setupWindmill() {

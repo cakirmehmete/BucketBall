@@ -8,5 +8,4 @@ export * from './Arrow';
 export * from './Crate';
 export * from './Game';
 export * from './Windmill';
-export * from './GoldenGateBridge';
 export * from './Tractor';
