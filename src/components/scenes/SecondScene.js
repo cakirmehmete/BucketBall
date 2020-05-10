@@ -57,8 +57,7 @@ class SecondScene extends Scene {
         this.background = new Color(0x87ceeb);
 
         const lights = new BasicLights();
-        const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
-        this.add(lights, axesHelper);
+        this.add(lights);
 
         // Initialize different objects and place them accordingly in the scene
         this.setupTerrain(102, 240);
