@@ -37,12 +37,18 @@ class Game {
         return false;
     }
 
+    // Display win text
     displayWinCondition() {
         document.getElementById('winDisplay').innerHTML =
             'You won in ' +
             this.state.attempts +
             ' attempts! Press enter to play next level.';
         document.getElementById('win').style.display = 'block';
+    }
+
+    // Reset game text
+    resetGameText() {
+        document.getElementById('win').style.display = 'none';
     }
 }
 

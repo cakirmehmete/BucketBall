@@ -297,6 +297,7 @@ class SecondScene extends Scene {
             if (event.keyCode === 13) {
                 this.state.complete = true;
                 this.state.gui.destroy();
+                this.game.resetGameText();
                 this.nextLevel();
             }
         } else {

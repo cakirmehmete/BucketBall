@@ -23,7 +23,8 @@ class ThirdScene extends Scene {
         super();
 
         // Define constant values
-        const TERRAINSIZE = 250.0;
+        const TERRAINWIDTH = 300.0;
+        const TERRAINHEIGHT = 100.0;
 
         // Initialize state and scene properties
         this.state = {
@@ -56,7 +57,7 @@ class ThirdScene extends Scene {
         this.add(lights, axesHelper);
 
         // Initialize different objects and place them accordingly in the scene
-        this.setupTerrain(TERRAINSIZE, TERRAINSIZE);
+        this.setupTerrain(TERRAINWIDTH, TERRAINHEIGHT);
         this.setupClouds();
         this.setupBall();
         this.setupBucket();
@@ -78,7 +79,7 @@ class ThirdScene extends Scene {
         // Populate GUI
         const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
-            function () {
+            function() {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
@@ -146,9 +147,9 @@ class ThirdScene extends Scene {
     // Add ball to the environment
     setupBall() {
         // Add ball mesh to scene
-        const edgeOffset = 30.0;
-        const startingPositionX = this.terrain.terrainWidth / 2.0 - edgeOffset;
-        const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
+        const edgeOffset = 10.0;
+        const startingPositionX = -this.terrain.terrainWidth / 2.0 + edgeOffset;
+        const startingPositionZ = 0;
         this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);
 
@@ -158,13 +159,13 @@ class ThirdScene extends Scene {
 
     // Add bucket/hole to the environment
     setupBucket() {
-        const EPS = 0.05;
+        const EPS = 1.0;
         const edgeOffset = 10.0;
         const bucket = new Bucket();
         bucket.position.set(
             this.terrain.terrainWidth / 2.0 - edgeOffset,
             this.terrain.terrainDepth + EPS,
-            -this.terrain.terrainHeight / 2.0 + edgeOffset
+            0
         );
         this.add(bucket);
         this.bucket = bucket;
@@ -202,39 +203,95 @@ class ThirdScene extends Scene {
 
     // Add randomized crates to the environment
     setupCrates() {
-        const crateSize = 10.0;
-        const EPS = 4.0;
+        const crateSize = 5.0;
+        const EPS = 1.0;
         const crates = [];
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 5; i++) {
             const crate = new Crate(crateSize);
-            const xPosition =
-                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
+            const xPosition = -(this.terrain.terrainWidth / 2) + 50.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = this.terrain.terrainHeight / 2 - 55.0;
+            const zPosition = this.terrain.terrainHeight / 2 + EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
             crates.push(crate);
         }
 
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 15; i++) {
             const crate = new Crate(crateSize);
-            const xPosition =
-                i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
+            const xPosition = -(this.terrain.terrainWidth / 2) + 50.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = 0;
+            const zPosition =
+                i * crateSize - (this.terrain.terrainHeight / 2) - EPS;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
             crates.push(crate);
         }
 
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 16; i++) {
             const crate = new Crate(crateSize);
-            const xPosition =
-                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
+            const xPosition = -(this.terrain.terrainWidth / 2) + 100.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = -(this.terrain.terrainHeight / 2) + 55.0;
+            const zPosition = (this.terrain.terrainHeight / 2 + EPS) - i * crateSize;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        for (let i = 1; i < 15; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = -(this.terrain.terrainWidth / 2) + 150.0;
+            const yPosition = crateSize / 2.0;
+            const zPosition = this.terrain.terrainHeight / 2 + EPS - i * crateSize;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        for (let i = 1; i < 5; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = -(this.terrain.terrainWidth / 2) + 150.0;
+            const yPosition = crateSize / 2.0;
+            const zPosition =
+                i * crateSize - this.terrain.terrainHeight / 2 - EPS;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        for (let i = 1; i < 16; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = -(this.terrain.terrainWidth / 2) + 200.0;
+            const yPosition = crateSize / 2.0;
+            const zPosition =
+                i * crateSize - this.terrain.terrainHeight / 2 + EPS;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        for (let i = 1; i < 7; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = this.terrain.terrainWidth / 2 - EPS - i * crateSize;
+            const yPosition = crateSize / 2.0;
+            const zPosition =
+                i * crateSize - this.terrain.terrainHeight / 2 - EPS;
+
+            crate.position.set(xPosition, yPosition, zPosition);
+            this.add(crate);
+            crates.push(crate);
+        }
+
+        for (let i = 1; i < 7; i++) {
+            const crate = new Crate(crateSize);
+            const xPosition = this.terrain.terrainWidth / 2 - EPS - i * crateSize;
+            const yPosition = crateSize / 2.0;
+            const zPosition = this.terrain.terrainHeight / 2 - EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -269,6 +326,7 @@ class ThirdScene extends Scene {
             if (event.keyCode === 13) {
                 this.state.complete = true;
                 this.state.gui.destroy();
+                this.game.resetGameText();
                 this.nextLevel();
             }
         } else {
