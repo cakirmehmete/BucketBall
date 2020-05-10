@@ -33,6 +33,7 @@ class ThirdScene extends Scene {
             // Direction/Power for golf ball
             spaceBarDown: false,
             power: 3,
+            complete: false,
         };
         this.terrain = null;
         this.ball = null;
@@ -260,9 +261,13 @@ class ThirdScene extends Scene {
     handleKeyDownEvents(event) {
         const offset = 0.1;
         const power = this.state.power;
+        if (this.state.complete === true) {
+            return;
+        }
 
         if (this.game.state.won) {
             if (event.keyCode === 13) {
+                this.state.complete = true;
                 this.state.gui.destroy();
                 this.nextLevel();
             }
@@ -291,6 +296,10 @@ class ThirdScene extends Scene {
 
     // Callback function for keyup events
     handleKeyUpEvents(event) {
+        if (this.state.complete === true) {
+            return;
+        }
+
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown && !this.ball.state.moving) {
@@ -315,6 +324,9 @@ class ThirdScene extends Scene {
 
     // Handle animations
     update(timeStamp) {
+        if (this.state.complete === true) {
+            return;
+        }
         const { updateList } = this.state;
 
         // Animate power slider when spacebar held down
