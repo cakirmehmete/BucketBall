@@ -20,6 +20,8 @@ class Ball extends Group {
             projPos: [],
             power: 3,
             shootDirection: new Vector3(0, 0, -1),
+            moving: false,
+            previous: new Vector3(),
         };
         this.name = 'ball';
         this.radius = SceneParams.RADIUS;
@@ -72,6 +74,15 @@ class Ball extends Group {
         this.mesh.position.copy(this.body.position);
         this.mesh.position.y -= SceneParams.RADIUS;
         this.mesh.quaternion.copy(this.body.quaternion);
+
+        // Check if ball is still moving
+        const dist = this.state.previous.distanceTo(this.body.position);
+        if (dist < 0.01) {
+            this.state.moving = false;
+        } else {
+            this.state.moving = true;
+        }
+        this.state.previous = this.body.position.clone();
     }
 
     // Add a shooting force to the ball with the given power and direction
@@ -81,12 +92,13 @@ class Ball extends Group {
     shootBall() {
         const shootDirection = this.state.shootDirection;
         const power = this.state.power * 1.5;
-
-        this.body.velocity.set(
-            shootDirection.x * power,
-            shootDirection.y * power,
-            shootDirection.z * power
-        );
+        if (!this.state.moving) {
+            this.body.velocity.set(
+                shootDirection.x * power,
+                shootDirection.y * power,
+                shootDirection.z * power
+            );
+        }
     }
 
     updateShotDirectionPower(angle, power) {
