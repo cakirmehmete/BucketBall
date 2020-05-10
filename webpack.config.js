@@ -15,6 +15,20 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.html$/,
+                use: [
+                    // ...The other file-loader and extract-loader go here.
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            attributes: {
+                                root: path.resolve(__dirname, 'src'),
+                            },
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
             },
