@@ -16,6 +16,10 @@ import {
     Plane,
 } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
+import Bench from '../objects/Bench/Bench';
+import Tree from '../objects/Tree/Tree';
+import Stone from '../objects/Stone/Stone';
+import Bridge from '../objects/Bridge/Bridge';
 import SceneParams from '../params';
 
 class MainScene extends Scene {
@@ -62,6 +66,7 @@ class MainScene extends Scene {
         this.setupArrow();
         this.setupCrates();
         this.setupHelicopter();
+        this.setupBenches();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -170,11 +175,19 @@ class MainScene extends Scene {
         this.bucket = bucket;
     }
 
+    // Add helicopters to the environment
     setupHelicopter() {
-        const helicopter = new Helicopter();
-        const heliHeight = this.terrain.terrainDepth + 100.0;
-        helicopter.position.set(0, heliHeight, -this.terrain.terrainHeight / 2);
-        this.add(helicopter);
+        const helicopterOne = new Helicopter(1);
+        const helicopterTwo = new Helicopter(2);
+        const max = 0;
+        const min = Math.ceil(this.terrain.terrainHeight / 2 + 10.0);
+        const xPos = Math.floor(Math.random() * 150.0);
+        const yPos = this.terrain.terrainDepth + 100.0;
+        const zPos = Math.floor(Math.random() * (max - min)) + min;
+
+        helicopterOne.position.set(xPos, yPos, -zPos);
+        helicopterTwo.position.set(-xPos + 20.0, yPos, -zPos);
+        this.add(helicopterOne, helicopterTwo);
     }
 
     // Add randomized clouds to the environment
@@ -207,12 +220,19 @@ class MainScene extends Scene {
         this.arrow = arrow;
     }
 
+    // Add benches to the environment
+    setupBenches() {
+        const tree = new Bridge();
+        tree.position.set(0, 50, 0);
+        this.add(tree);
+    }
+
     // Add randomized crates to the environment
     setupCrates() {
         const crateSize = 10.0;
         const EPS = 4.0;
         const crates = [];
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 14; i++) {
             const crate = new Crate(crateSize);
             const xPosition =
                 this.terrain.terrainWidth / 2 + EPS - i * crateSize;
@@ -224,7 +244,7 @@ class MainScene extends Scene {
             crates.push(crate);
         }
 
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 14; i++) {
             const crate = new Crate(crateSize);
             const xPosition =
                 i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
@@ -236,7 +256,7 @@ class MainScene extends Scene {
             crates.push(crate);
         }
 
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 14; i++) {
             const crate = new Crate(crateSize);
             const xPosition =
                 this.terrain.terrainWidth / 2 + EPS - i * crateSize;

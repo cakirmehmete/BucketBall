@@ -1,26 +1,42 @@
 import { Group } from 'three';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import MODEL from './Helicopter.obj';
-import MAT from './Helicopter.mtl';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import MODEL1 from './helicopter.glb';
+import MODEL2 from './helicopter2.glb';
 
 class Helicopter extends Group {
-    constructor() {
+    constructor(helitype) {
+        // Call parent Group() constructor
         super();
 
         // Init state
         this.state = {};
 
-        const loader = new OBJLoader();
-        const mtlLoader = new MTLLoader();
-        mtlLoader.setResourcePath('src/components/objects/Helicopter/');
-        mtlLoader.load(MAT, (material) => {
-            material.preload();
-            loader.setMaterials(material).load(MODEL, (obj) => {
-                obj.scale.multiplyScalar(0.5);
-                this.add(obj);
-            });
+        // Load object
+        let MODEL = 0;
+        if (helitype === 1) {
+            MODEL = MODEL1;
+        }
+        else {
+            MODEL = MODEL2;
+        }
+
+        const loader = new GLTFLoader();
+        loader.load(MODEL, (gltf) => {
+            this.add(gltf.scene);
         });
+
+        let scale = 1.0;
+        if (MODEL === MODEL2) {
+            scale = 0.05;
+        }
+        this.scale.multiplyScalar(scale);
+
+        if (MODEL === MODEL1) {
+            this.rotateY(Math.random() * -Math.PI / 4);
+        }
+        else {
+            this.rotateY(Math.random() * -Math.PI / 2);
+        }
     }
 }
 
