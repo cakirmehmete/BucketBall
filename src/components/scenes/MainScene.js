@@ -19,7 +19,7 @@ import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 
 class MainScene extends Scene {
-    constructor() {
+    constructor(camera) {
         super();
 
         // Define constant values
@@ -38,6 +38,7 @@ class MainScene extends Scene {
         this.ball = null;
         this.bucket = null;
         this.game = null;
+        this.camera = camera;
 
         // Setup physical world using CannonJS
         this.setupCannon();
@@ -273,8 +274,8 @@ class MainScene extends Scene {
     updateBallHelper(offset, power) {
         if (!this.ball.state.moving) {
             this.arrow.updateShotDirectionPower(offset, power);
+            this.ball.updateShotDirectionPower(offset, power);
         }
-        this.ball.updateShotDirectionPower(offset, power);
     }
 
     // Callback function for keyup events
@@ -282,9 +283,9 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
-                this.arrow.hide();
-                this.ball.shootBall();
                 if (!this.ball.moving) {
+                    this.arrow.hide();
+                    this.ball.shootBall();
                     this.game.updateAttempt();
                 }
                 this.state.spaceBarDown = false;

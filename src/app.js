@@ -13,8 +13,8 @@ import Menu from './Menu/Menu.js';
 import css from './index.css';
 
 // Initialize core ThreeJS components
-const scene = new MainScene();
 const camera = new PerspectiveCamera();
+const scene = new MainScene(camera);
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
