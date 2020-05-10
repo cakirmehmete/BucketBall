@@ -98,6 +98,12 @@ class SecondScene extends Scene {
         const scareCrow = new Scarecrow(this);
         scareCrow.position.set(0, 0, -80);
         this.add(scareCrow);
+
+        const mass = 0;
+        const shape = new Box(new Vec3(2, 5, 2));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(scareCrow.position.x, 2, scareCrow.position.z);
+        this.world.addBody(body);
     }
 
     setupHen() {
@@ -105,10 +111,10 @@ class SecondScene extends Scene {
         hen.position.set(0, 27, -20);
         this.add(hen);
 
-        const mass = 5;
+        const mass = 0;
         const shape = new Box(new Vec3(2, 5, 2));
         const body = new Body({ mass: mass, shape: shape });
-        body.position.set(hen.position.x-7, 2, hen.position.z);
+        body.position.set(hen.position.x - 7, 2, hen.position.z);
         this.world.addBody(body);
 
         const body1 = new Body({ mass: mass, shape: shape });
@@ -122,11 +128,9 @@ class SecondScene extends Scene {
         tractor.rotation.y = Math.PI / 2;
         this.add(tractor);
         this.tractor = tractor;
-        
-        const mass = 5;
-        const shape = new Box(
-            new Vec3(15, 10, 10)
-        );
+
+        const mass = 0;
+        const shape = new Box(new Vec3(15, 10, 10));
         const body = new Body({ mass: mass, shape: shape });
         body.position.set(
             tractor.position.x,
@@ -146,6 +150,12 @@ class SecondScene extends Scene {
         const windmill = new Windmill(this);
         windmill.position.set(-10, 0, 100);
         this.add(windmill);
+
+        const mass = 0;
+        const shape = new Box(new Vec3(10, 10, 10));
+        const body = new Body({ mass: mass, shape: shape });
+        body.position.set(0, 10, 75);
+        this.world.addBody(body);
     }
 
     setupGame() {
