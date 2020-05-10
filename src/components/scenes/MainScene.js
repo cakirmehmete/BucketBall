@@ -145,7 +145,7 @@ class MainScene extends Scene {
         // Add ball mesh to scene
         const edgeOffset = 30.0;
         const startingPositionX =
-            -(this.terrain.terrainWidth / 2.0) + edgeOffset;
+            (this.terrain.terrainWidth / 2.0) - edgeOffset;
         const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
         this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);
@@ -205,10 +205,9 @@ class MainScene extends Scene {
         const crates = [];
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = -(this.terrain.terrainWidth / 2) + 55.0;
+            const xPosition = this.terrain.terrainWidth / 2 + EPS - i * crateSize;
             const yPosition = crateSize / 2.0;
-            const zPosition =
-                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
+            const zPosition = (this.terrain.terrainHeight / 2) - 55.0;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -217,10 +216,9 @@ class MainScene extends Scene {
 
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = 0;
+            const xPosition = i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
             const yPosition = crateSize / 2.0;
-            const zPosition =
-                i * crateSize - (this.terrain.terrainHeight / 2 + EPS);
+            const zPosition = 0;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -229,10 +227,9 @@ class MainScene extends Scene {
 
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = this.terrain.terrainWidth / 2 - 55.0;
+            const xPosition = this.terrain.terrainWidth / 2 + EPS - i * crateSize;
             const yPosition = crateSize / 2.0;
-            const zPosition =
-                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
+            const zPosition = -(this.terrain.terrainHeight / 2) + 55.0;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
