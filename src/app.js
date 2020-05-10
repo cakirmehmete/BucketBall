@@ -11,8 +11,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MainScene } from 'scenes';
 
 // Initialize core ThreeJS components
-const scene = new MainScene();
 const camera = new PerspectiveCamera();
+const scene = new MainScene(camera);
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera

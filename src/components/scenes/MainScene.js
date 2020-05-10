@@ -19,7 +19,7 @@ import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 
 class MainScene extends Scene {
-    constructor() {
+    constructor(camera) {
         super();
 
         // Define constant values
@@ -38,6 +38,7 @@ class MainScene extends Scene {
         this.ball = null;
         this.bucket = null;
         this.game = null;
+        this.camera = camera;
 
         // Setup physical world using CannonJS
         this.setupCannon();
@@ -331,7 +332,7 @@ class MainScene extends Scene {
         } else {
             this.arrow.updateShotDirectionPower(0, this.state.power);
         }
-
+        
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
     }
