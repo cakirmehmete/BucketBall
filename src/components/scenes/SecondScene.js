@@ -38,6 +38,7 @@ class SecondScene extends Scene {
             spaceBarDown: false,
             power: 3,
             complete: false,
+            offset: 1,
         };
         this.terrain = null;
         this.ball = null;
@@ -60,7 +61,7 @@ class SecondScene extends Scene {
         this.add(lights, axesHelper);
 
         // Initialize different objects and place them accordingly in the scene
-        this.setupTerrain(100, 240);
+        this.setupTerrain(102, 240);
         this.setupClouds();
         this.setupBall();
         this.setupBucket();
@@ -70,7 +71,7 @@ class SecondScene extends Scene {
         this.setupTractor();
         this.setupHen();
         this.setupScarecrow();
-        //this.setupCrates();
+        this.setupCrates();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -108,8 +109,9 @@ class SecondScene extends Scene {
     setupTractor() {
         const tractor = new Tractor(this);
         tractor.position.set(-20, 0, 20);
-        tractor.rotation.y = Math.PI/2;
+        tractor.rotation.y = Math.PI / 2;
         this.add(tractor);
+        this.tractor = tractor;
     }
 
     setupGoldenGateBridge() {
@@ -245,36 +247,16 @@ class SecondScene extends Scene {
         const crateSize = 10.0;
         const EPS = 4.0;
         const crates = [];
-        for (let i = 1; i < 20; i++) {
-            const crate = new Crate(crateSize);
-            const xPosition =
-                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
-            const yPosition = crateSize / 2.0;
-            const zPosition = this.terrain.terrainHeight / 2 - 55.0;
 
-            crate.position.set(xPosition, yPosition, zPosition);
-            this.add(crate);
-            crates.push(crate);
-        }
-
-        for (let i = 1; i < 20; i++) {
+        for (let i = 1; i < 11; i++) {
+            if (i === 5 || i === 6) {
+                continue;
+            }
             const crate = new Crate(crateSize);
             const xPosition =
                 i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
             const yPosition = crateSize / 2.0;
-            const zPosition = 0;
-
-            crate.position.set(xPosition, yPosition, zPosition);
-            this.add(crate);
-            crates.push(crate);
-        }
-
-        for (let i = 1; i < 20; i++) {
-            const crate = new Crate(crateSize);
-            const xPosition =
-                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
-            const yPosition = crateSize / 2.0;
-            const zPosition = -(this.terrain.terrainHeight / 2) + 55.0;
+            const zPosition = -20;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -393,8 +375,20 @@ class SecondScene extends Scene {
             this.arrow.updateShotDirectionPower(0, this.state.power);
         }
 
+        // Update tractor
+        this.updateTractor();
+
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
+    }
+
+    updateTractor() {
+        if (this.tractor.position.x >= 30) {
+            this.state.offset = -1;
+        } else if (this.tractor.position.x <= -30) {
+            this.state.offset = 1;
+        }
+        this.tractor.position.x += this.state.offset;
     }
 }
 
