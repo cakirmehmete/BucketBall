@@ -27,7 +27,7 @@ const updateLevel = () => {
         scene = new ThirdScene(updateLevel, camera);
     }
 };
-let scene = new SecondScene(updateLevel, camera);
+let scene = new MainScene(updateLevel, camera);
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
