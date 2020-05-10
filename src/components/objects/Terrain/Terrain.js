@@ -1,8 +1,7 @@
-import { Group, Vector3, Face3 } from 'three';
+import { Group } from 'three';
 import { MeshStandardMaterial, Mesh, TextureLoader } from 'three';
-import { BoxBufferGeometry, Geometry } from 'three';
+import { BoxBufferGeometry, PlaneBufferGeometry } from 'three';
 import grassTexture from '../../../resources/grass.png';
-import { Noise } from 'noisejs';
 import { Box, Vec3, Body } from 'cannon';
 
 class Terrain extends Group {
@@ -20,73 +19,67 @@ class Terrain extends Group {
         this.zSpacing = 1.0;
         this.maxHeight = 2.0;
 
-        // Use Perlin Noise to randomly generate a hill-like terrain on given
-        // parts of the field. Adapted from http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
-        // Seed the noise so that the hills are randomized at a given time
-        const date = new Date();
-        const noise = new Noise(date.getMilliseconds());
+        // // Generate a hill-like terrain using a custom geometry
+        // const terrainGeometry = new Geometry();
+        // for (let z = 0; z < this.terrainHeight; z++) {
+        //     for (let x = 0; x < this.terrainWidth; x++) {
+        //         let heightVal = 0;
+        //         if (z > this.terrainHeight / 18) {
+        //             heightVal = Math.abs(
+        //                 Math.random() * this.maxHeight * 0.5
+        //             );
+        //         }
+        //         const vertex = new Vector3(
+        //             x * this.xSpacing,
+        //             heightVal,
+        //             z * this.zSpacing
+        //         );
+        //         terrainGeometry.vertices.push(vertex);
+        //     }
+        // }
+        // // Construct faces out of the vertices from geometry
+        // for (let z = 0; z < this.terrainHeight - 1; z++) {
+        //     for (let x = 0; x < this.terrainWidth - 1; x++) {
+        //         const a = x + z * this.terrainWidth;
+        //         const b = x + 1 + z * this.terrainWidth;
+        //         const c = x + (z + 1) * this.terrainWidth;
+        //         const d = x + 1 + (z + 1) * this.terrainWidth;
+        //         const face1 = new Face3(b, a, c);
+        //         const face2 = new Face3(c, d, b);
+        //         terrainGeometry.faces.push(face1);
+        //         terrainGeometry.faces.push(face2);
+        //     }
+        // }
+        // terrainGeometry.computeFaceNormals();
 
-        // Generate a hill-like terrain using a custom geometry
-        const terrainGeometry = new Geometry();
-        for (let z = 0; z < this.terrainHeight; z++) {
-            for (let x = 0; x < this.terrainWidth; x++) {
-                let heightVal = 0;
-                if (z > this.terrainHeight / 18) {
-                    heightVal = Math.abs(
-                        noise.perlin2(x / 10, z / 10) * this.maxHeight * 1.5
-                    );
-                }
-                const vertex = new Vector3(
-                    x * this.xSpacing,
-                    heightVal,
-                    z * this.zSpacing
-                );
-                terrainGeometry.vertices.push(vertex);
-            }
-        }
-        // Construct faces out of the vertices from geometry
-        for (let z = 0; z < this.terrainHeight - 1; z++) {
-            for (let x = 0; x < this.terrainWidth - 1; x++) {
-                const a = x + z * this.terrainWidth;
-                const b = x + 1 + z * this.terrainWidth;
-                const c = x + (z + 1) * this.terrainWidth;
-                const d = x + 1 + (z + 1) * this.terrainWidth;
-                const face1 = new Face3(b, a, c);
-                const face2 = new Face3(c, d, b);
-                terrainGeometry.faces.push(face1);
-                terrainGeometry.faces.push(face2);
-            }
-        }
-        terrainGeometry.computeFaceNormals();
+        // // Create material and mesh
+        // const loader = new TextureLoader();
+        // const terrainMaterial = new MeshStandardMaterial({
+        //     color: 0x315e00,
+        //     map: loader.load(grassTexture),
+        // });
+        // const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
+        // terrainMesh.translateX(-this.terrainWidth / 2);
+        // terrainMesh.translateZ(-this.terrainHeight / 2);
+        // this.add(terrainMesh);
 
-        // Create material and mesh
+        // Create flat mesh that represents the lawn grass
+        const terrainGeometry = new PlaneBufferGeometry(
+            this.terrainWidth,
+            this.terrainHeight
+        );
+
         const loader = new TextureLoader();
         const terrainMaterial = new MeshStandardMaterial({
             color: 0x315e00,
-            map: loader.load(grassTexture),
+            metalness: 0.3,
+            map: loader.load(grassTexture)
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
-        terrainMesh.translateX(-this.terrainWidth / 2);
-        terrainMesh.translateZ(-this.terrainHeight / 2);
         this.add(terrainMesh);
 
-        // // Create flat mesh that represents the lawn grass
-        // const terrainGeometry = new PlaneBufferGeometry(
-        //     this.terrainWidth,
-        //     this.terrainHeight
-        // );
-
-        // // const loader = new TextureLoader();
-        // const terrainMaterial = new MeshStandardMaterial({
-        //     color: 0x315e00,
-        //     metalness: 0.3,
-        //     // map: loader.load('src/resources/grass.jpeg')
-        // });
-        // const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
-        // this.add(terrainMesh);
-
-        // // Rotate to align with X-Z axis
-        // terrainMesh.rotateX(-(Math.PI / 2.0));
+        // Rotate to align with X-Z axis
+        terrainMesh.rotateX(-(Math.PI / 2.0));
 
         this.setupTerrainBorders();
     }
