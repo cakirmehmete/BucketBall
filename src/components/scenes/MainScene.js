@@ -19,7 +19,7 @@ import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
 
 class MainScene extends Scene {
-    constructor(camera) {
+    constructor(nextLevel, camera) {
         super();
 
         // Define constant values
@@ -39,6 +39,7 @@ class MainScene extends Scene {
         this.bucket = null;
         this.game = null;
         this.camera = camera;
+        this.nextLevel = nextLevel;
 
         // Setup physical world using CannonJS
         this.setupCannon();
@@ -259,16 +260,24 @@ class MainScene extends Scene {
     handleKeyDownEvents(event) {
         const offset = 0.1;
         const power = this.state.power;
-        if (event.key === 'a') {
-            // Left
-            this.updateBallHelper(offset, power);
-        } else if (event.key === 'd') {
-            // Right
-            this.updateBallHelper(-offset, power);
-        } else if (event.key === ' ') {
-            // Power
-            if (!this.state.spaceBarDown) {
-                this.state.spaceBarDown = true;
+
+        if (this.game.checkWinCondition(this.ball, this.bucket)) {
+            if (event.keyCode === 13) {
+                this.state.gui.destroy();
+                this.nextLevel();
+            }
+        } else {
+            if (event.key === 'a') {
+                // Left
+                this.updateBallHelper(offset, power);
+            } else if (event.key === 'd') {
+                // Right
+                this.updateBallHelper(-offset, power);
+            } else if (event.key === ' ') {
+                // Power
+                if (!this.state.spaceBarDown) {
+                    this.state.spaceBarDown = true;
+                }
             }
         }
     }
