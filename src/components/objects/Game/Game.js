@@ -34,7 +34,6 @@ class Game {
             this.state.won = true;
             return true;
         }
-        this.state.won = false;
         return false;
     }
 
