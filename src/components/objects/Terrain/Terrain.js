@@ -14,55 +14,6 @@ class Terrain extends Group {
         this.terrainHeight = height; // height associated with z-axis
         this.terrainDepth = 0; // depth associated with y-axis
 
-        // Parameters associated with building hills on the terrain
-        this.xSpacing = 1.0;
-        this.zSpacing = 1.0;
-        this.maxHeight = 2.0;
-
-        // // Generate a hill-like terrain using a custom geometry
-        // const terrainGeometry = new Geometry();
-        // for (let z = 0; z < this.terrainHeight; z++) {
-        //     for (let x = 0; x < this.terrainWidth; x++) {
-        //         let heightVal = 0;
-        //         if (z > this.terrainHeight / 18) {
-        //             heightVal = Math.abs(
-        //                 Math.random() * this.maxHeight * 0.5
-        //             );
-        //         }
-        //         const vertex = new Vector3(
-        //             x * this.xSpacing,
-        //             heightVal,
-        //             z * this.zSpacing
-        //         );
-        //         terrainGeometry.vertices.push(vertex);
-        //     }
-        // }
-        // // Construct faces out of the vertices from geometry
-        // for (let z = 0; z < this.terrainHeight - 1; z++) {
-        //     for (let x = 0; x < this.terrainWidth - 1; x++) {
-        //         const a = x + z * this.terrainWidth;
-        //         const b = x + 1 + z * this.terrainWidth;
-        //         const c = x + (z + 1) * this.terrainWidth;
-        //         const d = x + 1 + (z + 1) * this.terrainWidth;
-        //         const face1 = new Face3(b, a, c);
-        //         const face2 = new Face3(c, d, b);
-        //         terrainGeometry.faces.push(face1);
-        //         terrainGeometry.faces.push(face2);
-        //     }
-        // }
-        // terrainGeometry.computeFaceNormals();
-
-        // // Create material and mesh
-        // const loader = new TextureLoader();
-        // const terrainMaterial = new MeshStandardMaterial({
-        //     color: 0x315e00,
-        //     map: loader.load(grassTexture),
-        // });
-        // const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
-        // terrainMesh.translateX(-this.terrainWidth / 2);
-        // terrainMesh.translateZ(-this.terrainHeight / 2);
-        // this.add(terrainMesh);
-
         // Create flat mesh that represents the lawn grass
         const terrainGeometry = new PlaneBufferGeometry(
             this.terrainWidth,
