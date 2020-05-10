@@ -145,8 +145,7 @@ class MainScene extends Scene {
     setupBall() {
         // Add ball mesh to scene
         const edgeOffset = 30.0;
-        const startingPositionX =
-            (this.terrain.terrainWidth / 2.0) - edgeOffset;
+        const startingPositionX = this.terrain.terrainWidth / 2.0 - edgeOffset;
         const startingPositionZ = this.terrain.terrainHeight / 2.0 - edgeOffset;
         this.ball = new Ball(this, startingPositionX, startingPositionZ);
         this.add(this.ball);
@@ -206,9 +205,10 @@ class MainScene extends Scene {
         const crates = [];
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = this.terrain.terrainWidth / 2 + EPS - i * crateSize;
+            const xPosition =
+                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
             const yPosition = crateSize / 2.0;
-            const zPosition = (this.terrain.terrainHeight / 2) - 55.0;
+            const zPosition = this.terrain.terrainHeight / 2 - 55.0;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -217,7 +217,8 @@ class MainScene extends Scene {
 
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
+            const xPosition =
+                i * crateSize - (this.terrain.terrainWidth / 2 + EPS);
             const yPosition = crateSize / 2.0;
             const zPosition = 0;
 
@@ -228,7 +229,8 @@ class MainScene extends Scene {
 
         for (let i = 1; i < 20; i++) {
             const crate = new Crate(crateSize);
-            const xPosition = this.terrain.terrainWidth / 2 + EPS - i * crateSize;
+            const xPosition =
+                this.terrain.terrainWidth / 2 + EPS - i * crateSize;
             const yPosition = crateSize / 2.0;
             const zPosition = -(this.terrain.terrainHeight / 2) + 55.0;
 
@@ -282,12 +284,10 @@ class MainScene extends Scene {
     handleKeyUpEvents(event) {
         if (event.key === ' ') {
             // Power
-            if (this.state.spaceBarDown) {
-                if (!this.ball.moving) {
-                    this.arrow.hide();
-                    this.ball.shootBall();
-                    this.game.updateAttempt();
-                }
+            if (this.state.spaceBarDown && !this.ball.state.moving) {
+                this.arrow.hide();
+                this.ball.shootBall();
+                this.game.updateAttempt();
                 this.state.spaceBarDown = false;
             }
         }
