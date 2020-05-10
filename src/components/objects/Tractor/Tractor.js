@@ -14,7 +14,8 @@ class Tractor extends Group {
         // Load object
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
+            gltf.scene.children[0].castShadow = true;
+            this.add(gltf.scene.children[0]);
         });
         this.scale.set(2, 2, 2);
         this.position.set(40, 0, 40);

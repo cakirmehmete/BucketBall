@@ -13,7 +13,8 @@ class Campfire extends Group {
         // Load object
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
+            gltf.scene.children[0].castShadow = true;
+            this.add(gltf.scene.children[0]);
         });
 
         const scale = 1.5;

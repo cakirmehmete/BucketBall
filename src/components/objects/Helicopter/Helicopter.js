@@ -22,6 +22,10 @@ class Helicopter extends Group {
 
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
+            gltf.scene.castShadow = true;
+            if (MODEL === MODEL2) {
+                this.add(gltf.scene.children[0]);
+            }
             this.add(gltf.scene);
         });
 

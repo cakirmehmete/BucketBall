@@ -274,29 +274,6 @@ class ThirdScene extends Scene {
             crates.push(crate);
         }
 
-        for (let i = 1; i < 7; i++) {
-            const crate = new Crate(crateSize);
-            const xPosition = this.terrain.terrainWidth / 2 - EPS - i * crateSize;
-            const yPosition = crateSize / 2.0;
-            const zPosition =
-                i * crateSize - this.terrain.terrainHeight / 2 - EPS;
-
-            crate.position.set(xPosition, yPosition, zPosition);
-            this.add(crate);
-            crates.push(crate);
-        }
-
-        for (let i = 1; i < 7; i++) {
-            const crate = new Crate(crateSize);
-            const xPosition = this.terrain.terrainWidth / 2 - EPS - i * crateSize;
-            const yPosition = crateSize / 2.0;
-            const zPosition = this.terrain.terrainHeight / 2 - EPS - i * crateSize;
-
-            crate.position.set(xPosition, yPosition, zPosition);
-            this.add(crate);
-            crates.push(crate);
-        }
-
         // Add a cannon body to each crate
         crates.forEach((crate) => {
             const mass = 0;

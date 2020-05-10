@@ -14,6 +14,7 @@ class Windmill extends Group {
         // Load object
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
+            gltf.scene.castShadow = true;
             const mixer = new THREE.AnimationMixer(gltf.scene);
             this.mixer = mixer;
             gltf.animations.forEach((clip) => {
