@@ -286,9 +286,9 @@ class MainScene extends Scene {
         if (event.key === ' ') {
             // Power
             if (this.state.spaceBarDown) {
-                this.arrow.hide();
-                this.ball.shootBall();
                 if (!this.ball.moving) {
+                    this.arrow.hide();
+                    this.ball.shootBall();
                     this.game.updateAttempt();
                 }
                 this.state.spaceBarDown = false;
