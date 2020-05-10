@@ -13,13 +13,7 @@ class Tractor extends Group {
 
         // Load object
         const loader = new GLTFLoader();
-        this.name = 'GoldenGateBridge';
         loader.load(MODEL, (gltf) => {
-            const mixer = new THREE.AnimationMixer(gltf.scene);
-            this.mixer = mixer;
-            gltf.animations.forEach((clip) => {
-                mixer.clipAction(clip).play();
-            });
             this.add(gltf.scene);
         });
         this.scale.set(2, 2, 2);

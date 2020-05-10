@@ -20,6 +20,7 @@ import SceneParams from '../params';
 import Windmill from '../objects/Windmill/Windmill';
 import { GoldenGateBridge, Tractor } from '../objects';
 import { Hen } from '../objects/Hen';
+import { Scarecrow } from '../objects/Scarecrow';
 
 class SecondScene extends Scene {
     constructor(nextLevel, camera) {
@@ -68,6 +69,7 @@ class SecondScene extends Scene {
         this.setupGoldenGateBridge();
         this.setupTractor();
         this.setupHen();
+        this.setupScarecrow();
         //this.setupCrates();
 
         // Setup Event handler for Golf Ball
@@ -89,6 +91,11 @@ class SecondScene extends Scene {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
+    }
+
+    setupScarecrow() {
+        const scareCrow = new Scarecrow(this);
+        this.add(scareCrow);
     }
 
     setupHen() {
