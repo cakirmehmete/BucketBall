@@ -14,8 +14,11 @@ class Bench extends Group {
         loader.load(MODEL, (gltf) => {
             this.add(gltf.scene);
         });
-        const scale = 1000.0;
+        const scale = 5.0;
         this.scale.multiplyScalar(scale);
+        this.rotateY(Math.PI - 0.2);
+        this.rotateZ(0);
+        this.rotateX(0);
     }
 }
 

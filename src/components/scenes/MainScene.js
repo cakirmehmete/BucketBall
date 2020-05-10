@@ -14,11 +14,12 @@ import {
     Material,
     ContactMaterial,
     Plane,
+    Sphere,
 } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import Bench from '../objects/Bench/Bench';
 import Tree from '../objects/Tree/Tree';
-import Stone from '../objects/Stone/Stone';
+import Campfire from '../objects/Campfire/Campfire';
 import Bridge from '../objects/Bridge/Bridge';
 import SceneParams from '../params';
 
@@ -67,6 +68,8 @@ class MainScene extends Scene {
         this.setupCrates();
         this.setupHelicopter();
         this.setupBenches();
+        this.setupTrees();
+        this.setupCampfires();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -182,7 +185,7 @@ class MainScene extends Scene {
         const max = 0;
         const min = Math.ceil(this.terrain.terrainHeight / 2 + 10.0);
         const xPos = Math.floor(Math.random() * 150.0);
-        const yPos = this.terrain.terrainDepth + 100.0;
+        const yPos = this.terrain.terrainDepth + 80.0;
         const zPos = Math.floor(Math.random() * (max - min)) + min;
 
         helicopterOne.position.set(xPos, yPos, -zPos);
@@ -222,9 +225,90 @@ class MainScene extends Scene {
 
     // Add benches to the environment
     setupBenches() {
-        const tree = new Bridge();
-        tree.position.set(0, 50, 0);
-        this.add(tree);
+        const benches = [];
+        const benchOne = new Bench();
+        benchOne.position.set(-20.0, 5.0, this.terrain.terrainHeight / 2 - 55.0);
+        this.add(benchOne);
+        benches.push(benchOne);
+
+        const benchTwo = new Bench();
+        benchTwo.position.set(20, 5.0, 0);
+        this.add(benchTwo);
+        benches.push(benchTwo);
+
+        const benchThree = new Bench();
+        benchThree.position.set(-20, 5.0, -(this.terrain.terrainHeight / 2) + 55.0);
+        this.add(benchThree);
+        benches.push(benchThree);
+
+        // Add cannon bodies to each bench
+        const mass = 0;
+        benches.forEach((bench) => {
+            const shape = new Box(new Vec3(1.75, 2, 5));
+
+            const body = new Body({ mass: mass, shape: shape });
+            body.position.set(bench.position.x + 8.5, 2, bench.position.z);
+            this.world.addBody(body);
+
+            const body1 = new Body({ mass: mass, shape: shape });
+            body1.position.set(bench.position.x - 9, 2, bench.position.z);
+            this.world.addBody(body1);
+        });
+    }
+
+    setupCampfires() {
+        const campfires = [];
+        const campfireOne = new Campfire();
+        campfireOne.position.set(-37.0, 0, this.terrain.terrainHeight / 2 - 55.0);
+        this.add(campfireOne);
+        campfires.push(campfireOne);
+
+        const campfireTwo = new Campfire();
+        campfireTwo.position.set(37.0, 0, 0);
+        this.add(campfireTwo);
+        campfires.push(campfireTwo);
+
+        const campfireThree = new Campfire();
+        campfireThree.position.set(-37.0, 0, -(this.terrain.terrainHeight / 2) + 55.0);
+        this.add(campfireThree);
+        campfires.push(campfireThree);
+
+        const mass = 0;
+        campfires.forEach((campfire) => {
+            const shape = new Sphere(4.0);
+
+            const body = new Body({ mass: mass, shape: shape });
+            body.position.set(campfire.position.x, 0, campfire.position.z);
+            this.world.addBody(body);
+        });
+    }
+
+    // Add stones to environment
+    setupTrees() {
+        const trees = [];
+        const treeOne = new Tree();
+        treeOne.position.set(-100.0, 0, this.terrain.terrainHeight / 2 - 55.0);
+        this.add(treeOne);
+        trees.push(treeOne);
+
+        const treeTwo = new Tree();
+        treeTwo.position.set(100.0, 0, 0);
+        this.add(treeTwo);
+        trees.push(treeTwo);
+
+        const treeThree = new Tree();
+        treeThree.position.set(-100.0, 0, -(this.terrain.terrainHeight / 2) + 55.0);
+        this.add(treeThree);
+        trees.push(treeThree);
+
+        const mass = 0;
+        trees.forEach((tree) => {
+            const shape = new Box(new Vec3(1, 4, 1));
+
+            const body = new Body({ mass: mass, shape: shape });
+            body.position.set(tree.position.x, 0, tree.position.z);
+            this.world.addBody(body);
+        });
     }
 
     // Add randomized crates to the environment

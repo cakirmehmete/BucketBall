@@ -16,7 +16,7 @@ class Tree extends Group {
             this.add(gltf.scene);
         });
 
-        const scale = 1.0;
+        const scale = 3.0;
         this.scale.multiplyScalar(scale);
     }
 }

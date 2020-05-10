@@ -24,7 +24,7 @@ class Terrain extends Group {
         const terrainMaterial = new MeshStandardMaterial({
             color: 0x315e00,
             metalness: 0.3,
-            map: loader.load(grassTexture)
+            // map: loader.load(grassTexture)
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
         this.add(terrainMesh);
