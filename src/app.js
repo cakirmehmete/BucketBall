@@ -8,10 +8,9 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { MainScene } from 'scenes';
+import { MainScene, SecondScene, ThirdScene } from 'scenes';
 import Menu from './Menu/Menu.js';
 import css from './index.css';
-import SeedScene from './components/scenes/SeedScene.js';
 
 // Initialize core ThreeJS components
 const camera = new PerspectiveCamera();
@@ -21,7 +20,11 @@ const updateLevel = () => {
     if (level === 2) {
         // Dispose of scene
         scene.dispose();
-        scene = new SeedScene();
+        scene = new SecondScene(updateLevel, camera);
+    } else if (level === 3) {
+        // Dispose of scene
+        scene.dispose();
+        scene = new ThirdScene(updateLevel, camera);
     }
 };
 let scene = new MainScene(updateLevel, camera);
