@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, PCFSoftShadowMap } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MainScene, SecondScene, ThirdScene } from 'scenes';
 import Menu from './Menu/Menu.js';
@@ -20,15 +20,17 @@ const updateLevel = () => {
     if (level === 2) {
         // Dispose of scene
         scene.dispose();
-        scene = new MainScene(updateLevel, camera);
+        scene = new SecondScene(updateLevel, camera);
     } else if (level === 3) {
         // Dispose of scene
         scene.dispose();
         scene = new ThirdScene(updateLevel, camera);
     }
 };
-let scene = new SecondScene(updateLevel, camera);
+let scene = new MainScene(updateLevel, camera);
 const renderer = new WebGLRenderer({ antialias: true });
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = PCFSoftShadowMap;
 
 // Set up camera
 camera.position.set(0, 125, 250);

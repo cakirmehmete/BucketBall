@@ -27,6 +27,7 @@ class Terrain extends Group {
             // map: loader.load(grassTexture)
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
+        terrainMesh.receiveShadow = true;
         this.add(terrainMesh);
 
         // Rotate to align with X-Z axis

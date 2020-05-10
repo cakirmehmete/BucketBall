@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper } from 'three';
+import { Scene, Color, AxesHelper, CameraHelper } from 'three';
 import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
 import { Game } from 'objects';
 import { BasicLights } from 'lights';
@@ -57,6 +57,8 @@ class SecondScene extends Scene {
         this.background = new Color(0x87ceeb);
 
         const lights = new BasicLights();
+        const helper = new CameraHelper(lights.dir.shadow.camera);
+        this.add(helper);
         this.add(lights);
 
         // Initialize different objects and place them accordingly in the scene
