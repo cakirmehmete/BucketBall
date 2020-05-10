@@ -277,8 +277,8 @@ class MainScene extends Scene {
     updateBallHelper(offset, power) {
         if (!this.ball.state.moving) {
             this.arrow.updateShotDirectionPower(offset, power);
+            this.ball.updateShotDirectionPower(offset, power);
         }
-        this.ball.updateShotDirectionPower(offset, power);
     }
 
     // Callback function for keyup events
@@ -332,7 +332,7 @@ class MainScene extends Scene {
         } else {
             this.arrow.updateShotDirectionPower(0, this.state.power);
         }
-        
+
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
     }
