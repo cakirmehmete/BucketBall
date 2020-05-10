@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
-import { Ball, Terrain, Cloud, Bucket, Crate } from 'objects';
+import { Ball, Terrain, Cloud, Bucket, Crate, Helicopter } from 'objects';
 import { Game } from 'objects';
 import { BasicLights } from 'lights';
 import {
@@ -62,6 +62,7 @@ class MainScene extends Scene {
         this.setupBucket();
         this.setupArrow();
         this.setupCrates();
+        this.setupHelicopter();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -168,6 +169,13 @@ class MainScene extends Scene {
         );
         this.add(bucket);
         this.bucket = bucket;
+    }
+
+    setupHelicopter() {
+        const helicopter = new Helicopter();
+        const heliHeight = this.terrain.terrainDepth + 100.0;
+        helicopter.position.set(0, heliHeight, -this.terrain.terrainHeight / 2);
+        this.add(helicopter);
     }
 
     // Add randomized clouds to the environment
