@@ -28,6 +28,7 @@ class Crate extends Group {
             normalMap: loader.load(crateNormalTexture),
         });
         const crateMesh = new Mesh(crateGeometry, crateMaterial);
+        crateMesh.castShadow = true;
         this.add(crateMesh);
     }
 }
