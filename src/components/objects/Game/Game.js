@@ -2,6 +2,7 @@ class Game {
     constructor() {
         this.state = {
             attempts: 0,
+            won: false
         };
         document.getElementById('counterDisplay').innerHTML =
             'Attempts: ' + this.state.attempts;
@@ -30,8 +31,10 @@ class Game {
 
         if (distance < bucketRadius) {
             document.getElementById('counterDisplay').innerHTML = 'Win!';
+            this.state.won = true;
             return true;
         }
+        this.state.won = false;
         return false;
     }
 

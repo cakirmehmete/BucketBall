@@ -261,7 +261,7 @@ class MainScene extends Scene {
         const offset = 0.1;
         const power = this.state.power;
 
-        if (this.game.checkWinCondition(this.ball, this.bucket)) {
+        if (this.game.state.won) {
             if (event.keyCode === 13) {
                 this.state.gui.destroy();
                 this.nextLevel();
