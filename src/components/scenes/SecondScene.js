@@ -17,6 +17,9 @@ import {
 } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
+import Windmill from '../objects/Windmill/Windmill';
+import { GoldenGateBridge, Tractor } from '../objects';
+import { Hen } from '../objects/Hen';
 
 class SecondScene extends Scene {
     constructor(nextLevel, camera) {
@@ -49,7 +52,7 @@ class SecondScene extends Scene {
         this.setupGame();
 
         // Set background to a light blue to represent sky
-        this.background = new Color(0x870000);
+        this.background = new Color(0x87ceeb);
 
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(100); // Uncomment to help debug positioning
@@ -61,7 +64,11 @@ class SecondScene extends Scene {
         this.setupBall();
         this.setupBucket();
         this.setupArrow();
-        this.setupCrates();
+        this.setupWindmill();
+        this.setupGoldenGateBridge();
+        this.setupTractor();
+        this.setupHen();
+        //this.setupCrates();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -82,6 +89,26 @@ class SecondScene extends Scene {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
+    }
+
+    setupHen() {
+        const hen = new Hen(this);
+        this.add(hen);
+    }
+
+    setupTractor() {
+        const tractor = new Tractor(this);
+        this.add(tractor);
+    }
+
+    setupGoldenGateBridge() {
+        const goldenGate = new GoldenGateBridge(this);
+        //this.add(goldenGate);
+    }
+
+    setupWindmill() {
+        const windmill = new Windmill(this);
+        this.add(windmill);
     }
 
     setupGame() {
