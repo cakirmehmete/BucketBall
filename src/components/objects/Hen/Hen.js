@@ -16,7 +16,6 @@ class Hen extends Group {
         loader.load(MODEL, (gltf) => {
             gltf.scene.children[0].castShadow = true;
             gltf.scene.castShadow = true;
-            console.log(gltf);
             this.add(gltf.scene.children[0]);
         });
         const scale = 0.7;

@@ -57,8 +57,6 @@ class MainScene extends Scene {
         this.background = new Color(0x87ceeb);
 
         const lights = new BasicLights();
-        const helper = new CameraHelper(lights.dir.shadow.camera);
-        this.add(helper);
         this.add(lights);
 
         // Initialize different objects and place them accordingly in the scene
