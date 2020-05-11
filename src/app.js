@@ -25,14 +25,14 @@ const updateLevel = () => {
     if (level === 2) {
         // Dispose of scene
         scene.dispose();
-        scene = new SecondScene(updateLevel, camera);
+        scene = new MainScene(updateLevel, camera);
     } else if (level === 3) {
         // Dispose of scene
         scene.dispose();
         scene = new ThirdScene(updateLevel, camera);
     }
 };
-let scene = new MainScene(updateLevel, camera);
+let scene = new SecondScene(updateLevel, camera);
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;

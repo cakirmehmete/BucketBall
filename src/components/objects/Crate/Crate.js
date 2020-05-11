@@ -29,6 +29,7 @@ class Crate extends Group {
         });
         const crateMesh = new Mesh(crateGeometry, crateMaterial);
         crateMesh.castShadow = true;
+        // debugger;
         this.add(crateMesh);
     }
 }

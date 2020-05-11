@@ -12,6 +12,7 @@ class Bench extends Group {
         // Load object
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
+            gltf.scene.castShadow = true;
             this.add(gltf.scene);
         });
         const scale = 5.0;
