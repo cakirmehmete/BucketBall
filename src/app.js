@@ -11,11 +11,15 @@ import {
     PerspectiveCamera,
     Vector3,
     PCFSoftShadowMap,
+    AudioListener,
+    Audio,
+    AudioLoader
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MainScene, SecondScene, ThirdScene } from 'scenes';
 import Menu from './Menu/Menu.js';
 import css from './index.css';
+import bgm from './resources/bgm.mp3';
 
 // Initialize core ThreeJS components
 const camera = new PerspectiveCamera();
@@ -40,6 +44,22 @@ renderer.shadowMap.type = PCFSoftShadowMap;
 // Set up camera
 camera.position.set(0, 125, 250);
 camera.lookAt(new Vector3(0, 0, 0));
+
+// Set background music
+const listener = new AudioListener();
+camera.add(listener);
+
+// create a global audio source
+const sound = new Audio(listener);
+
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new AudioLoader();
+audioLoader.load(bgm, function(buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
+    sound.setVolume(0.03);
+    sound.play();
+});
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);

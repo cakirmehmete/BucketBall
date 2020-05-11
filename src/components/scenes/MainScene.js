@@ -346,7 +346,11 @@ class MainScene extends Scene {
             const sideShape = new Box(new Vec3(9, 0.01, 5.5));
 
             const body = new Body({ mass: mass, shape: shape });
-            body.position.set(bridge.position.x + 47.0, 1.8, bridge.position.z - 2.0);
+            body.position.set(
+                bridge.position.x + 47.0,
+                1.8,
+                bridge.position.z - 2.0
+            );
             this.world.addBody(body);
 
             const axisBottom = new Vec3(1, 0, 0);
@@ -354,12 +358,20 @@ class MainScene extends Scene {
             const angle = Math.PI / 4.7;
 
             const body1 = new Body({ mass: mass, shape: sideShape });
-            body1.position.set(bridge.position.x + 47.0, 1.8, bridge.position.z + 15.0);
+            body1.position.set(
+                bridge.position.x + 47.0,
+                1.8,
+                bridge.position.z + 15.0
+            );
             body1.quaternion.setFromAxisAngle(axisBottom, angle);
             this.world.addBody(body1);
 
             const body2 = new Body({ mass: mass, shape: sideShape });
-            body2.position.set(bridge.position.x + 47.0, 1.8, bridge.position.z - 20.0);
+            body2.position.set(
+                bridge.position.x + 47.0,
+                1.8,
+                bridge.position.z - 20.0
+            );
             body2.quaternion.setFromAxisAngle(axisTop, angle);
             this.world.addBody(body2);
         });
