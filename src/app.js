@@ -45,22 +45,6 @@ renderer.shadowMap.type = PCFSoftShadowMap;
 camera.position.set(0, 125, 250);
 camera.lookAt(new Vector3(0, 0, 0));
 
-// Set background music
-const listener = new AudioListener();
-camera.add(listener);
-
-// create a global audio source
-const sound = new Audio(listener);
-
-// load a sound and set it as the Audio object's buffer
-const audioLoader = new AudioLoader();
-audioLoader.load(bgm, function(buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(true);
-    sound.setVolume(0.03);
-    sound.play();
-});
-
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
 const canvas = renderer.domElement;
@@ -95,3 +79,23 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+document.getElementById('play').addEventListener('click', function() {
+  const context = new AudioContext();
+    // Set background music
+    const listener = new AudioListener();
+    camera.add(listener);
+
+    // create a global audio source
+    const sound = new Audio(listener);
+
+    // load a sound and set it as the Audio object's buffer
+    const audioLoader = new AudioLoader();
+    audioLoader.load(bgm, function(buffer) {
+        sound.setBuffer(buffer);
+        sound.setLoop(true);
+        sound.setVolume(0.1);
+        sound.play();
+    });
+    context.resume();
+});
