@@ -5,7 +5,7 @@ import {
     TextureLoader,
     RepeatWrapping,
 } from 'three';
-import { BoxBufferGeometry, PlaneBufferGeometry } from 'three';
+import { BoxBufferGeometry, PlaneBufferGeometry, DoubleSide } from 'three';
 import grassTexture from '../../../resources/grass.png';
 import grassNM from '../../../resources/grassNM.jpg';
 import { Box, Vec3, Body } from 'cannon';
@@ -36,6 +36,7 @@ class Terrain extends Group {
             metalness: 0.3,
             map: texture,
             normalMap: loader.load(grassNM),
+            side: DoubleSide
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
         terrainMesh.receiveShadow = true;
