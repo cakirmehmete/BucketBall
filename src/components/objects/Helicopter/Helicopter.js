@@ -15,8 +15,7 @@ class Helicopter extends Group {
         let MODEL = 0;
         if (helitype === 1) {
             MODEL = MODEL1;
-        }
-        else {
+        } else {
             MODEL = MODEL2;
         }
 
@@ -36,10 +35,9 @@ class Helicopter extends Group {
         this.scale.multiplyScalar(scale);
 
         if (MODEL === MODEL1) {
-            this.rotateY(Math.random() * -Math.PI / 4);
-        }
-        else {
-            this.rotateY(Math.random() * -Math.PI / 2);
+            this.rotateY((Math.random() * -Math.PI) / 4);
+        } else {
+            this.rotateY((Math.random() * -Math.PI) / 2);
         }
     }
 }

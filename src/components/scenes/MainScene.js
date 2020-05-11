@@ -229,7 +229,11 @@ class MainScene extends Scene {
     setupBenches() {
         const benches = [];
         const benchOne = new Bench();
-        benchOne.position.set(-20.0, 5.0, this.terrain.terrainHeight / 2 - 55.0);
+        benchOne.position.set(
+            -20.0,
+            5.0,
+            this.terrain.terrainHeight / 2 - 55.0
+        );
         this.add(benchOne);
         benches.push(benchOne);
 
@@ -239,7 +243,11 @@ class MainScene extends Scene {
         benches.push(benchTwo);
 
         const benchThree = new Bench();
-        benchThree.position.set(-20, 5.0, -(this.terrain.terrainHeight / 2) + 55.0);
+        benchThree.position.set(
+            -20,
+            5.0,
+            -(this.terrain.terrainHeight / 2) + 55.0
+        );
         this.add(benchThree);
         benches.push(benchThree);
 
@@ -261,7 +269,11 @@ class MainScene extends Scene {
     setupCampfires() {
         const campfires = [];
         const campfireOne = new Campfire();
-        campfireOne.position.set(-37.0, 0, this.terrain.terrainHeight / 2 - 55.0);
+        campfireOne.position.set(
+            -37.0,
+            0,
+            this.terrain.terrainHeight / 2 - 55.0
+        );
         this.add(campfireOne);
         campfires.push(campfireOne);
 
@@ -271,7 +283,11 @@ class MainScene extends Scene {
         campfires.push(campfireTwo);
 
         const campfireThree = new Campfire();
-        campfireThree.position.set(-37.0, 0, -(this.terrain.terrainHeight / 2) + 55.0);
+        campfireThree.position.set(
+            -37.0,
+            0,
+            -(this.terrain.terrainHeight / 2) + 55.0
+        );
         this.add(campfireThree);
         campfires.push(campfireThree);
 
@@ -299,7 +315,11 @@ class MainScene extends Scene {
         trees.push(treeTwo);
 
         const treeThree = new Tree();
-        treeThree.position.set(-100.0, 0, -(this.terrain.terrainHeight / 2) + 55.0);
+        treeThree.position.set(
+            -100.0,
+            0,
+            -(this.terrain.terrainHeight / 2) + 55.0
+        );
         this.add(treeThree);
         trees.push(treeThree);
 

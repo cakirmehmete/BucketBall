@@ -1,5 +1,10 @@
 import { Group } from 'three';
-import { MeshStandardMaterial, Mesh, TextureLoader, RepeatWrapping } from 'three';
+import {
+    MeshStandardMaterial,
+    Mesh,
+    TextureLoader,
+    RepeatWrapping,
+} from 'three';
 import { BoxBufferGeometry, PlaneBufferGeometry } from 'three';
 import grassTexture from '../../../resources/grass.png';
 import grassNM from '../../../resources/grassNM.jpg';
@@ -30,7 +35,7 @@ class Terrain extends Group {
             color: 0x315e00,
             metalness: 0.3,
             map: texture,
-            normalMap: loader.load(grassNM)
+            normalMap: loader.load(grassNM),
         });
         const terrainMesh = new Mesh(terrainGeometry, terrainMaterial);
         terrainMesh.receiveShadow = true;

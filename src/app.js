@@ -6,7 +6,12 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, PCFSoftShadowMap } from 'three';
+import {
+    WebGLRenderer,
+    PerspectiveCamera,
+    Vector3,
+    PCFSoftShadowMap,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MainScene, SecondScene, ThirdScene } from 'scenes';
 import Menu from './Menu/Menu.js';

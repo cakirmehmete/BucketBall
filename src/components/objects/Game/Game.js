@@ -2,7 +2,7 @@ class Game {
     constructor() {
         this.state = {
             attempts: 0,
-            won: false
+            won: false,
         };
         document.getElementById('counterDisplay').innerHTML =
             'Attempts: ' + this.state.attempts;

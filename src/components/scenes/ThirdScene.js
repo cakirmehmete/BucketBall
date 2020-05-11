@@ -78,7 +78,7 @@ class ThirdScene extends Scene {
         // Populate GUI
         const slider = this.state.gui.add(this.state, 'power', 1, 10).listen();
         slider.onChange(
-            function() {
+            function () {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
@@ -209,7 +209,8 @@ class ThirdScene extends Scene {
             const crate = new Crate(crateSize);
             const xPosition = -(this.terrain.terrainWidth / 2) + 50.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = this.terrain.terrainHeight / 2 + EPS - i * crateSize;
+            const zPosition =
+                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -221,7 +222,7 @@ class ThirdScene extends Scene {
             const xPosition = -(this.terrain.terrainWidth / 2) + 50.0;
             const yPosition = crateSize / 2.0;
             const zPosition =
-                i * crateSize - (this.terrain.terrainHeight / 2) - EPS;
+                i * crateSize - this.terrain.terrainHeight / 2 - EPS;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -232,7 +233,8 @@ class ThirdScene extends Scene {
             const crate = new Crate(crateSize);
             const xPosition = -(this.terrain.terrainWidth / 2) + 100.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = (this.terrain.terrainHeight / 2 + EPS) - i * crateSize;
+            const zPosition =
+                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);
@@ -243,7 +245,8 @@ class ThirdScene extends Scene {
             const crate = new Crate(crateSize);
             const xPosition = -(this.terrain.terrainWidth / 2) + 150.0;
             const yPosition = crateSize / 2.0;
-            const zPosition = this.terrain.terrainHeight / 2 + EPS - i * crateSize;
+            const zPosition =
+                this.terrain.terrainHeight / 2 + EPS - i * crateSize;
 
             crate.position.set(xPosition, yPosition, zPosition);
             this.add(crate);

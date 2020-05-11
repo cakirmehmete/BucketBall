@@ -80,7 +80,7 @@ class Ball extends Group {
         if (dist < 0.01) {
             this.state.moving = false;
         } else {
-            //this.state.moving = true; UNCOMMENT FOR PROD!!
+            // this.state.moving = true; UNCOMMENT FOR PROD!!
         }
         this.state.previous = this.body.position.clone();
     }
