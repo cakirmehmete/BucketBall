@@ -70,6 +70,7 @@ class MainScene extends Scene {
         this.setupBenches();
         this.setupTrees();
         this.setupCampfires();
+        this.setupBridges();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -328,6 +329,39 @@ class MainScene extends Scene {
             const body = new Body({ mass: mass, shape: shape });
             body.position.set(tree.position.x, 0, tree.position.z);
             this.world.addBody(body);
+        });
+    }
+
+    setupBridges() {
+        const bridges = [];
+
+        const bridge = new Bridge();
+        bridge.position.set(20, 0, 0);
+        this.add(bridge);
+        bridges.push(bridge);
+
+        const mass = 0;
+        bridges.forEach((bridge) => {
+            const shape = new Box(new Vec3(9, 4, 12));
+            const sideShape = new Box(new Vec3(9, 0.01, 5.5));
+
+            const body = new Body({ mass: mass, shape: shape });
+            body.position.set(bridge.position.x + 47.0, 1.8, bridge.position.z - 2.0);
+            this.world.addBody(body);
+
+            const axisBottom = new Vec3(1, 0, 0);
+            const axisTop = new Vec3(-1, 0, 0);
+            const angle = Math.PI / 4.7;
+
+            const body1 = new Body({ mass: mass, shape: sideShape });
+            body1.position.set(bridge.position.x + 47.0, 1.8, bridge.position.z + 15.0);
+            body1.quaternion.setFromAxisAngle(axisBottom, angle);
+            this.world.addBody(body1);
+
+            const body2 = new Body({ mass: mass, shape: sideShape });
+            body2.position.set(bridge.position.x + 47.0, 1.8, bridge.position.z - 20.0);
+            body2.quaternion.setFromAxisAngle(axisTop, angle);
+            this.world.addBody(body2);
         });
     }
 

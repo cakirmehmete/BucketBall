@@ -13,10 +13,12 @@ class Bridge extends Group {
         // Load object
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
+            gltf.scene.castShadow = true;
+            gltf.scene.children[0].castShadow = true;
+            this.add(gltf.scene.children[0]);
         });
 
-        const scale = 1.0;
+        const scale = 0.65;
         this.scale.multiplyScalar(scale);
     }
 }
