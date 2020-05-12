@@ -17,6 +17,9 @@ import {
 } from 'cannon';
 import Arrow from '../objects/Arrow/Arrow';
 import SceneParams from '../params';
+import { Skyscraper } from '../objects/Skyscraper';
+import { SkyscraperTree } from '../objects/SkyscraperTree';
+import { Car } from '../objects/Car';
 
 class ThirdScene extends Scene {
     constructor(nextLevel, camera) {
@@ -61,7 +64,10 @@ class ThirdScene extends Scene {
         this.setupBall();
         this.setupBucket();
         this.setupArrow();
-        this.setupCrates();
+        //this.setupCrates();
+        this.setupSkyscraper();
+        this.setupSkyscraperTree();
+        this.setupCar();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -82,6 +88,24 @@ class ThirdScene extends Scene {
                 this.updateBallHelper(0, 0, this.state.power);
             }.bind(this)
         );
+    }
+
+    setupCar() {
+        const obj = new Car(this);
+        obj.position.set(0, 0, 0);
+        this.add(obj);
+    }
+
+    setupSkyscraper() {
+        const skyscraper = new Skyscraper(this);
+        skyscraper.position.set(-100, -1, -6);
+        this.add(skyscraper);
+    }
+
+    setupSkyscraperTree() {
+        const skyscraper = new SkyscraperTree(this);
+        skyscraper.position.set(0, -78, -6);
+        this.add(skyscraper);
     }
 
     setupGame() {
