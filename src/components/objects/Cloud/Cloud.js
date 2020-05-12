@@ -5,7 +5,7 @@ import MODEL from './cloud.obj';
 import MAT from './cloud.mtl';
 
 class Cloud extends Group {
-    constructor() {
+    constructor(parent) {
         super();
 
         // Init state
@@ -21,6 +21,17 @@ class Cloud extends Group {
                 this.add(obj);
             });
         });
+
+        parent.addToUpdateList(this);
+    }
+
+
+    update(timeStamp) {
+        this.position.x = this.position.x - 0.3;
+        if (this.position.x <= -250.0) {
+            this.position.x = 250.0;
+        }
+
     }
 }
 

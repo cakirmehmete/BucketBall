@@ -194,27 +194,51 @@ class ThirdScene extends Scene {
         this.bucket = bucket;
     }
 
-    // Add randomized clouds to the environment
+    // Add pseudo-randomized clouds to the environment
     setupClouds() {
-        const clouds = [];
         const cloudHeight = this.terrain.terrainDepth + 100.0;
-        for (let i = 0; i < 8; i++) {
-            const cloud = new Cloud();
-            clouds.push(cloud);
-        }
+        const initialXPos = -250.0;
+        const zPos = -200.0;
 
-        clouds.forEach((cloud, index) => {
-            const cloudDepth = Math.floor(
-                Math.random() * (125.0 - 10.0) + 10.0
-            );
-            const cloudWidth = Math.floor(Math.random() * 150.0);
-            if (index < clouds.length / 2) {
-                cloud.position.set(-cloudWidth, cloudHeight, -cloudDepth);
-            } else {
-                cloud.position.set(cloudWidth, cloudHeight, -cloudDepth);
-            }
-            this.add(cloud);
-        });
+        const cloudOne = new Cloud(this);
+        cloudOne.position.set(initialXPos + 50, cloudHeight, zPos);
+        this.add(cloudOne);
+
+        const cloudTwo = new Cloud(this);
+        cloudTwo.position.set(initialXPos + 125, cloudHeight - 25.0, zPos);
+        this.add(cloudTwo);
+
+        const cloudThree = new Cloud(this);
+        cloudThree.position.set(initialXPos + 150, cloudHeight, zPos);
+        this.add(cloudThree);
+
+        const cloudFour = new Cloud(this);
+        cloudFour.position.set(initialXPos + 225, cloudHeight - 15.0, zPos);
+        this.add(cloudFour);
+
+        const cloudFive = new Cloud(this);
+        cloudFive.position.set(initialXPos + 265, cloudHeight, zPos);
+        this.add(cloudFive);
+
+        const cloudSix = new Cloud(this);
+        cloudSix.position.set(initialXPos + 300, cloudHeight - 20.0, zPos);
+        this.add(cloudSix);
+
+        const cloudSeven = new Cloud(this);
+        cloudSeven.position.set(initialXPos + 370, cloudHeight, zPos);
+        this.add(cloudSeven);
+
+        const cloudEight = new Cloud(this);
+        cloudEight.position.set(initialXPos + 420, cloudHeight - 10.0, zPos);
+        this.add(cloudEight);
+
+        const cloudNine = new Cloud(this);
+        cloudNine.position.set(initialXPos + 460, cloudHeight, zPos);
+        this.add(cloudNine);
+
+        const cloudTen = new Cloud(this);
+        cloudTen.position.set(initialXPos + 500, cloudHeight, zPos);
+        this.add(cloudTen);
     }
 
     // Add projectile arrow graphic to the ball
