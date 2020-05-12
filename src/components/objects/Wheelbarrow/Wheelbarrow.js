@@ -20,7 +20,7 @@ class Wheelbarrow extends Group {
         });
         const scale = 7;
         this.scale.set(scale, scale, scale);
-        this.rotation.y = 41.22;
+        this.rotation.y = Math.PI / 4;
     }
 }
 

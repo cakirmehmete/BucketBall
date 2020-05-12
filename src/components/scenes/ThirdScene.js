@@ -101,6 +101,14 @@ class ThirdScene extends Scene {
         const obj = new Wheelbarrow(this);
         obj.position.set(90, 6, 20);
         this.add(obj);
+
+        const shape = new Box(new Vec3(2, 5, 4));
+        const body = new Body({ mass: 0, shape: shape });
+        body.position.set(obj.position.x + 2, 2, obj.position.z + 2);
+        var axis = new Vec3(0, 1, 0);
+        var angle = Math.PI / 4;
+        body.quaternion.setFromAxisAngle(axis, angle);
+        this.world.addBody(body);
     }
 
     setupLamps() {
@@ -113,6 +121,14 @@ class ThirdScene extends Scene {
         const obj = new Truck(this);
         obj.position.set(70, 1, -15);
         this.add(obj);
+
+        const shape = new Box(new Vec3(21, 5, 15));
+        const body = new Body({ mass: 0, shape: shape });
+        body.position.set(obj.position.x, 2, obj.position.z);
+        var axis = new Vec3(0, 1, 0);
+        var angle = Math.PI / 4;
+        body.quaternion.setFromAxisAngle(axis, angle);
+        this.world.addBody(body);
     }
 
     setupCar() {
@@ -120,18 +136,44 @@ class ThirdScene extends Scene {
         obj.position.set(-9, -26, -15);
         this.add(obj);
         this.car = obj;
+
+        const shape = new Box(new Vec3(8, 5, 15));
+        const body = new Body({ mass: 0, shape: shape });
+        body.position.set(obj.position.x + 20, 2, obj.position.z + 23);
+        this.world.addBody(body);
+        this.car.body = body;
     }
 
     setupSkyscraper() {
-        const skyscraper = new Skyscraper(this);
-        skyscraper.position.set(-100, -1, -6);
-        this.add(skyscraper);
+        const obj = new Skyscraper(this);
+        obj.position.set(-100, -1, -6);
+        this.add(obj);
+
+        const shape = new Box(new Vec3(12, 5, 14));
+        const body = new Body({ mass: 0, shape: shape });
+        body.position.set(obj.position.x + 8.5, 2, obj.position.z + 34);
+        this.world.addBody(body);
+
+        const shape1 = new Box(new Vec3(12, 5, 12));
+        const body1 = new Body({ mass: 0, shape: shape1 });
+        body1.position.set(obj.position.x + 8.5, 2, obj.position.z + 4);
+        this.world.addBody(body1);
+
+        const shape2 = new Box(new Vec3(12, 5, 12));
+        const body2 = new Body({ mass: 0, shape: shape2 });
+        body2.position.set(obj.position.x + 6.5, 2, obj.position.z - 22.5);
+        this.world.addBody(body2);
     }
 
     setupSkyscraperTree() {
-        const skyscraper = new SkyscraperTree(this);
-        skyscraper.position.set(0, -78, -6);
-        this.add(skyscraper);
+        const obj = new SkyscraperTree(this);
+        obj.position.set(0, -78, -6);
+        this.add(obj);
+
+        const shape = new Box(new Vec3(12, 5, 11.5));
+        const body = new Body({ mass: 0, shape: shape });
+        body.position.set(obj.position.x + 8.5, 2, obj.position.z - 20);
+        this.world.addBody(body);
     }
 
     setupGame() {
@@ -488,7 +530,7 @@ class ThirdScene extends Scene {
             this.state.offset = 1;
         }
         this.car.position.z += this.state.offset;
-        //this.car.body.position.x += this.state.offset;
+        this.car.body.position.z += this.state.offset;
     }
 }
 
