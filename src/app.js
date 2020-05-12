@@ -36,7 +36,7 @@ const updateLevel = () => {
         scene = new ThirdScene(updateLevel, camera);
     }
 };
-let scene = new SecondScene(updateLevel, camera);
+let scene = new Scene(updateLevel, camera);
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;

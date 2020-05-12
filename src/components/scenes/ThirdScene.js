@@ -161,7 +161,7 @@ class ThirdScene extends Scene {
 
         const shape2 = new Box(new Vec3(12, 5, 12));
         const body2 = new Body({ mass: 0, shape: shape2 });
-        body2.position.set(obj.position.x + 6.5, 2, obj.position.z - 22.5);
+        body2.position.set(obj.position.x + 6.5, 2, obj.position.z - 23);
         this.world.addBody(body2);
     }
 
