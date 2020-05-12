@@ -20,6 +20,9 @@ import SceneParams from '../params';
 import { Skyscraper } from '../objects/Skyscraper';
 import { SkyscraperTree } from '../objects/SkyscraperTree';
 import { Car } from '../objects/Car';
+import { Truck } from '../objects/Truck';
+import Lamp from '../objects/Lamp/Lamp';
+import Wheelbarrow from '../objects/Wheelbarrow/Wheelbarrow';
 
 class ThirdScene extends Scene {
     constructor(nextLevel, camera) {
@@ -38,6 +41,7 @@ class ThirdScene extends Scene {
             spaceBarDown: false,
             power: 3,
             complete: false,
+            offset: -1,
         };
         this.terrain = null;
         this.ball = null;
@@ -68,6 +72,9 @@ class ThirdScene extends Scene {
         this.setupSkyscraper();
         this.setupSkyscraperTree();
         this.setupCar();
+        this.setupTruck();
+        this.setupWheelbarrow();
+        //this.setupLamps();
 
         // Setup Event handler for Golf Ball
         window.addEventListener(
@@ -90,10 +97,29 @@ class ThirdScene extends Scene {
         );
     }
 
+    setupWheelbarrow() {
+        const obj = new Wheelbarrow(this);
+        obj.position.set(90, 6, 20);
+        this.add(obj);
+    }
+
+    setupLamps() {
+        const obj = new Lamp(this);
+        obj.position.set(90, 1, 30);
+        this.add(obj);
+    }
+
+    setupTruck() {
+        const obj = new Truck(this);
+        obj.position.set(70, 1, -15);
+        this.add(obj);
+    }
+
     setupCar() {
         const obj = new Car(this);
-        obj.position.set(0, 0, 0);
+        obj.position.set(-9, -26, -15);
         this.add(obj);
+        this.car = obj;
     }
 
     setupSkyscraper() {
@@ -197,46 +223,57 @@ class ThirdScene extends Scene {
     // Add pseudo-randomized clouds to the environment
     setupClouds() {
         const cloudHeight = this.terrain.terrainDepth + 100.0;
-        const initialXPos = -250.0;
-        const zPos = -200.0;
+        const initialXPos = -200;
+        let zPos = 0.0;
+        const zPosOffset = 100;
 
         const cloudOne = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudOne.position.set(initialXPos + 50, cloudHeight, zPos);
         this.add(cloudOne);
 
         const cloudTwo = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudTwo.position.set(initialXPos + 125, cloudHeight - 25.0, zPos);
         this.add(cloudTwo);
 
         const cloudThree = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudThree.position.set(initialXPos + 150, cloudHeight, zPos);
         this.add(cloudThree);
 
         const cloudFour = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudFour.position.set(initialXPos + 225, cloudHeight - 15.0, zPos);
         this.add(cloudFour);
 
         const cloudFive = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudFive.position.set(initialXPos + 265, cloudHeight, zPos);
         this.add(cloudFive);
 
         const cloudSix = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudSix.position.set(initialXPos + 300, cloudHeight - 20.0, zPos);
         this.add(cloudSix);
 
         const cloudSeven = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudSeven.position.set(initialXPos + 370, cloudHeight, zPos);
         this.add(cloudSeven);
 
         const cloudEight = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudEight.position.set(initialXPos + 420, cloudHeight - 10.0, zPos);
         this.add(cloudEight);
 
         const cloudNine = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudNine.position.set(initialXPos + 460, cloudHeight, zPos);
         this.add(cloudNine);
 
         const cloudTen = new Cloud(this);
+        zPos = Math.random() * zPosOffset - zPosOffset / 2;
         cloudTen.position.set(initialXPos + 500, cloudHeight, zPos);
         this.add(cloudTen);
     }
@@ -436,8 +473,22 @@ class ThirdScene extends Scene {
             this.arrow.updateShotDirectionPower(0, this.state.power);
         }
 
+        if (this.car) {
+            this.updateTractor();
+        }
+
         this.world.step(SceneParams.TIMESTEP); // Update physics
         this.cannonDebugRenderer.update(); // Update the debug renderer
+    }
+
+    updateTractor() {
+        if (this.car.position.z >= 13) {
+            this.state.offset = -1;
+        } else if (this.car.position.z <= -23) {
+            this.state.offset = 1;
+        }
+        this.car.position.z += this.state.offset;
+        //this.car.body.position.x += this.state.offset;
     }
 }
 
