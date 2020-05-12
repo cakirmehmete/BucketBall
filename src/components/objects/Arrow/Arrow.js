@@ -24,7 +24,7 @@ class Arrow extends Group {
     setupArrowMesh() {
         // Create a box
         var geometry = new BoxGeometry(1, 1, 10);
-        var material = new MeshBasicMaterial({ color: 0x00ff00 });
+        var material = new MeshBasicMaterial({ color: 0xffffff });
         var cube = new Mesh(geometry, material);
         cube.position.set(this.ballPos.x, this.ballPos.y, this.ballPos.z - 7);
         this.cube = cube;
