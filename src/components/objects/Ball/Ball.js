@@ -91,7 +91,7 @@ class Ball extends Group {
     */
     shootBall() {
         const shootDirection = this.state.shootDirection;
-        const power = this.state.power * 1.5;
+        const power = this.state.power * 3;
         if (!this.state.moving) {
             this.body.velocity.set(
                 shootDirection.x * power,
