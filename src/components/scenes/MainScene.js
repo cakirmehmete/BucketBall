@@ -545,6 +545,7 @@ class MainScene extends Scene {
 
         if (this.game.checkWinCondition(this.ball, this.bucket)) {
             this.ball.mesh.visible = false;
+            this.arrow.mesh.visible = false;
             this.game.displayWinCondition();
         }
 
